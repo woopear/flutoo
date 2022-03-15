@@ -15,6 +15,7 @@ class _AppBarFlutooState extends State<AppBarFlutoo> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      title: const Text('Flutoo'),
       actions: [
         Container(
           padding: const EdgeInsets.only(right: 20.0),
