@@ -10,6 +10,19 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  int indexSelection = 0;
+
+  static const List<Widget> widgetOptions = [
+    TodoCreate(),
+    Text('coucou'),
+  ];
+
+  void onItemTapped(int index) {
+    setState(() {
+      indexSelection = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -17,14 +30,12 @@ class _DashboardState extends State<Dashboard> {
         appBar: const AppBarFlutoo(),
         body: SingleChildScrollView(
           child: Container(
-            child: Column(
-              children: const [
-                TodoCreate(),
-              ],
-            ),
+            child: widgetOptions.elementAt(indexSelection),
           ),
         ),
         bottomNavigationBar: BottomNavigationBar(
+          currentIndex: indexSelection,
+          onTap: onItemTapped,
           items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.list),
