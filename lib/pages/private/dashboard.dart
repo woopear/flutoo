@@ -1,4 +1,4 @@
-import 'package:flutoo/models/todo/widgets/todo_create.dart';
+import 'package:flutoo/models/todo/todo.dart';
 import 'package:flutoo/widget_shared/app_bar_flutoo/app_bar_flutoo.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +13,7 @@ class _DashboardState extends State<Dashboard> {
   int indexSelection = 0;
 
   static const List<Widget> widgetOptions = [
-    TodoCreate(),
+    TodoWidget(),
     Text('coucou'),
   ];
 

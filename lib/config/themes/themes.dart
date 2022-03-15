@@ -9,6 +9,44 @@ final themeClair = WooTheme.modeClair(
   secondary: const Color(0xFF0066FF),
   tertiary: const Color(0xFFDCDCDC),
 
+  /// elveted button
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ButtonStyle(
+      shape: MaterialStateProperty.all<OutlinedBorder?>(
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50.0),
+        ),
+      ),
+      foregroundColor: MaterialStateProperty.all<Color?>(Colors.white),
+      textStyle: MaterialStateProperty.all<TextStyle?>(
+        const TextStyle(
+          fontSize: 18.0,
+          color: Colors.white,
+        ),
+      ),
+      padding: MaterialStateProperty.all<EdgeInsetsGeometry?>(
+        const EdgeInsets.only(
+          top: 15.0,
+          bottom: 15.0,
+          left: 20.0,
+          right: 20.0,
+        ),
+      ),
+    ),
+  ),
+
+  /// input
+  inputDecorationTheme: const InputDecorationTheme(
+    contentPadding:
+        EdgeInsets.only(top: 0.0, bottom: 0.0, left: 30.0, right: 20.0),
+    isCollapsed: true,
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.all(
+        Radius.circular(50.0),
+      ),
+    ),
+  ),
+
   /// bottom nav
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
     selectedIconTheme: IconThemeData(
@@ -38,6 +76,44 @@ final themeDark = WooTheme.modeDark(
   primary: const Color(0xFFBA4DFF),
   secondary: const Color(0xFF6B93FF),
   tertiary: const Color(0xFF292929),
+
+  /// elveted button
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ButtonStyle(
+      shape: MaterialStateProperty.all<OutlinedBorder?>(
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50.0),
+        ),
+      ),
+      foregroundColor: MaterialStateProperty.all<Color?>(Colors.white),
+      textStyle: MaterialStateProperty.all<TextStyle?>(
+        const TextStyle(
+          fontSize: 18.0,
+          color: Colors.white,
+        ),
+      ),
+      padding: MaterialStateProperty.all<EdgeInsetsGeometry?>(
+        const EdgeInsets.only(
+          top: 15.0,
+          bottom: 15.0,
+          left: 20.0,
+          right: 20.0,
+        ),
+      ),
+    ),
+  ),
+
+  /// input
+  inputDecorationTheme: const InputDecorationTheme(
+    contentPadding:
+        EdgeInsets.only(top: 0.0, bottom: 0.0, left: 30.0, right: 20.0),
+    isCollapsed: true,
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.all(
+        Radius.circular(50.0),
+      ),
+    ),
+  ),
 
   /// bottom nav
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
