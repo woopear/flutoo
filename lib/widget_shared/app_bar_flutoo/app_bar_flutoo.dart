@@ -15,6 +15,7 @@ class _AppBarFlutooState extends State<AppBarFlutoo> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      automaticallyImplyLeading: false,
       title: const Text('Flutoo'),
       actions: [
         Container(
