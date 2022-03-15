@@ -1,4 +1,6 @@
+
 import 'package:flutter/material.dart';
+import '../widget_shared/app_bar_flutoo/app_bar_flutoo.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -12,7 +14,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(),
+        appBar: const AppBarFlutoo(),
         body: Container(),
       ),
     );
