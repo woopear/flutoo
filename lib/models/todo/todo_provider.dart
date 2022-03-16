@@ -18,9 +18,13 @@ class TodoProvider extends ChangeNotifier {
     await todoApi.add(createTodo(libelle));
   }
 
+  /// modifie todo
+  Future<void> updateTodo(String? id, data) async {
+    await todoApi.doc(id).update(data);
+  }
+
   /// delete une todo
   Future<void> delTodo(String? id) async {
-    print(id);
     await todoApi.doc(id).delete();
   }
 }
