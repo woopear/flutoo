@@ -1,4 +1,4 @@
-
+import 'package:flutoo/config/routes/routes.dart';
 import 'package:flutter/material.dart';
 import '../widget_shared/app_bar_flutoo/app_bar_flutoo.dart';
 
@@ -15,7 +15,13 @@ class _HomeState extends State<Home> {
     return SafeArea(
       child: Scaffold(
         appBar: const AppBarFlutoo(),
-        body: Container(),
+        body: Container(
+          /// bouton pour test TODO : a supprimer
+          child: ElevatedButton(
+            child: const Text('dashboard'),
+            onPressed: () => Navigator.pushNamed(context, Routes().todo),
+          ),
+        ),
       ),
     );
   }
