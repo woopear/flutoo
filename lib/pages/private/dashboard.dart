@@ -29,9 +29,7 @@ class _DashboardState extends State<Dashboard> {
       child: Scaffold(
         appBar: const AppBarFlutoo(),
         body: SingleChildScrollView(
-          child: Container(
-            child: widgetOptions.elementAt(indexSelection),
-          ),
+          child: widgetOptions.elementAt(indexSelection),
         ),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: indexSelection,

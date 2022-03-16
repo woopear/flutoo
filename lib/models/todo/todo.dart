@@ -1,14 +1,6 @@
 import 'package:flutoo/models/todo/widgets/todo_create.dart';
+import 'package:flutoo/models/todo/widgets/todo_list.dart';
 import 'package:flutter/material.dart';
-
-class Todo {
-  String? id;
-  String? libelle;
-  bool? check;
-  String? uid;
-
-  Todo({this.id, this.libelle, this.check, this.uid});
-}
 
 class TodoWidget extends StatefulWidget {
   const TodoWidget({Key? key}) : super(key: key);
@@ -23,7 +15,10 @@ class _TodoWidgetState extends State<TodoWidget> {
     return Container(
       child: Column(
         children: const [
+          /// input creation todo
           TodoCreate(),
+          // affiche la liste des todos
+          TodoList(),
         ],
       ),
     );
