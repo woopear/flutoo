@@ -1,7 +1,11 @@
 class User_model {
+  String? id;
   String? email;
   String? password;
   String? uid;
+  String? first_name;
+  String? last_name;
+  String? pseudo;
 
   User_model({
     this.uid,
@@ -10,10 +14,4 @@ class User_model {
   });
 
   set setUid(value) => uid = value;
-
-  Map<String, dynamic> toJson() => {
-        'uid': uid,
-        'email': email,
-        'password': password,
-      };
 }
