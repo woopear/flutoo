@@ -1,21 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutoo/models/todo/todo_provider.dart';
-import 'package:flutoo/models/todo/widgets/todo_card.dart';
+import 'package:flutoo/models/condition/condition_provider.dart';
+import 'package:flutoo/models/condition/widgets/condition_list_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class TodoList extends StatefulWidget {
-  const TodoList({Key? key}) : super(key: key);
+class ConditionList extends StatefulWidget {
+  const ConditionList({Key? key}) : super(key: key);
 
   @override
-  State<TodoList> createState() => _TodoListState();
+  State<ConditionList> createState() => _ConditionListState();
 }
 
-class _TodoListState extends State<TodoList> {
+class _ConditionListState extends State<ConditionList> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: context.watch<TodoProvider>().todos,
+      stream: context.watch<ConditionProvider>().conditions,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         /// error
         if (snapshot.hasError) {
@@ -32,7 +32,6 @@ class _TodoListState extends State<TodoList> {
           );
         }
 
-        /// widget
         return Container(
           constraints: const BoxConstraints(minHeight: 200.0),
           margin: const EdgeInsets.only(top: 30.0, bottom: 50.0),
@@ -41,11 +40,11 @@ class _TodoListState extends State<TodoList> {
               (DocumentSnapshot document) {
                 Map<String, dynamic> data =
                     document.data()! as Map<String, dynamic>;
-                return TodoCard(
-                  libelle: data['libelle'],
-                  check: data['check'],
-                  id: document.id,
-                );
+                return ConditionListCard(
+                  title: data['title'],
+                  activate: data['activate'],
+                  date: data['date'],
+                  );
               },
             ).toList(),
           ),

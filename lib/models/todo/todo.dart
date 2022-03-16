@@ -12,14 +12,18 @@ class TodoWidget extends StatefulWidget {
 class _TodoWidgetState extends State<TodoWidget> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          /// input creation todo
-          TodoCreate(),
-          // affiche la liste des todos
-          const TodoList(),
-        ],
+    double widthTodo = MediaQuery.of(context).size.width;
+    return Center(
+      child: SizedBox(
+        width: widthTodo > 700 ? 700.0 : double.infinity,
+        child: Column(
+          children: [
+            /// input creation todo
+            TodoCreate(),
+            // affiche la liste des todos
+            const TodoList(),
+          ],
+        ),
       ),
     );
   }

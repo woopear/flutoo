@@ -1,6 +1,7 @@
 import 'package:flutoo/models/todo/todo_provider.dart';
 import 'package:flutoo/models/todo/widgets/todo_update.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class TodoCard extends StatefulWidget {
@@ -44,12 +45,11 @@ class _TodoCardState extends State<TodoCard> {
                       title: widget.check == true
                           ? Text(
                               widget.libelle,
-                              style: const TextStyle(
-                                decoration: TextDecoration.lineThrough,
-                              ),
+                              style: GoogleFonts.indieFlower(fontSize: 18.0, decoration: TextDecoration.lineThrough,),
                             )
                           : Text(
                               widget.libelle,
+                              style: GoogleFonts.indieFlower(fontSize: 20.0),
                             ),
                       value: widget.check,
                       onChanged: (newValue) {

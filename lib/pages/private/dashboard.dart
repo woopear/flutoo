@@ -1,3 +1,4 @@
+import 'package:flutoo/models/condition/widgets/condition_widget.dart';
 import 'package:flutoo/models/todo/todo.dart';
 import 'package:flutoo/widget_shared/app_bar_flutoo/app_bar_flutoo.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ class _DashboardState extends State<Dashboard> {
   static const List<Widget> widgetOptions = [
     TodoWidget(),
     Text('coucou'),
+    ConditionWidget(),
   ];
 
   void onItemTapped(int index) {
@@ -35,14 +37,22 @@ class _DashboardState extends State<Dashboard> {
           currentIndex: indexSelection,
           onTap: onItemTapped,
           items: const [
+            /// todo
             BottomNavigationBarItem(
               icon: Icon(Icons.list),
               tooltip: 'todo',
               label: '',
             ),
+            ///profil
             BottomNavigationBarItem(
               icon: Icon(Icons.person),
               tooltip: 'profil',
+              label: '',
+            ),
+            /// TODO : faire condition pour l'affichage seulement pour user admin
+            BottomNavigationBarItem(
+              icon: Icon(Icons.account_balance),
+              tooltip: 'Conditions générales',
               label: '',
             ),
           ],
