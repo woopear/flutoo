@@ -9,6 +9,13 @@ final themeClair = WooTheme.modeClair(
   secondary: const Color(0xFF0066FF),
   tertiary: const Color(0xFFDCDCDC),
 
+  /// checklist
+  checkboxTheme: CheckboxThemeData(
+    checkColor: MaterialStateProperty.all<Color?>(Colors.green),
+    fillColor: MaterialStateProperty.all<Color?>(const Color.fromARGB(255, 236, 236, 236)),
+    side: const BorderSide(color: Color.fromARGB(255, 0, 0, 0)),
+  ),
+
   /// elveted button
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
@@ -37,8 +44,9 @@ final themeClair = WooTheme.modeClair(
 
   /// input
   inputDecorationTheme: const InputDecorationTheme(
+    isDense: true,
     contentPadding:
-        EdgeInsets.only(top: 0.0, bottom: 0.0, left: 30.0, right: 20.0),
+        EdgeInsets.only(top: 15.0, bottom: 15.0, left: 30.0, right: 20.0),
     isCollapsed: true,
     border: OutlineInputBorder(
       borderRadius: BorderRadius.all(
@@ -77,6 +85,13 @@ final themeDark = WooTheme.modeDark(
   secondary: const Color(0xFF6B93FF),
   tertiary: const Color(0xFF292929),
 
+  /// checklist
+  checkboxTheme: CheckboxThemeData(
+    checkColor: MaterialStateProperty.all<Color?>(Colors.green),
+    fillColor: MaterialStateProperty.all<Color?>(const Color.fromARGB(255, 0, 0, 0)),
+    side: const BorderSide(color: Color.fromARGB(255, 235, 235, 235)),
+  ),
+
   /// elveted button
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
@@ -105,8 +120,9 @@ final themeDark = WooTheme.modeDark(
 
   /// input
   inputDecorationTheme: const InputDecorationTheme(
+    isDense: true,
     contentPadding:
-        EdgeInsets.only(top: 0.0, bottom: 0.0, left: 30.0, right: 20.0),
+        EdgeInsets.only(top: 15.0, bottom: 15.0, left: 30.0, right: 20.0),
     isCollapsed: true,
     border: OutlineInputBorder(
       borderRadius: BorderRadius.all(

@@ -30,6 +30,7 @@ class _TodoUpdateState extends State<TodoUpdate> {
               children: [
                 Expanded(
                   child: InputCustom(
+                    padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 5.0),
                     initialValue: widget.inputLibelle,
                     label: const Text('modifier la tâche'),
                     validator: (value) {
@@ -43,18 +44,8 @@ class _TodoUpdateState extends State<TodoUpdate> {
                 ),
                 Container(
                   margin: const EdgeInsets.only(left: 10.0),
-                  child: ElevatedButton(
-                    style: const ButtonStyle().copyWith(
-                      textStyle: MaterialStateProperty.all<TextStyle?>(
-                        const TextStyle().copyWith(fontSize: 12.0),
-                      ),
-                      padding: MaterialStateProperty.all<EdgeInsetsGeometry?>(
-                        const EdgeInsets.only(
-                          top: 0.0,
-                          bottom: 0.0,
-                        ),
-                      ),
-                    ),
+                  child: IconButton(
+                    color: Colors.green,
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         context.read<TodoProvider>().updateTodo(
@@ -70,7 +61,7 @@ class _TodoUpdateState extends State<TodoUpdate> {
                         );
                       }
                     },
-                    child: const Text('Valider'),
+                    icon: const Icon(Icons.done),
                   ),
                 ),
               ],
