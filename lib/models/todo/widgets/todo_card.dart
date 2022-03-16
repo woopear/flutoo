@@ -83,7 +83,7 @@ class _TodoCardState extends State<TodoCard> {
                     });
               },
               color: Colors.red,
-              icon: const Icon(Icons.delete),
+              icon: const Icon(Icons.delete_outline_outlined),
             ),
           ],
         ),
