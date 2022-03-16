@@ -14,7 +14,18 @@ class ConditionProvider extends ChangeNotifier {
     return {'title': title, 'activate': false, 'date': Timestamp.now()};
   }
 
+  /// ajouter condition
   Future<void> addCondition(String? title) async {
     await conditionApi.add(createCondition(title));
+  }
+
+  /// modifier condition
+  Future<void> updateCondition(String? id, data) async {
+    await conditionApi.doc(id).update(data);
+  }
+
+  /// supprimer condition
+  Future<void> delCondition(String? id) async {
+    await conditionApi.doc(id).delete();
   }
 }

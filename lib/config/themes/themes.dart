@@ -9,6 +9,11 @@ final themeClair = WooTheme.modeClair(
   secondary: const Color(0xFF0066FF),
   tertiary: const Color(0xFFDCDCDC),
 
+  /// icon theme
+  iconTheme: const IconThemeData(
+    color: Color(0xFF8000FF),
+  ),
+
   /// text
   tbodyPrincipal: GoogleFonts.indieFlower(),
   tbodySecondaire: GoogleFonts.indieFlower(),
@@ -101,6 +106,11 @@ final themeDark = WooTheme.modeDark(
   primary: const Color(0xFFBA4DFF),
   secondary: const Color(0xFF6B93FF),
   tertiary: const Color(0xFF292929),
+
+  /// icon theme
+  iconTheme: const IconThemeData(
+    color: Color(0xFFBA4DFF),
+  ),
 
   /// text
   tbodyPrincipal: GoogleFonts.indieFlower(),

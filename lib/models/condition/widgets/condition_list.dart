@@ -36,17 +36,50 @@ class _ConditionListState extends State<ConditionList> {
           constraints: const BoxConstraints(minHeight: 200.0),
           margin: const EdgeInsets.only(top: 30.0, bottom: 50.0),
           child: Column(
-            children: snapshot.data!.docs.map(
-              (DocumentSnapshot document) {
-                Map<String, dynamic> data =
-                    document.data()! as Map<String, dynamic>;
-                return ConditionListCard(
-                  title: data['title'],
-                  activate: data['activate'],
-                  date: data['date'],
-                  );
-              },
-            ).toList(),
+            children: [
+              /// haut du tableau
+              Table(
+                children: [
+                  TableRow(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                        child: TableCell(
+                          child: Row(
+                            children: const [
+                              Expanded(
+                                child: Text('TITRE',
+                                    style: TextStyle(fontSize: 26.0)),
+                              ),
+                              Text('ACTIONS', style: TextStyle(fontSize: 26.0)),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+
+              /// corps du tableau
+              Table(
+                children: snapshot.data!.docs.map(
+                  (DocumentSnapshot document) {
+                    Map<String, dynamic> data =
+                        document.data()! as Map<String, dynamic>;
+                    return TableRow(
+                      children: [
+                        ConditionListCard(
+                          title: data['title'],
+                          activate: data['activate'],
+                          id: document.id,
+                        ),
+                      ],
+                    );
+                  },
+                ).toList(),
+              ),
+            ],
           ),
         );
       },

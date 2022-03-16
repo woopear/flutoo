@@ -25,6 +25,7 @@ class _ConditionAddState extends State<ConditionAdd> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Column(
         children: [
           /// btn affiche add condition

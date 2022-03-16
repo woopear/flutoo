@@ -12,12 +12,16 @@ class ConditionWidget extends StatefulWidget {
 class _ConditionWidgetState extends State<ConditionWidget> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: const [
-          ConditionAdd(),
-          ConditionList(),
-        ],
+    double widthTodo = MediaQuery.of(context).size.width;
+    return Center(
+      child: SizedBox(
+        width: widthTodo > 700 ? 700.0 : double.infinity,
+        child: Column(
+          children: const [
+            ConditionAdd(),
+            ConditionList(),
+          ],
+        ),
       ),
     );
   }
