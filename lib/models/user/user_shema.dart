@@ -1,16 +1,22 @@
-class User_model {
+class UserModel {
   String? id;
   String? email;
   String? password;
   String? uid;
-  String? first_name;
-  String? last_name;
+  String? firstName;
+  String? lastName;
   String? pseudo;
+  bool? termes;
 
-  User_model({
+  UserModel({
+    this.id,
     this.uid,
     this.email,
     this.password,
+    this.firstName,
+    this.lastName,
+    this.pseudo,
+    this.termes,
   });
 
   set setUid(value) => uid = value;

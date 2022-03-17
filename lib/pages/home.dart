@@ -1,9 +1,8 @@
-import 'package:flutoo/config/routes/routes.dart';
+import 'package:flutoo/models/signup/widgets/signup.dart';
+
+import '../models/signin/widgets/signin.dart';
 import '../widget_shared/app_bar_flutoo/app_bar_flutoo.dart';
-import 'package:flutoo/models/user/user_shema.dart';
-import 'package:flutoo/models/user/user_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:woo_widget_connexion/woo_widget_connexion.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -13,33 +12,36 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  UserProvider userProvider = UserProvider();
-  User_model userModel = User_model();
+  bool singinSingup = true;
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: const AppBarFlutoo(),
-        body: Center(
-          child: SizedBox(
-            width: 400,
-            child: Column(
-              children: [
-                InputConnexion(
-                  emaillabelText: "Email",
-                  pwslabelText: "Mot de passe",
-                  emailmargin: const EdgeInsets.all(20),
-                  pwsmargin: const EdgeInsets.all(20),
-                  resultForm: (value) {
-                    userModel.email = value['email'];
-                    userModel.password = value['password'];
-                    userProvider.auth(userModel);
-                    Navigator.pushNamed(context, Routes().todo);
-                  },
+        body: Container(
+          child: Column(
+            children: [
+              (singinSingup == true) ? const Signin() : const Singup(),
+              Expanded(
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: ElevatedButton(
+                    onPressed: () => {
+                      setState(() {
+                        singinSingup = !singinSingup;
+                      })
+                    },
+                    child: (singinSingup == true)
+                        ? const Text("Page d'inscription")
+                        : const Text("Page de connexion"),
+                  ),
                 ),
-              ],
-            ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+            ],
           ),
         ),
       ),
