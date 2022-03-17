@@ -1,7 +1,7 @@
 import 'package:flutoo/models/condition/condition_provider.dart';
+import 'package:flutoo/models/condition/widgets/condition_selected_update_title.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:woo_widget_input/woo_widget_input.dart';
 
 class ConditionSelected extends StatefulWidget {
   const ConditionSelected({Key? key}) : super(key: key);
@@ -13,9 +13,6 @@ class ConditionSelected extends StatefulWidget {
 class _ConditionSelectedState extends State<ConditionSelected> {
   @override
   Widget build(BuildContext context) {
-    Map<String, dynamic>? conditionSelected =
-        context.watch<ConditionProvider>().condition;
-
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 30.0),
       margin: const EdgeInsets.only(bottom: 50.0),
@@ -35,28 +32,8 @@ class _ConditionSelectedState extends State<ConditionSelected> {
             ),
           ),
 
-          Form(
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: InputCustom(
-                        initialValue: conditionSelected!['title'],
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(left: 20.0),
-                      child: const ElevatedButton(
-                        onPressed: null,
-                        child: Text('Modifier'),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
+          /// formulaire de modification du titre de la condition selectionné
+          const ConditionSelectedUpdateTitle(),
         ],
       ),
     );
