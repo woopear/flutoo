@@ -9,9 +9,35 @@ class ConditionProvider extends ChangeNotifier {
   final Stream<QuerySnapshot<Map<String, dynamic>>> conditions =
       FirebaseFirestore.instance.collection('conditions').snapshots();
 
+  /// stocke la liste des conditions sous forme de listMap
+  List<QueryDocumentSnapshot<Object?>>? conditionsStart;
+
+  Map<String, dynamic>? condition;
+  bool get seeOneCondition => condition != null;
+
   /// creation d'un objet conditions
   Map<String, dynamic> createCondition(String? title) {
     return {'title': title, 'activate': false, 'date': Timestamp.now()};
+  }
+
+  /// recupere l'ecouteur sour forme de tableau
+  void findAllConditions(List<QueryDocumentSnapshot<Object?>> conditions) {
+    conditionsStart = conditions;
+  }
+
+  /// selection d'un condition
+  void selectedCondition(String? id) {
+    /// recuperation des données avec l'id intégré
+    final allConditions = conditionsStart!.map((document) {
+      final f = document.data() as Map<String, dynamic>;
+      f['id'] = document.id;
+      return f;
+    });
+
+    /// on retourne le map souhaité et on l'attribue à la variable condition
+    final listCondition = allConditions.where((e) => e['id'] == id).toList();
+    condition = listCondition[0];
+    notifyListeners();
   }
 
   /// ajouter condition

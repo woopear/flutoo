@@ -42,18 +42,15 @@ class _ConditionListState extends State<ConditionList> {
                 children: [
                   TableRow(
                     children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                        child: TableCell(
-                          child: Row(
-                            children: const [
-                              Expanded(
-                                child: Text('TITRE',
-                                    style: TextStyle(fontSize: 26.0)),
-                              ),
-                              Text('ACTIONS', style: TextStyle(fontSize: 26.0)),
-                            ],
-                          ),
+                      TableCell(
+                        child: Row(
+                          children: const [
+                            Expanded(
+                              child: Text('TITRE',
+                                  style: TextStyle(fontSize: 26.0)),
+                            ),
+                            Text('ACTIONS', style: TextStyle(fontSize: 26.0)),
+                          ],
                         ),
                       ),
                     ],
@@ -67,6 +64,7 @@ class _ConditionListState extends State<ConditionList> {
                   (DocumentSnapshot document) {
                     Map<String, dynamic> data =
                         document.data()! as Map<String, dynamic>;
+                    context.read<ConditionProvider>().findAllConditions(snapshot.data!.docs);
                     return TableRow(
                       children: [
                         ConditionListCard(

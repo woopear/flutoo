@@ -21,9 +21,11 @@ class ConditionListCard<T> extends StatefulWidget {
 class _ConditionListCardState extends State<ConditionListCard> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 30.0),
-      child: TableCell(
+    return TableCell(
+      verticalAlignment: TableCellVerticalAlignment.middle,
+      child: Container(
+        margin: const EdgeInsets.only(top: 10.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Row(
           children: [
             Expanded(
@@ -42,10 +44,13 @@ class _ConditionListCardState extends State<ConditionListCard> {
                         .updateCondition(widget.id, {'activate': value});
                   },
                 ),
-                const IconButton(
-                  /// TODO : ajouter selection condition et creer affichage detail condition
-                  onPressed: null,
-                  icon: Icon(Icons.edit),
+                IconButton(
+                  onPressed: () {
+                    context
+                        .read<ConditionProvider>()
+                        .selectedCondition(widget.id);
+                  },
+                  icon: const Icon(Icons.edit),
                 ),
                 IconButton(
                   color: Colors.red,
