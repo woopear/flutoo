@@ -20,6 +20,12 @@ class ConditionProvider extends ChangeNotifier {
     return {'title': title, 'activate': false, 'date': Timestamp.now()};
   }
 
+/// reset condition selectionné
+  void resetConditionSelected() {
+    condition = null;
+    notifyListeners();
+  }
+
   /// recupere l'ecouteur sour forme de tableau
   void findAllConditions(List<QueryDocumentSnapshot<Object?>> conditions) {
     conditionsStart = conditions;

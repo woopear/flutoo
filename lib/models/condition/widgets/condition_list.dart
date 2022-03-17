@@ -33,7 +33,7 @@ class _ConditionListState extends State<ConditionList> {
         }
 
         return Container(
-          constraints: const BoxConstraints(minHeight: 200.0),
+          constraints: const BoxConstraints(minHeight: 50.0),
           margin: const EdgeInsets.only(top: 30.0, bottom: 50.0),
           child: Column(
             children: [
@@ -43,14 +43,17 @@ class _ConditionListState extends State<ConditionList> {
                   TableRow(
                     children: [
                       TableCell(
-                        child: Row(
-                          children: const [
-                            Expanded(
-                              child: Text('TITRE',
-                                  style: TextStyle(fontSize: 26.0)),
-                            ),
-                            Text('ACTIONS', style: TextStyle(fontSize: 26.0)),
-                          ],
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                          child: Row(
+                            children: const [
+                              Expanded(
+                                child: Text('TITRE',
+                                    style: TextStyle(fontSize: 26.0)),
+                              ),
+                              Text('ACTIONS', style: TextStyle(fontSize: 26.0)),
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -64,7 +67,9 @@ class _ConditionListState extends State<ConditionList> {
                   (DocumentSnapshot document) {
                     Map<String, dynamic> data =
                         document.data()! as Map<String, dynamic>;
-                    context.read<ConditionProvider>().findAllConditions(snapshot.data!.docs);
+                    context
+                        .read<ConditionProvider>()
+                        .findAllConditions(snapshot.data!.docs);
                     return TableRow(
                       children: [
                         ConditionListCard(
