@@ -14,11 +14,11 @@ class _TodoWidgetState extends State<TodoWidget> {
   Widget build(BuildContext context) {
     return Container(
       child: Column(
-        children: const [
+        children: [
           /// input creation todo
           TodoCreate(),
           // affiche la liste des todos
-          TodoList(),
+          const TodoList(),
         ],
       ),
     );
