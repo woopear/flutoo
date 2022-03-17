@@ -1,4 +1,5 @@
 import 'package:flutoo/models/article/widgets/article_form.dart';
+import 'package:flutoo/models/article/widgets/article_list.dart';
 import 'package:flutter/material.dart';
 
 class ConditionSelectedUpdateAddArticle extends StatefulWidget {
@@ -55,6 +56,9 @@ class _ConditionSelectedUpdateAddArticleState
             margin: const EdgeInsets.only(top: 20.0),
             child: ArticleForm(switchForSeeArticleForm: switchForSeeArticleForm),
           ) : Container(),
+
+          /// liste des articles
+          const ArticleList(),
         ],
       ),
     );

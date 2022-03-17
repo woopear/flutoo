@@ -20,7 +20,7 @@ class ConditionProvider extends ChangeNotifier {
     return {'title': title, 'activate': false, 'date': Timestamp.now()};
   }
 
-/// reset condition selectionné
+  /// reset condition selectionné
   void resetConditionSelected() {
     condition = null;
     notifyListeners();
@@ -43,6 +43,10 @@ class ConditionProvider extends ChangeNotifier {
     /// on retourne le map souhaité et on l'attribue à la variable condition
     final listCondition = allConditions.where((e) => e['id'] == id).toList();
     condition = listCondition[0];
+
+    /// on ecoute les articles de la condition selectionné
+    
+
     notifyListeners();
   }
 

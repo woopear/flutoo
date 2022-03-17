@@ -3,6 +3,13 @@ import 'package:flutoo/models/content_article/content_article_provider.dart';
 import 'package:flutter/widgets.dart';
 
 class ArticleProvider extends ChangeNotifier {
+  /// ecouteur collection conditions
+  Stream<QuerySnapshot>? listenArticlesConition(String? idCondition) {
+    return FirebaseFirestore.instance
+        .collection('conditions/$idCondition/articles')
+        .snapshots();
+  }
+
   /// creation du map article
   Map<String, dynamic>? createArticle(String? title) {
     return {
@@ -11,8 +18,8 @@ class ArticleProvider extends ChangeNotifier {
   }
 
   /// ajout d'un article à une condition
-  Future<void> addArticle(
-      String? idCondition, String? title, List<TextEditingController?>? text) async {
+  Future<void> addArticle(String? idCondition, String? title,
+      List<TextEditingController?>? text) async {
     /// creation instance collection article
     CollectionReference articleApi = FirebaseFirestore.instance
         .collection('conditions/$idCondition/articles');
