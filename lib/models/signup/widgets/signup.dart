@@ -16,11 +16,6 @@ class _SingupState extends State<Singup> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   UserProvider userProvider = UserProvider();
   UserModel userModel = UserModel();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  void currentUserUid() {
-    final User? user = _auth.currentUser;
-    userModel.uid = user!.uid;
-  }
   
 
   @override
@@ -95,10 +90,14 @@ class _SingupState extends State<Singup> {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       userProvider.createUser(userModel);
-                      currentUserUid();
-                      if (userModel.uid != null) {
+
+                      FirebaseAuth.instance.authStateChanges().listen(
+                      (currentUser) {
+                      if (currentUser != null) {
                         Navigator.pushNamed(context, Routes().todo);
                       }
+                    },
+                  );
                     }
                   },
                   child: const Text('Valider'),

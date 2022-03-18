@@ -30,9 +30,14 @@ class UserProvider extends ChangeNotifier {
     return userModel;
   }
 
-  // fonction qui écoute
+  // fonction qui écoute le user
+  final Stream<QuerySnapshot<Map<String, dynamic>>> usersListen = 
+    FirebaseFirestore.instance.collection('users').snapshots();
 
   // fonction qui déconnecte le userCurrent
+  Future<void> disconnectUserCurrent() async {
+    await FirebaseAuth.instance.signOut();
+  }
 
   // function create user
   Future<void> createUser(UserModel userModel) async {
@@ -73,5 +78,6 @@ class UserProvider extends ChangeNotifier {
   // création du user de la base de donnée
   Future<void> addUser(UserModel userModel) async {
     await userApi.add(createMapUser(userModel));
+    notifyListeners();
   }
 }

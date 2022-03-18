@@ -12,13 +12,13 @@ class TodoWidget extends StatefulWidget {
 
 class _TodoWidgetState extends State<TodoWidget> {
   User? currentUser = FirebaseAuth.instance.currentUser;
-
+  
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Column(
         children: [
-          Text('Bonjour ${currentUser!.uid}'),
+          Text('Bonjour ${currentUser!}'),
 
           /// input creation todo
           const TodoCreate(),

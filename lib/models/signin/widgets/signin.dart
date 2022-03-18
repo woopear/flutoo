@@ -15,11 +15,6 @@ class Signin extends StatefulWidget {
 class _SigninState extends State<Signin> {
   UserProvider userProvider = UserProvider();
   UserModel userModel = UserModel();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  void currentUserUid() {
-    final User? user = _auth.currentUser;
-    userModel.uid = user!.uid;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,11 +36,13 @@ class _SigninState extends State<Signin> {
                   userModel.email = value['email'];
                   userModel.password = value['password'];
                   userProvider.auth(userModel);
-                  currentUserUid();
-                  
-                  if ( userModel.uid != null) {
-                    Navigator.pushNamed(context, Routes().todo);
-                  }
+                  FirebaseAuth.instance.authStateChanges().listen(
+                    (currentUser) {
+                      if (currentUser != null) {
+                        Navigator.pushNamed(context, Routes().todo);
+                      }
+                    },
+                  );
                 },
               ),
             ],
