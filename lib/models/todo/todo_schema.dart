@@ -4,7 +4,7 @@ class TodoSchema {
   bool? check;
   String? uid;
 
-  TodoSchema({this.id, this.libelle, this.check = false, this.uid});
+  TodoSchema({this.id, required this.libelle, this.check = false, required this.uid});
 
   factory TodoSchema.fromMap(Map<String, dynamic> data, String documentId) {
     String libelle = data['libelle'];
