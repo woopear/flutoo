@@ -1,4 +1,5 @@
 import 'package:flutoo/models/todo/todo_provider.dart';
+import 'package:flutoo/models/todo/todo_schema.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:woo_widget_input/woo_widget_input.dart';
@@ -7,8 +8,9 @@ class TodoUpdate extends StatefulWidget {
   String? inputLibelle;
   String? id;
   void Function()? closedUpdated;
-  
-  TodoUpdate({Key? key, this.inputLibelle, this.id, this.closedUpdated})
+
+  TodoUpdate(
+      {Key? key, required this.inputLibelle, this.id, this.closedUpdated})
       : super(key: key);
 
   @override
@@ -17,6 +19,36 @@ class TodoUpdate extends StatefulWidget {
 
 class _TodoUpdateState extends State<TodoUpdate> {
   final _formKey = GlobalKey<FormState>();
+
+  /// validator du inputLibelle
+  String? validatorInputLibelle(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Veuillez entrer une tâche valide';
+    }
+    return null;
+  }
+
+  /// modifie la todo, son libelle
+  void updateTodo(BuildContext context) {
+    if (_formKey.currentState!.validate()) {
+      /// update libelle de la todo
+      final libelle = TodoSchema(libelle: widget.inputLibelle);
+      context.read<TodoProvider>().updateTodo(widget.id!, libelle);
+
+      /// ferme le volet update todo
+      widget.closedUpdated!();
+
+      /// affiche le message de succes
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Tâche modifiée')),
+      );
+    } else {
+      /// affiche le message d'erreur
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Une erreur est survenue')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,39 +60,24 @@ class _TodoUpdateState extends State<TodoUpdate> {
           children: [
             Row(
               children: [
+                /// input du libelle
                 Expanded(
                   child: InputCustom(
-                    padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 5.0),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 15.0, horizontal: 5.0),
                     initialValue: widget.inputLibelle,
                     label: const Text('modifier la tâche'),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Veuillez entrer une tâche valide';
-                      }
-                      return null;
-                    },
+                    validator: (value) => validatorInputLibelle(value),
                     onChange: (value) => widget.inputLibelle = value,
                   ),
                 ),
+
+                /// validation du libelle (update todo)
                 Container(
                   margin: const EdgeInsets.only(left: 10.0),
                   child: IconButton(
                     color: Colors.green,
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        context.read<TodoProvider>().updateTodo(
-                            widget.id, {'libelle': widget.inputLibelle});
-                        widget.closedUpdated!();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Tâche modifiée')),
-                        );
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content: Text('Une erreur est survenue')),
-                        );
-                      }
-                    },
+                    onPressed: () => updateTodo(context),
                     icon: const Icon(Icons.done),
                   ),
                 ),

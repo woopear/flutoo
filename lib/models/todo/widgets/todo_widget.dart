@@ -1,5 +1,5 @@
-import 'package:flutoo/models/todo/widgets/todo_create.dart';
-import 'package:flutoo/models/todo/widgets/todo_list.dart';
+import 'package:flutoo/models/todo/widgets/todo_create/todo_create.dart';
+import 'package:flutoo/models/todo/widgets/todo_list/todo_list.dart';
 import 'package:flutter/material.dart';
 
 class TodoWidget extends StatefulWidget {
@@ -17,11 +17,11 @@ class _TodoWidgetState extends State<TodoWidget> {
       child: SizedBox(
         width: widthTodo > 700 ? 700.0 : double.infinity,
         child: Column(
-          children: [
+          children: const [
             /// input creation todo
             TodoCreate(),
             // affiche la liste des todos
-            const TodoList(),
+            TodoList(),
           ],
         ),
       ),

@@ -1,5 +1,5 @@
 import 'package:flutoo/models/condition/widgets/condition_widget.dart';
-import 'package:flutoo/models/todo/todo.dart';
+import 'package:flutoo/models/todo/widgets/todo_widget.dart';
 import 'package:flutoo/widget_shared/app_bar_flutoo/app_bar_flutoo.dart';
 import 'package:flutter/material.dart';
 

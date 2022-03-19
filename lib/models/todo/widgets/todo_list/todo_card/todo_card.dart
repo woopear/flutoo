@@ -1,15 +1,21 @@
 import 'package:flutoo/models/todo/todo_provider.dart';
-import 'package:flutoo/models/todo/widgets/todo_update.dart';
+import 'package:flutoo/models/todo/todo_schema.dart';
+import 'package:flutoo/models/todo/widgets/todo_list/todo_card/todo_update/todo_update.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class TodoCard extends StatefulWidget {
-  String libelle;
+  String? libelle;
   bool? check;
   String? id;
-  TodoCard({Key? key, this.libelle = '', this.check, this.id})
-      : super(key: key);
+
+  TodoCard({
+    Key? key,
+    required this.libelle,
+    required this.check,
+    required this.id,
+  }) : super(key: key);
 
   @override
   State<TodoCard> createState() => _TodoCardState();
@@ -18,10 +24,25 @@ class TodoCard extends StatefulWidget {
 class _TodoCardState extends State<TodoCard> {
   bool seeUpdate = false;
 
+  /// affiche/cache volet update todo
   void openCloseUpdated() {
     setState(() {
       seeUpdate = !seeUpdate;
     });
+  }
+
+  /// update todo, checked ou pas checked
+  void checkedBox({
+    required BuildContext context,
+    required bool? newValue,
+  }) {
+    final checked = TodoSchema(check: newValue);
+    context.read<TodoProvider>().updateTodo(widget.id!, checked);
+  }
+
+  /// supprime la todo
+  void deleteTodo({required BuildContext context}) {
+    context.read<TodoProvider>().deleteTodo(widget.id!);
   }
 
   @override
@@ -32,6 +53,8 @@ class _TodoCardState extends State<TodoCard> {
       child: Card(
         child: Row(
           children: [
+            /// si on modifie on affiche todoUpdate sinon
+            /// on affiche checkbox
             seeUpdate
                 ? Expanded(
                     child: TodoUpdate(
@@ -42,25 +65,31 @@ class _TodoCardState extends State<TodoCard> {
                   )
                 : Expanded(
                     child: CheckboxListTile(
+                      /// si checked on barre le libelle
                       title: widget.check == true
                           ? Text(
-                              widget.libelle,
-                              style: GoogleFonts.indieFlower(fontSize: 18.0, decoration: TextDecoration.lineThrough,),
+                              widget.libelle!,
+                              style: GoogleFonts.indieFlower(
+                                fontSize: 18.0,
+                                decoration: TextDecoration.lineThrough,
+                              ),
                             )
                           : Text(
-                              widget.libelle,
+                              widget.libelle!,
                               style: GoogleFonts.indieFlower(fontSize: 20.0),
                             ),
                       value: widget.check,
-                      onChanged: (newValue) {
-                        context
-                            .read<TodoProvider>()
-                            .updateTodo(widget.id, {'check': newValue});
-                      },
+                      onChanged: (newValue) => checkedBox(
+                        context: context,
+                        newValue: newValue,
+                      ),
                       controlAffinity: ListTileControlAffinity
                           .leading, //  <-- leading Checkbox
                     ),
                   ),
+
+            /// si volet ouvert on affiche le logo closed en rouge
+            /// sinon on affiche le logo edit
             seeUpdate
                 ? IconButton(
                     onPressed: () {
@@ -76,12 +105,10 @@ class _TodoCardState extends State<TodoCard> {
                     color: Theme.of(context).colorScheme.primary,
                     icon: const Icon(Icons.edit),
                   ),
+
+            /// btn delete todo
             IconButton(
-              onPressed: () {
-                setState(() => {
-                      context.read<TodoProvider>().delTodo(widget.id),
-                    });
-              },
+              onPressed: () => deleteTodo(context: context),
               color: Colors.red,
               icon: const Icon(Icons.delete_outline_outlined),
             ),
