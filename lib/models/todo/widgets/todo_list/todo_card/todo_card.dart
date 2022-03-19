@@ -9,12 +9,14 @@ class TodoCard extends StatefulWidget {
   String? libelle;
   bool? check;
   String? id;
+  String? uid;
 
   TodoCard({
     Key? key,
     required this.libelle,
     required this.check,
     required this.id,
+    required this.uid,
   }) : super(key: key);
 
   @override
@@ -36,7 +38,11 @@ class _TodoCardState extends State<TodoCard> {
     required BuildContext context,
     required bool? newValue,
   }) {
-    final checked = TodoSchema(check: newValue);
+    final checked = TodoSchema(
+      check: newValue,
+      libelle: widget.libelle,
+      uid: widget.uid
+    );
     context.read<TodoProvider>().updateTodo(widget.id!, checked);
   }
 
@@ -58,6 +64,8 @@ class _TodoCardState extends State<TodoCard> {
             seeUpdate
                 ? Expanded(
                     child: TodoUpdate(
+                      check: widget.check,
+                      uid: widget.uid,
                       inputLibelle: widget.libelle,
                       id: widget.id,
                       closedUpdated: () => openCloseUpdated(),

@@ -43,6 +43,7 @@ class _TodoListState extends State<TodoList> {
             children: todos.map(
               (todo) {
                 return TodoCard(
+                  uid: todo.uid,
                   libelle: todo.libelle,
                   check: todo.check,
                   id: todo.id,

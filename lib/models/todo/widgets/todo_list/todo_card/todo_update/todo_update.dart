@@ -6,12 +6,19 @@ import 'package:woo_widget_input/woo_widget_input.dart';
 
 class TodoUpdate extends StatefulWidget {
   String? inputLibelle;
+  bool? check;
   String? id;
+  String? uid;
   void Function()? closedUpdated;
 
-  TodoUpdate(
-      {Key? key, required this.inputLibelle, this.id, this.closedUpdated})
-      : super(key: key);
+  TodoUpdate({
+    Key? key,
+    required this.inputLibelle,
+    required this.id,
+    required this.check,
+    required this.uid,
+    required this.closedUpdated,
+  }) : super(key: key);
 
   @override
   State<TodoUpdate> createState() => _TodoUpdateState();
@@ -32,7 +39,11 @@ class _TodoUpdateState extends State<TodoUpdate> {
   void updateTodo(BuildContext context) {
     if (_formKey.currentState!.validate()) {
       /// update libelle de la todo
-      final libelle = TodoSchema(libelle: widget.inputLibelle);
+      final libelle = TodoSchema(
+        libelle: widget.inputLibelle,
+        check: widget.check,
+        uid: widget.uid,
+      );
       context.read<TodoProvider>().updateTodo(widget.id!, libelle);
 
       /// ferme le volet update todo
