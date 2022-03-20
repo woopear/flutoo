@@ -1,3 +1,4 @@
+import 'package:flutoo/models/article/widgets/article_create/article_create.dart';
 import 'package:flutoo/models/article/widgets/article_list/article_list.dart';
 import 'package:flutter/material.dart';
 
@@ -16,6 +17,9 @@ class _ArticleWidgetState extends State<ArticleWidget> {
       child: Column(
         children: [
           /// ajouter un article
+          ArticleCreate(
+            idCondition: widget.idCondition,
+          ),
 
           /// list des articles
           ArticleList(

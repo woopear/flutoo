@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutoo/models/article/article_schema.dart';
 import 'package:flutoo/models/content_article/content_article_provider.dart';
 import 'package:flutoo/utils/services/firestore/firestore_path.dart';
@@ -17,37 +16,18 @@ class ArticleProvider extends ChangeNotifier {
     );
   }
 
-  /// * test en cours
+  /// creation d'un article + d'un content (vide ou pas)
+  Future<void> addArticle(String idCondition, ArticleSchema data,
+      List<TextEditingController> listText) async {
+    /// creation article
+    final article = await _firestoreService.add(
+      path: FirestorePath.articlesOfCondition(idCondition),
+      data: data.toMap(),
+      merge: true,
+    );
 
-  /// ecouteur collection conditions
-  Stream<QuerySnapshot>? listenArticlesConition(String? idCondition) {
-    return FirebaseFirestore.instance
-        .collection('conditions/$idCondition/articles')
-        .snapshots();
-  }
-
-  /// creation du map article
-  Map<String, dynamic>? createArticle(String? title) {
-    return {
-      'title': title,
-    };
-  }
-
-  /// ajout d'un article à une condition
-  Future<void> addArticle(String? idCondition, String? title,
-      List<TextEditingController?>? text) async {
-    /// creation instance collection article
-    CollectionReference articleApi = FirebaseFirestore.instance
-        .collection('conditions/$idCondition/articles');
-
-    /// ajout creation de l'article
-    final article = await articleApi.add(createArticle(title));
-    print(article.id);
-
-    /// ajout creation du content de l'article creer précédement
-    for (var element in text!) {
-      await ContentArticleProvider()
-          .addContentArticle(idCondition, article.id, element!.text);
-    }
+    /// creation des contents en meme temps que l'article
+    ContentArticleProvider()
+        .addContentArticle(article!.id, idCondition, listText);
   }
 }

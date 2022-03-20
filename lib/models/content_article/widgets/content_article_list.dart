@@ -27,7 +27,7 @@ class _ContentArticleListState extends State<ContentArticleList> {
   Widget build(BuildContext context) {
     context
         .read<ContentArticleProvider>()
-        .listenContentArticlesConition(widget.idArticle, widget.idCondition);
+        .listenContentArticlesConition(widget.article!.id, widget.idCondition);
 
     return StreamBuilder(
       stream: context.watch<ContentArticleProvider>().contents,

@@ -22,14 +22,19 @@ class FirestoreService {
 
   /// ajouter un document à une collection
   /// avec génération automatique de l'id
-  Future<void> add({
+  Future<DocumentReference<Map<String, dynamic>?>?>? add({
     required String path,
     required Map<String, dynamic> data,
     bool merge = false,
   }) async {
     final reference = _firestore.collection(path);
     print('$path: $data => ADD SUCCES');
-    await reference.add(data);
+    if (merge != true) {
+      await reference.add(data);
+    } else {
+      return await reference.add(data);
+    }
+    return null;
   }
 
   /// modifie un document
@@ -81,7 +86,7 @@ class FirestoreService {
               builder(snapshot.data() as Map<String, dynamic>, snapshot.id))
           .where((value) => value != null)
           .toList();
-          
+
       print('result : $result => streamCol SUCCES');
 
       /// si besoin d'un sort

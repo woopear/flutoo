@@ -42,7 +42,7 @@ class _ArticleListState extends State<ArticleList> {
               /// titre de la liste d'article
               const Text(
                 'Liste des articles',
-                style: TextStyle(fontSize: 24.0),
+                style: TextStyle(fontSize: 30.0),
               ),
 
               /// liste des articles
