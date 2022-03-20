@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutoo/models/todo/todo_schema.dart';
 import 'package:flutoo/utils/services/firestore/firestore_path.dart';
 import 'package:flutoo/utils/services/firestore/firestore_service.dart';
@@ -7,8 +6,6 @@ import 'package:flutter/widgets.dart';
 class TodoProvider extends ChangeNotifier {
   final _firestoreService = FirestoreService.instance;
   late Stream<List<TodoSchema>> todos;
-
-  CollectionReference todoApi = FirebaseFirestore.instance.collection('todos');
 
   /// ecouteur de la collection todo
   Future<void> streamTodos() async {

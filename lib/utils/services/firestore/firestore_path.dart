@@ -5,4 +5,8 @@ class FirestorePath {
   /// routes todo
   static String todo(String id) => 'todos/$id';
   static String todos() => 'todos';
+
+  /// routes condition
+  static String conditions() => 'conditions';
+  static String condition(String id) => 'conditions/$id';
 }

@@ -1,5 +1,5 @@
 import 'package:flutoo/models/condition/condition_provider.dart';
-import 'package:flutoo/models/condition/widgets/condition_selected_update_title.dart';
+import 'package:flutoo/models/condition/widgets/condition_selected/condition_selected_update/condition_selected_update_title.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,7 +18,8 @@ class _ConditionSelectedState extends State<ConditionSelected> {
       margin: const EdgeInsets.only(bottom: 50.0),
       child: Column(
         children: [
-          /// fermeture de la modification de la condition
+          /// Btn fermeture de la 
+          /// modification de la condition
           Container(
             margin: const EdgeInsets.only(bottom: 50.0),
             child: Align(
@@ -32,7 +33,8 @@ class _ConditionSelectedState extends State<ConditionSelected> {
             ),
           ),
 
-          /// formulaire de modification du titre de la condition selectionné
+          /// formulaire de modification 
+          /// du titre de la condition selectionné
           const ConditionSelectedUpdateTitle(),
         ],
       ),

@@ -1,67 +1,64 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:async';
+
+import 'package:flutoo/models/condition/condition_schema.dart';
+import 'package:flutoo/utils/services/firestore/firestore_path.dart';
+import 'package:flutoo/utils/services/firestore/firestore_service.dart';
 import 'package:flutter/widgets.dart';
 
 class ConditionProvider extends ChangeNotifier {
-  CollectionReference conditionApi =
-      FirebaseFirestore.instance.collection('conditions');
+  final _firestoreService = FirestoreService.instance;
+  late Stream<List<ConditionSchema>> allConditions;
+  Stream<ConditionSchema>? selectCondition;
+
+  /// détermine si oui ou non selectCondition à été init
+  bool get seeSelectCondition => selectCondition != null;
 
   /// ecouteur collection conditions
-  final Stream<QuerySnapshot<Map<String, dynamic>>> conditions =
-      FirebaseFirestore.instance.collection('conditions').snapshots();
+  Future<void> streamConditions() async {
+    allConditions = _firestoreService.streamCol(
+      path: FirestorePath.conditions(),
+      builder: (data, documentId) => ConditionSchema.fromMap(data, documentId),
+    );
+  }
 
-  /// stocke la liste des conditions sous forme de listMap
-  List<QueryDocumentSnapshot<Object?>>? conditionsStart;
+  /// ajouter une condition
+  Future<void> addCondition(ConditionSchema data) async {
+    await _firestoreService.add(
+      path: FirestorePath.conditions(),
+      data: data.toMap(),
+    );
+  }
 
-  Map<String, dynamic>? condition;
-  bool get seeOneCondition => condition != null;
+  /// modification de la condition
+  Future<void> updateCondition(String idCondition, ConditionSchema data) async {
+    await _firestoreService.update(
+      path: FirestorePath.condition(idCondition),
+      data: data.toMap(),
+    );
+  }
 
-  /// creation d'un objet conditions
-  Map<String, dynamic> createCondition(String? title) {
-    return {'title': title, 'activate': false, 'date': Timestamp.now()};
+  /// delete condition
+  Future<void> deleteCondition(String id) async {
+    /// TODO: ATTENTION rendre impossible de supprimer
+    /// TODO: si il y a des articles ratacher à la condition
+    await _firestoreService.delete(
+      path: FirestorePath.condition(id),
+    );
+  }
+
+  /// ecoute un document d'une condition
+  /// * represente le document selectionné
+  Future<void> streamSelectCondition(String id) async {
+    selectCondition = _firestoreService.streamDoc(
+      path: FirestorePath.condition(id),
+      builder: (data, documentId) => ConditionSchema.fromMap(data, documentId),
+    );
+    notifyListeners();
   }
 
   /// reset condition selectionné
   void resetConditionSelected() {
-    condition = null;
+    selectCondition = null;
     notifyListeners();
-  }
-
-  /// recupere l'ecouteur sour forme de tableau
-  void findAllConditions(List<QueryDocumentSnapshot<Object?>> conditions) {
-    conditionsStart = conditions;
-  }
-
-  /// selection d'un condition
-  void selectedCondition(String? id) {
-    /// recuperation des données avec l'id intégré
-    final allConditions = conditionsStart!.map((document) {
-      final f = document.data() as Map<String, dynamic>;
-      f['id'] = document.id;
-      return f;
-    });
-
-    /// on retourne le map souhaité et on l'attribue à la variable condition
-    final listCondition = allConditions.where((e) => e['id'] == id).toList();
-    condition = listCondition[0];
-
-    /// on ecoute les articles de la condition selectionné
-    
-
-    notifyListeners();
-  }
-
-  /// ajouter condition
-  Future<void> addCondition(String? title) async {
-    await conditionApi.add(createCondition(title));
-  }
-
-  /// modifier condition
-  Future<void> updateCondition(String? id, data) async {
-    await conditionApi.doc(id).update(data);
-  }
-
-  /// supprimer condition
-  Future<void> delCondition(String? id) async {
-    await conditionApi.doc(id).delete();
   }
 }
