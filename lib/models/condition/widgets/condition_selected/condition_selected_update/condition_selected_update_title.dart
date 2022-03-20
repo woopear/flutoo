@@ -1,6 +1,6 @@
+import 'package:flutoo/models/article/widgets/article_widget.dart';
 import 'package:flutoo/models/condition/condition_provider.dart';
 import 'package:flutoo/models/condition/condition_schema.dart';
-import 'package:flutoo/models/condition/widgets/condition_selected_update_add_article.dart';
 import 'package:flutoo/utils/services/validator/condition_validator.dart';
 import 'package:flutoo/widget_shared/waiting_data/wating_data.dart';
 import 'package:flutoo/widget_shared/waiting_error/waiting_error.dart';
@@ -93,7 +93,7 @@ class _ConditionSelectedUpdateTitleState
                 ),
 
                 /// ouvre le volet d'ajout d'article
-                const ConditionSelectedUpdateAddArticle(),
+                ArticleWidget(idCondition: condition.id),
               ],
             ),
           ),

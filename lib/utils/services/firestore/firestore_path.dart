@@ -9,4 +9,8 @@ class FirestorePath {
   /// routes condition
   static String conditions() => 'conditions';
   static String condition(String id) => 'conditions/$id';
+
+  /// routes article
+  static String articlesOfCondition(String idCondition) =>
+      'conditions/$idCondition/articles';
 }

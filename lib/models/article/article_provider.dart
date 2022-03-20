@@ -1,8 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutoo/models/article/article_schema.dart';
 import 'package:flutoo/models/content_article/content_article_provider.dart';
+import 'package:flutoo/utils/services/firestore/firestore_path.dart';
+import 'package:flutoo/utils/services/firestore/firestore_service.dart';
 import 'package:flutter/widgets.dart';
 
 class ArticleProvider extends ChangeNotifier {
+  final _firestoreService = FirestoreService.instance;
+  late Stream<List<ArticleSchema>> articles;
+
+  /// ecouteur collection article de la condition selectionné
+  Future<void> streamArticles(String idCondition) async {
+    articles = _firestoreService.streamCol(
+      path: FirestorePath.articlesOfCondition(idCondition),
+      builder: (data, documentId) => ArticleSchema.fromMap(data, documentId),
+    );
+  }
+
+  /// * test en cours
+
   /// ecouteur collection conditions
   Stream<QuerySnapshot>? listenArticlesConition(String? idCondition) {
     return FirebaseFirestore.instance

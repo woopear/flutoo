@@ -1,18 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutoo/models/article/article_schema.dart';
 import 'package:flutoo/models/content_article/content_article_provider.dart';
+import 'package:flutoo/widget_shared/waiting_data/wating_data.dart';
+import 'package:flutoo/widget_shared/waiting_error/waiting_error.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ContentArticleList extends StatefulWidget {
-  String? idArticle;
+  ArticleSchema? article;
   String? idCondition;
   List<TextEditingController>? controller;
 
   ContentArticleList({
     Key? key,
-    this.idArticle,
-    this.idCondition,
-    this.controller,
+    required this.article,
+    required this.idCondition,
+    required this.controller,
   }) : super(key: key);
 
   @override
@@ -31,17 +34,12 @@ class _ContentArticleListState extends State<ContentArticleList> {
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         /// error
         if (snapshot.hasError) {
-          return const Text('Impossible de récupérer les données ...');
+          return const WaitingError();
         }
 
         /// en chargement
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Container(
-            margin: const EdgeInsets.only(top: 50.0),
-            child: const Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
+          return const WaitingData();
         }
 
         return Container(
@@ -50,7 +48,7 @@ class _ContentArticleListState extends State<ContentArticleList> {
               (DocumentSnapshot document) {
                 Map<String, dynamic> data =
                     document.data()! as Map<String, dynamic>;
-                      print(widget.controller);
+                print(widget.controller);
 
                 return Column(
                   children: widget.controller!.map(
