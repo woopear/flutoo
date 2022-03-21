@@ -1,6 +1,7 @@
 import 'package:flutoo/models/article/article_provider.dart';
 import 'package:flutoo/models/article/article_schema.dart';
 import 'package:flutoo/models/article/widgets/article_list/article_update/article_update.dart';
+import 'package:flutoo/models/content_article/content_article_provider.dart';
 import 'package:flutoo/widget_shared/waiting_data/wating_data.dart';
 import 'package:flutoo/widget_shared/waiting_error/waiting_error.dart';
 import 'package:flutter/material.dart';
@@ -49,23 +50,15 @@ class _ArticleListState extends State<ArticleList> {
               Column(
                 children: articles.map(
                   (article) {
+                    context
+                        .read<ContentArticleProvider>()
+                        .streamContentOfArticle(
+                            article.id!, widget.idCondition!);
+                            
                     return Container(
                       margin: const EdgeInsets.symmetric(vertical: 10.0),
                       child: Column(
                         children: [
-                          /// titre des articles
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Container(
-                              margin: const EdgeInsets.only(
-                                  top: 30.0, bottom: 20.0),
-                              child: Text(
-                                'Article : ' + article.title!,
-                                style: const TextStyle(fontSize: 20.0),
-                              ),
-                            ),
-                          ),
-
                           /// formulaire du titre et des contents
                           ArticleUpdate(
                             article: article,

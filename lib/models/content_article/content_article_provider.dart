@@ -6,7 +6,9 @@ import 'package:flutter/widgets.dart';
 
 class ContentArticleProvider extends ChangeNotifier {
   final _firestoreService = FirestoreService.instance;
+  late Stream<List<ContentArticleSchema>> contentsOfArticle;
   Stream<QuerySnapshot>? contents;
+  QuerySnapshot<Map<String, dynamic>>? contentsssss;
 
   /// creation du map contentarticle
   Map<String, dynamic>? createContentArticle(String? text) {
@@ -22,19 +24,40 @@ class ContentArticleProvider extends ChangeNotifier {
         .snapshots();
   }
 
-  /// ajout d'un article à une condition
+  /// * test en cours
+
+  /// ecoute list content d'un article
+  Future<void> streamContentOfArticle(
+      String idArticle, String idCondition) async {
+    contentsOfArticle = _firestoreService.streamCol(
+      path: FirestorePath.contentsArticle(idArticle, idCondition),
+      builder: (data, documentId) =>
+          ContentArticleSchema.formMap(data, documentId),
+    );
+  }
+
+  /// ajout d'un content à un article
   Future<void> addContentArticle(
     String? idArticle,
     String? idCondition,
     List<TextEditingController> listText,
   ) async {
     /// creation content de l'article
-    for (TextEditingController text in listText){
+    for (TextEditingController text in listText) {
       final content = ContentArticleSchema(text: text.text);
       await _firestoreService.add(
         path: FirestorePath.contentsArticle(idArticle!, idCondition!),
         data: content.toMap(),
       );
     }
+  }
+
+  /// delete un content d'un article
+  Future<void> deleteContentOfArticle(
+      String? idArticle, String? idCondition, String? idContent) async {
+    await _firestoreService.delete(
+      path: FirestorePath.contentArticle(idArticle!, idCondition!, idContent!),
+    );
+    notifyListeners();
   }
 }

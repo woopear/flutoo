@@ -17,4 +17,7 @@ class FirestorePath {
   /// route content
   static String contentsArticle(String idArticle, String idCondition) =>
       'conditions/$idCondition/articles/$idArticle/contents';
+  static String contentArticle(
+          String idArticle, String idCondition, String idContent) =>
+      'conditions/$idCondition/articles/$idArticle/contents/$idContent';
 }

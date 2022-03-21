@@ -29,5 +29,7 @@ class ArticleProvider extends ChangeNotifier {
     /// creation des contents en meme temps que l'article
     ContentArticleProvider()
         .addContentArticle(article!.id, idCondition, listText);
+
+    notifyListeners();
   }
 }
