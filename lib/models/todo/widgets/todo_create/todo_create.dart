@@ -1,5 +1,8 @@
+import 'package:flutoo/models/todo/todo_constant.dart';
 import 'package:flutoo/models/todo/todo_provider.dart';
 import 'package:flutoo/models/todo/todo_schema.dart';
+import 'package:flutoo/utils/services/validator/validator.dart';
+import 'package:flutoo/widget_shared/notif_message/notif_message.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:woo_widget_input/woo_widget_input.dart';
@@ -14,14 +17,6 @@ class TodoCreate extends StatefulWidget {
 class _TodoCreateState extends State<TodoCreate> {
   final _formKey = GlobalKey<FormState>();
   String? inputLibelle;
-
-  /// validator du input libelle
-  String? validatorInputLibelle(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Veuillez entrer une tâche valide';
-    }
-    return null;
-  }
 
   /// clique btn creation todo
   void createTodo(BuildContext context) {
@@ -39,14 +34,16 @@ class _TodoCreateState extends State<TodoCreate> {
       _formKey.currentState!.reset();
 
       /// message de confirmation
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Tâche ajouter')),
-      );
+      NotifMessage(
+        text: TodoConstant.createTodoMessageSucces,
+        error: false,
+      ).notification(context);
     } else {
       /// message d'erreur
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Une erreur est survenue')),
-      );
+      NotifMessage(
+        text: TodoConstant.createTodoMessageError,
+        error: true,
+      ).notification(context);
     }
   }
 
@@ -66,8 +63,11 @@ class _TodoCreateState extends State<TodoCreate> {
                 /// input libelle todo
                 Expanded(
                   child: InputCustom(
-                    label: const Text('Ajoutez une tâche'),
-                    validator: (value) => validatorInputLibelle(value),
+                    label: Text(TodoConstant.createLabelInputTodo),
+                    validator: (value) => Validator.validatorInputTextBasic(
+                      textError: Validator.inputTodoText,
+                      value: value,
+                    ),
                     onChange: (value) => inputLibelle = value,
                   ),
                 ),

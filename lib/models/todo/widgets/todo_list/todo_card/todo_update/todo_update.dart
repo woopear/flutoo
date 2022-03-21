@@ -1,6 +1,8 @@
+import 'package:flutoo/models/todo/todo_constant.dart';
 import 'package:flutoo/models/todo/todo_provider.dart';
 import 'package:flutoo/models/todo/todo_schema.dart';
 import 'package:flutoo/utils/services/validator/validator.dart';
+import 'package:flutoo/widget_shared/notif_message/notif_message.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:woo_widget_input/woo_widget_input.dart';
@@ -43,14 +45,16 @@ class _TodoUpdateState extends State<TodoUpdate> {
       widget.closedUpdated!();
 
       /// affiche le message de succes
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Tâche modifiée')),
-      );
+      NotifMessage(
+        text: TodoConstant.updateTodoMessageSucces,
+        error: false,
+      ).notification(context);
     } else {
       /// affiche le message d'erreur
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Une erreur est survenue')),
-      );
+      NotifMessage(
+        text: TodoConstant.updateTodoMessageError,
+        error: true,
+      ).notification(context);
     }
   }
 
@@ -70,7 +74,7 @@ class _TodoUpdateState extends State<TodoUpdate> {
                     padding: const EdgeInsets.symmetric(
                         vertical: 15.0, horizontal: 5.0),
                     initialValue: widget.inputLibelle,
-                    label: const Text('modifier la tâche'),
+                    label: Text(TodoConstant.updateLabelInputTodo),
                     validator: (value) => Validator.validatorInputTextBasic(
                       textError: Validator.inputTodoText,
                       value: value,
