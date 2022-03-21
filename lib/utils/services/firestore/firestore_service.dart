@@ -13,7 +13,6 @@ class FirestoreService {
   Future<void> set({
     required String path,
     required Map<String, dynamic> data,
-    bool merge = false,
   }) async {
     final reference = _firestore.doc(path);
     print('$path: $data => SET SUCCES');
@@ -55,11 +54,41 @@ class FirestoreService {
     await reference.delete();
   }
 
+  /// recupere des documents d'une collection
+  Future<List<T>> getCol<T>({
+    required String path,
+    required T Function(Map<String, dynamic> data, String documentID) builder,
+    Query Function(Query query)? queryBuilder,
+  }) async {
+    /// query par le path,
+    /// ou creation d'une query via la fonction
+    /// en parametre
+    Query query = _firestore.collection(path);
+    if (queryBuilder != null) {
+      query = queryBuilder(query);
+    }
+
+    ///retourne une List du model
+    /// passé en parametre à la fonction builder
+    final collection = await query.get();
+    final result = collection.docs
+        .map((e) => builder(e.data() as Map<String, dynamic>, e.id))
+        .where((value) => value != null)
+        .toList();
+
+    print('getDoc: $path => SUCCES');
+
+    return result;
+  }
+
   /// recupere un document
-  Future<void> getDoc({required String path}) async {
+  Future<DocumentSnapshot<Map<String, dynamic>>> getDoc({
+    required String path,
+    bool merge = false,
+  }) async {
     final reference = _firestore.doc(path);
     print('getDoc: $path => SUCCES');
-    await reference.get();
+    return await reference.get();
   }
 
   /// ecouteur sur une collection
