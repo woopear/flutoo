@@ -1,3 +1,4 @@
+import 'package:flutoo/models/condition/condition_constant.dart';
 import 'package:flutter/material.dart';
 
 class ConditionListHeadTable extends StatelessWidget {
@@ -14,11 +15,20 @@ class ConditionListHeadTable extends StatelessWidget {
                 margin: const EdgeInsets.only(top: 30.0),
                 padding: const EdgeInsets.symmetric(horizontal: 30.0),
                 child: Row(
-                  children: const [
+                  children:  [
+                    /// 1er titre
                     Expanded(
-                      child: Text('TITRE', style: TextStyle(fontSize: 26.0)),
+                      child: Text(
+                        ConditionConstant.headText1.toUpperCase(),
+                        style: const TextStyle(fontSize: 26.0),
+                      ),
                     ),
-                    Text('ACTIONS', style: TextStyle(fontSize: 26.0)),
+
+                    /// 2eme titre
+                    Text(
+                      ConditionConstant.headText2.toUpperCase(),
+                      style: const TextStyle(fontSize: 26.0),
+                    ),
                   ],
                 ),
               ),

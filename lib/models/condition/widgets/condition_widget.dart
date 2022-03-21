@@ -17,7 +17,9 @@ class _ConditionWidgetState extends State<ConditionWidget> {
 
     return Center(
       child: SizedBox(
+        /// taille ecran
         width: widthTodo > 700 ? 700.0 : double.infinity,
+        
         child: Column(
           children: const [
             /// condition create

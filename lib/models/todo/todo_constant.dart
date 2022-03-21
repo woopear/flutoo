@@ -8,5 +8,4 @@ class TodoConstant {
   static String createTodoMessageSucces = 'Tâche créée';
   static String createTodoMessageError = 'Une erreur est survenue';
   static String createLabelInputTodo = 'Ajouter une tâche';
-
 }

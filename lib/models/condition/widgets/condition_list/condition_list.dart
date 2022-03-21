@@ -73,7 +73,7 @@ class _ConditionListState extends State<ConditionList> {
                                       onChanged: (value) => context
                                           .read<ConditionProvider>()
                                           .updateActivateCondition(
-                                              context, value, condition),
+                                              value, condition),
                                     ),
 
                                     /// selected condition pour modification

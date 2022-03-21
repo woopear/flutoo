@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutoo/models/condition/condition_schema.dart';
 import 'package:flutoo/utils/services/firestore/firestore_path.dart';
 import 'package:flutoo/utils/services/firestore/firestore_service.dart';
@@ -15,8 +16,8 @@ class ConditionProvider extends ChangeNotifier {
     );
   }
 
-  Future<void> updateActivateCondition(
-      BuildContext context, bool value, ConditionSchema data) async {
+  /// update activate condition
+  Future<void> updateActivateCondition(bool value, ConditionSchema data) async {
     ConditionSchema updateCondition =
         ConditionSchema(title: data.title, activate: value, date: data.date);
 
@@ -26,6 +27,18 @@ class ConditionProvider extends ChangeNotifier {
     );
   }
 
+  /// creation condition
+  Future<void> addCondition(String title) async {
+    ConditionSchema createCondition =
+        ConditionSchema(title: title, date: Timestamp.now());
+    
+    await _firestoreService.add(
+      path: FirestorePath.conditions(),
+      data: createCondition.toMap(),
+    );
+  }
+
+  /// supprime une condition
   Future<void> deleteCondition(String idCondition) async {
     await _firestoreService.delete(
       path: FirestorePath.condition(idCondition),
