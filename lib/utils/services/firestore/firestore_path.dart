@@ -1,23 +1,26 @@
-/// contien toute les fonctions
-/// qui retourne les routes d'accès
-/// au data des différents model
+/// * contien toute les fonctions
+/// * qui retourne les routes d'accès
+/// * au data des différents model
+
 class FirestorePath {
   /// routes todo
-  static String todo(String id) => 'todos/$id';
   static String todos() => 'todos';
+  static String todo(String idTodo) => 'todos/$idTodo';
 
   /// routes condition
   static String conditions() => 'conditions';
-  static String condition(String id) => 'conditions/$id';
+  static String condition(String idCondition) => 'conditions/$idCondition';
 
   /// routes article
   static String articlesOfCondition(String idCondition) =>
       'conditions/$idCondition/articles';
+  static String articleOfContidion(String idCondition, String idArticle) =>
+      'conditions/$idCondition/articles/$idArticle';
 
   /// route content
-  static String contentsArticle(String idArticle, String idCondition) =>
+  static String contentsOfArticle(String idCondition, String idArticle) =>
       'conditions/$idCondition/articles/$idArticle/contents';
-  static String contentArticle(
-          String idArticle, String idCondition, String idContent) =>
+  static String contentOfArticle(
+          String idCondition, String idArticle, String idContent) =>
       'conditions/$idCondition/articles/$idArticle/contents/$idContent';
 }
