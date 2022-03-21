@@ -1,5 +1,6 @@
 import 'package:flutoo/models/condition/widgets/condition_create/condition_create.dart';
 import 'package:flutoo/models/condition/widgets/condition_list/condition_list.dart';
+import 'package:flutoo/models/condition/widgets/condition_update/condition_update.dart';
 import 'package:flutter/material.dart';
 
 class ConditionWidget extends StatefulWidget {
@@ -10,6 +11,15 @@ class ConditionWidget extends StatefulWidget {
 }
 
 class _ConditionWidgetState extends State<ConditionWidget> {
+  bool seeUpdateCondition = false;
+
+  /// open/close volet update condition
+  void openCloseUpdateCondition() {
+    setState(() {
+      seeUpdateCondition = !seeUpdateCondition;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     /// taille de l'ecran
@@ -19,13 +29,22 @@ class _ConditionWidgetState extends State<ConditionWidget> {
       child: SizedBox(
         /// taille ecran
         width: widthTodo > 700 ? 700.0 : double.infinity,
-        
+
         child: Column(
-          children: const [
+          children: [
             /// condition create
-            ConditionCreate(),
+            const ConditionCreate(),
+
             /// list condition
-            ConditionList(),
+            ConditionList(
+                openCloseUpdateCondition: () => openCloseUpdateCondition()),
+
+            /// update condition
+            seeUpdateCondition
+                ? ConditionUpdate(
+                    openCloseUpdateCondition: () => openCloseUpdateCondition(),
+                  )
+                : Container(),
           ],
         ),
       ),

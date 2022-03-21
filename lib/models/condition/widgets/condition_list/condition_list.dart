@@ -7,7 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ConditionList extends StatefulWidget {
-  const ConditionList({Key? key}) : super(key: key);
+  Function()? openCloseUpdateCondition;
+
+  ConditionList({
+    Key? key,
+    required this.openCloseUpdateCondition,
+  }) : super(key: key);
 
   @override
   State<ConditionList> createState() => _ConditionListState();
@@ -78,7 +83,16 @@ class _ConditionListState extends State<ConditionList> {
 
                                     /// selected condition pour modification
                                     IconButton(
-                                      onPressed: () {},
+                                      onPressed: () => {
+                                        /// selected condition
+                                        context
+                                            .read<ConditionProvider>()
+                                            .streamConditionSelected(
+                                                condition.id!),
+
+                                        /// open close volet update condition
+                                        widget.openCloseUpdateCondition!(),
+                                      },
                                       icon: const Icon(Icons.edit),
                                     ),
 

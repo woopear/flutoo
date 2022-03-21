@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 class ConditionProvider extends ChangeNotifier {
   final _firestoreService = FirestoreService.instance;
   late Stream<List<ConditionSchema>> conditions;
+  late Stream<ConditionSchema> conditionSelected;
 
   /// ecouteur conditions
   Future<void> streamConditions() async {
@@ -14,6 +15,38 @@ class ConditionProvider extends ChangeNotifier {
       path: FirestorePath.conditions(),
       builder: (data, documentId) => ConditionSchema.formMap(data, documentId),
     );
+  }
+
+  /// ecouteur condition selected
+  Future<void> streamConditionSelected(String idCondition) async {
+    conditionSelected = _firestoreService.streamDoc(
+      path: FirestorePath.condition(idCondition),
+      builder: (data, documentId) => ConditionSchema.formMap(data, documentId),
+    );
+  }
+
+  /// creation condition
+  Future<void> addCondition(String title) async {
+    ConditionSchema createCondition =
+        ConditionSchema(title: title, date: Timestamp.now());
+
+    await _firestoreService.add(
+      path: FirestorePath.conditions(),
+      data: createCondition.toMap(),
+    );
+    notifyListeners();
+  }
+
+  /// update title condition
+  Future<void> updateTitleCondition(String value, ConditionSchema data) async {
+    ConditionSchema updateCondition =
+        ConditionSchema(title: value, activate: data.activate, date: data.date);
+
+    await _firestoreService.update(
+      path: FirestorePath.condition(data.id!),
+      data: updateCondition.toMap(),
+    );
+    notifyListeners();
   }
 
   /// update activate condition
@@ -25,17 +58,7 @@ class ConditionProvider extends ChangeNotifier {
       path: FirestorePath.condition(data.id!),
       data: updateCondition.toMap(),
     );
-  }
-
-  /// creation condition
-  Future<void> addCondition(String title) async {
-    ConditionSchema createCondition =
-        ConditionSchema(title: title, date: Timestamp.now());
-    
-    await _firestoreService.add(
-      path: FirestorePath.conditions(),
-      data: createCondition.toMap(),
-    );
+    notifyListeners();
   }
 
   /// supprime une condition
