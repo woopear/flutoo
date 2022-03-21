@@ -1,5 +1,6 @@
 import 'package:flutoo/models/todo/todo_provider.dart';
 import 'package:flutoo/models/todo/todo_schema.dart';
+import 'package:flutoo/utils/services/validator/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:woo_widget_input/woo_widget_input.dart';
@@ -26,14 +27,6 @@ class TodoUpdate extends StatefulWidget {
 
 class _TodoUpdateState extends State<TodoUpdate> {
   final _formKey = GlobalKey<FormState>();
-
-  /// validator du inputLibelle
-  String? validatorInputLibelle(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Veuillez entrer une tâche valide';
-    }
-    return null;
-  }
 
   /// modifie la todo, son libelle
   void updateTodo(BuildContext context) {
@@ -78,7 +71,10 @@ class _TodoUpdateState extends State<TodoUpdate> {
                         vertical: 15.0, horizontal: 5.0),
                     initialValue: widget.inputLibelle,
                     label: const Text('modifier la tâche'),
-                    validator: (value) => validatorInputLibelle(value),
+                    validator: (value) => Validator.validatorInputTextBasic(
+                      textError: Validator.inputTodoText,
+                      value: value,
+                    ),
                     onChange: (value) => widget.inputLibelle = value,
                   ),
                 ),

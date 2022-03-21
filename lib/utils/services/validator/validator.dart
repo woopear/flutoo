@@ -1,6 +1,5 @@
 class Validator {
-  static String titleArticle = 'Veuillez entrer un titre valide';
-  static String titleCondition = 'Veuillez entrer un titre valide';
+  static String inputTodoText = "Veuillez entrer une tâche valide";
 
   /// validator pour les input text basic
   /// test si null ou si isEmpty
