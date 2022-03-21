@@ -1,3 +1,4 @@
+import 'package:flutoo/models/condition/widgets/condition_create/condition_create.dart';
 import 'package:flutoo/models/condition/widgets/condition_list/condition_list.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +20,9 @@ class _ConditionWidgetState extends State<ConditionWidget> {
         width: widthTodo > 700 ? 700.0 : double.infinity,
         child: Column(
           children: const [
+            /// condition create
+            ConditionCreate(),
+            /// list condition
             ConditionList(),
           ],
         ),
