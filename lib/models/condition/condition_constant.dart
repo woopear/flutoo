@@ -6,11 +6,10 @@ class ConditionConstant {
   static String createLabelInputTitle = "Titre de la condition";
 
 // update condition
-    static String updateMessageSucces = "Condition modifiée avec succès";
+  static String updateMessageSucces = "Condition modifiée avec succès";
   static String updateMessageError = "Impossible de modifier la condition";
   static String updateBtn = "Modifier le titre";
   static String updateLabelInputTitle = "Titre de la condition";
-
 
   /// header tableau list condition
   static String headText1 = 'titre';
@@ -19,4 +18,9 @@ class ConditionConstant {
   /// btn
   static String btnOpenCreate = "Ajouter une condition";
   static String btnCloseCreate = "Fermer";
+  static String btnOpenCreateArticle = "Ajouter un article";
+  static String btnCloseCreateArticle = "Fermer";
+
+  /// titre list des articles
+  static String titleListArticles = "Liste des articles";
 }
