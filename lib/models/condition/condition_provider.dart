@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutoo/models/article/article_provider.dart';
 import 'package:flutoo/models/condition/condition_schema.dart';
 import 'package:flutoo/utils/services/firestore/firestore_path.dart';
 import 'package:flutoo/utils/services/firestore/firestore_service.dart';
@@ -62,11 +63,15 @@ class ConditionProvider extends ChangeNotifier {
   }
 
   /// supprime une condition
-  /// TODO: ATTENTION supprimer les collections enfants ou
-  /// TODO: ne pas supprimer si il y a des collections enfants
   Future<void> deleteCondition(String idCondition) async {
+    final articleProvider = ArticleProvider();
+
+    await articleProvider.deleteAllArticle(idCondition);
+
     await _firestoreService.delete(
       path: FirestorePath.condition(idCondition),
     );
+      notifyListeners();
+
   }
 }

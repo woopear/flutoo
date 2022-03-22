@@ -6,6 +6,7 @@ import 'package:flutoo/models/content_article/widgets/content_article_widget.dar
 import 'package:flutoo/widget_shared/button_closed/button_closed.dart';
 import 'package:flutoo/widget_shared/waiting_data/wating_data.dart';
 import 'package:flutoo/widget_shared/waiting_error/waiting_error.dart';
+import 'package:flutoo/widget_shared/waiting_no_data/waiting_no_data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -29,6 +30,11 @@ class _ArticleUpdateState extends State<ArticleUpdate> {
     return StreamBuilder(
       stream: context.watch<ArticleProvider>().articleSelected,
       builder: ((context, AsyncSnapshot<ArticleSchema> snapshot) {
+        /// si pas de data
+        if (!snapshot.hasData) {
+          return const WaitingNoData();
+        }
+        
         /// error
         if (snapshot.hasError) {
           return const WaitingError();
@@ -71,7 +77,10 @@ class _ArticleUpdateState extends State<ArticleUpdate> {
               ),
 
               /// content widget (list de update content + create contente)
-              const ContentArticleWidget(),
+              ContentArticleWidget(
+                articleSelect: articleSelect,
+                conditionSelect: widget.conditionSelect,
+              ),
             ],
           ),
         );

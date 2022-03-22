@@ -8,6 +8,7 @@ import 'package:flutoo/widget_shared/button_closed/button_closed.dart';
 import 'package:flutoo/widget_shared/text_button_icon/text_button_icon.dart';
 import 'package:flutoo/widget_shared/waiting_data/wating_data.dart';
 import 'package:flutoo/widget_shared/waiting_error/waiting_error.dart';
+import 'package:flutoo/widget_shared/waiting_no_data/waiting_no_data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -38,6 +39,11 @@ class _ConditionUpdateState extends State<ConditionUpdate> {
     return StreamBuilder(
       stream: context.watch<ConditionProvider>().conditionSelected,
       builder: (BuildContext context, AsyncSnapshot<ConditionSchema> snapshot) {
+        /// si pas de data
+        if (!snapshot.hasData) {
+          return const WaitingNoData();
+        }
+
         /// error
         if (snapshot.hasError) {
           return const WaitingError();
