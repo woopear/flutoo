@@ -30,7 +30,9 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: const AppBarFlutoo(),
+        appBar: const AppBarFlutoo(
+          
+        ),
         body: SingleChildScrollView(
           child: widgetOptions.elementAt(indexSelection),
         ),

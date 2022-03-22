@@ -1,3 +1,5 @@
+import 'package:flutoo/config/routes/routes.dart';
+import 'package:flutoo/models/user/user_provider.dart';
 import 'package:flutoo/widget_shared/app_bar_flutoo/switch_mode_dark.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +14,8 @@ class AppBarFlutoo extends StatefulWidget with PreferredSizeWidget {
 }
 
 class _AppBarFlutooState extends State<AppBarFlutoo> {
+  UserProvider userProvider = UserProvider();
+
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -19,10 +23,20 @@ class _AppBarFlutooState extends State<AppBarFlutoo> {
       title: const Text('Flutoo'),
       actions: [
         Container(
-          padding: const EdgeInsets.only(right: 20.0),
-          child: const SwitchModeDark(),
-        )
-      ],    
+            padding: const EdgeInsets.only(right: 20.0),
+            child: Row(
+              children: [
+                IconButton(
+                  onPressed: () => {
+                    userProvider.disconnectUserCurrent,
+                    Navigator.pushNamed(context, Routes().home),
+                  },
+                  icon: const Icon(Icons.logout),
+                ),
+                const SwitchModeDark(),
+              ],
+            ))
+      ],
     );
   }
 }
