@@ -26,7 +26,8 @@ class _ConditionWidgetState extends State<ConditionWidget> {
     double widthTodo = MediaQuery.of(context).size.width;
 
     return Center(
-      child: SizedBox(
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 60.0),
         /// taille ecran
         width: widthTodo > 700 ? 700.0 : double.infinity,
 

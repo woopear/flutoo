@@ -62,6 +62,8 @@ class ConditionProvider extends ChangeNotifier {
   }
 
   /// supprime une condition
+  /// TODO: ATTENTION supprimer les collections enfants ou
+  /// TODO: ne pas supprimer si il y a des collections enfants
   Future<void> deleteCondition(String idCondition) async {
     await _firestoreService.delete(
       path: FirestorePath.condition(idCondition),
