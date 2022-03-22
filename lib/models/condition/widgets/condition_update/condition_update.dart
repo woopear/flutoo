@@ -90,7 +90,12 @@ class _ConditionUpdateState extends State<ConditionUpdate> {
               ),
 
               /// creation d'articles
-              seeArticleCreate ? const ArticleCreate() : Container(),
+              seeArticleCreate
+                  ? ArticleCreate(
+                      conditionSelect: conditionSelect,
+                      openCloseArticleCreate: () => openCloseArticleCreate(),
+                    )
+                  : Container(),
 
               /// title de la partie de la list des articles
               Container(
