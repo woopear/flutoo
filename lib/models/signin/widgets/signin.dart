@@ -14,7 +14,7 @@ class Signin extends StatefulWidget {
 
 class _SigninState extends State<Signin> {
   UserProvider userProvider = UserProvider();
-  UserModel userModel = UserModel();
+  UserSchema userSchema = UserSchema(email: '', password: '', uid: '');
 
   @override
   Widget build(BuildContext context) {
@@ -33,12 +33,13 @@ class _SigninState extends State<Signin> {
                 emailmargin: const EdgeInsets.all(20),
                 pwsmargin: const EdgeInsets.all(20),
                 resultForm: (value) {
-                  userModel.email = value['email'];
-                  userModel.password = value['password'];
-                  userProvider.auth(userModel);
+                  userSchema.email = value['email'];
+                  userSchema.password = value['password'];
+                  userProvider.auth(userSchema);
                   FirebaseAuth.instance.authStateChanges().listen(
                     (currentUser) {
                       if (currentUser != null) {
+                        userProvider.streamUsers(currentUser.uid);
                         Navigator.pushNamed(context, Routes().todo);
                       }
                     },

@@ -15,7 +15,7 @@ class Singup extends StatefulWidget {
 class _SingupState extends State<Singup> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   UserProvider userProvider = UserProvider();
-  UserModel userModel = UserModel();
+  UserSchema userSchema = UserSchema(email: '', password: '',uid: '');
   
 
   @override
@@ -35,7 +35,7 @@ class _SingupState extends State<Singup> {
                   labelText: 'Email',
                   onChange: (value) {
                     setState(() {
-                      userModel.email = value;
+                      userSchema.email = value;
                     });
                   },
                 ),
@@ -46,7 +46,7 @@ class _SingupState extends State<Singup> {
                   labelText: 'Nom',
                   onChange: (value) {
                     setState(() {
-                      userModel.firstName = value;
+                      userSchema.firstName = value;
                     });
                   },
                 ),
@@ -57,7 +57,7 @@ class _SingupState extends State<Singup> {
                   labelText: 'Prenom',
                   onChange: (value) {
                     setState(() {
-                      userModel.lastName = value;
+                      userSchema.lastName = value;
                     });
                   },
                 ),
@@ -68,7 +68,7 @@ class _SingupState extends State<Singup> {
                   labelText: 'Pseudo',
                   onChange: (value) {
                     setState(() {
-                      userModel.pseudo = value;
+                      userSchema.pseudo = value;
                     });
                   },
                 ),
@@ -79,7 +79,7 @@ class _SingupState extends State<Singup> {
                   labelText: 'Mot de passe',
                   onChange: (value) {
                     setState(() {
-                      userModel.password = value;
+                      userSchema.password = value;
                     });
                   },
                 ),
@@ -89,11 +89,12 @@ class _SingupState extends State<Singup> {
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      userProvider.createUser(userModel);
+                      userProvider.createUser(userSchema);
 
                       FirebaseAuth.instance.authStateChanges().listen(
                       (currentUser) {
                       if (currentUser != null) {
+                        userProvider.streamUsers(currentUser.uid);
                         Navigator.pushNamed(context, Routes().todo);
                       }
                     },
