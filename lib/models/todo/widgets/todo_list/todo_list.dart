@@ -21,7 +21,7 @@ class _TodoListState extends State<TodoList> {
 
     return StreamBuilder(
       stream: context.watch<TodoProvider>().todos,
-      builder: (BuildContext context, snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<List<TodoSchema>> snapshot) {
         /// error
         if (snapshot.hasError) {
           return const WaitingError();
@@ -33,14 +33,14 @@ class _TodoListState extends State<TodoList> {
         }
 
         /// recuperation de la liste de todo
-        List<TodoSchema> todos = snapshot.data as List<TodoSchema>;
+        final todos = snapshot.data;
 
         /// widget todo card
         return Container(
           constraints: const BoxConstraints(minHeight: 200.0),
           margin: const EdgeInsets.only(top: 30.0, bottom: 50.0),
           child: Column(
-            children: todos.map(
+            children: todos!.map(
               (todo) {
                 return TodoCard(
                   uid: todo.uid,

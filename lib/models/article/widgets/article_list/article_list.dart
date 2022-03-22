@@ -1,33 +1,43 @@
-import 'package:flutoo/models/condition/condition_provider.dart';
+import 'package:flutoo/models/article/article_provider.dart';
+import 'package:flutoo/models/article/article_schema.dart';
+import 'package:flutoo/models/article/widgets/article_list/article_list_head_table.dart';
+import 'package:flutoo/models/article/widgets/article_update/article_update.dart';
 import 'package:flutoo/models/condition/condition_schema.dart';
-import 'package:flutoo/models/condition/widgets/condition_list/condition_list_head_table/condition_list_head_table.dart';
 import 'package:flutoo/widget_shared/waiting_data/wating_data.dart';
 import 'package:flutoo/widget_shared/waiting_error/waiting_error.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ConditionList extends StatefulWidget {
-  Function()? openCloseUpdateCondition;
+class ArticleList extends StatefulWidget {
+  ConditionSchema conditionSelect;
 
-  ConditionList({
+  ArticleList({
     Key? key,
-    required this.openCloseUpdateCondition,
+    required this.conditionSelect,
   }) : super(key: key);
 
   @override
-  State<ConditionList> createState() => _ConditionListState();
+  State<ArticleList> createState() => _ArticleListState();
 }
 
-class _ConditionListState extends State<ConditionList> {
+class _ArticleListState extends State<ArticleList> {
+  bool seeShutterUpdateArticle = false;
+
+  void openCloseUpdateArticle() {
+    setState(() {
+      seeShutterUpdateArticle = !seeShutterUpdateArticle;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    // ecouteur condition
-    context.read<ConditionProvider>().streamConditions();
+    /// active ecouteur articles
+    context.read<ArticleProvider>().streamArticles(widget.conditionSelect.id!);
 
     return StreamBuilder(
-      stream: context.watch<ConditionProvider>().conditions,
-      builder: (BuildContext context,
-          AsyncSnapshot<List<ConditionSchema>> snapshot) {
+      stream: context.watch<ArticleProvider>().articlesOfCondition,
+      builder:
+          ((BuildContext context, AsyncSnapshot<List<ArticleSchema>> snapshot) {
         /// error
         if (snapshot.hasError) {
           return const WaitingError();
@@ -38,19 +48,19 @@ class _ConditionListState extends State<ConditionList> {
           return const WaitingData();
         }
 
-        /// recupere les données
-        final conditions = snapshot.data;
+        /// recupere tous les articles de la condition
+        final articles = snapshot.data;
 
         return Container(
           child: Column(
             children: [
-              /// head tableau condition
-              const ConditionListHeadTable(),
+              /// entete du tabeleau
+              const ArticleListHeadTable(),
 
-              /// corp tableau condition
+              /// tableau de la list
               Table(
-                children: conditions!.map(
-                  (condition) {
+                children: articles!.map(
+                  (article) {
                     return TableRow(
                       children: [
                         TableCell(
@@ -64,7 +74,7 @@ class _ConditionListState extends State<ConditionList> {
                                 /// titre de la condition
                                 Expanded(
                                   child: Text(
-                                    condition.title!,
+                                    article.title!,
                                     style: const TextStyle(fontSize: 20.0),
                                   ),
                                 ),
@@ -72,26 +82,16 @@ class _ConditionListState extends State<ConditionList> {
                                 /// cadre des btn
                                 Row(
                                   children: [
-                                    /// activer/desactiver condition
-                                    Switch.adaptive(
-                                      value: condition.activate!,
-                                      onChanged: (value) => context
-                                          .read<ConditionProvider>()
-                                          .updateActivateCondition(
-                                              value, condition),
-                                    ),
-
-                                    /// selected condition pour modification
+                                    /// selected article pour modification
                                     IconButton(
-                                      onPressed: () => {
-                                        /// selected condition
+                                      onPressed: () {
                                         context
-                                            .read<ConditionProvider>()
-                                            .streamConditionSelected(
-                                                condition.id!),
+                                            .read<ArticleProvider>()
+                                            .streamArticleSelected(
+                                                widget.conditionSelect.id!,
+                                                article.id!);
 
-                                        /// open close volet update condition
-                                        widget.openCloseUpdateCondition!(),
+                                        openCloseUpdateArticle();
                                       },
                                       icon: const Icon(Icons.edit),
                                     ),
@@ -100,8 +100,10 @@ class _ConditionListState extends State<ConditionList> {
                                     IconButton(
                                       color: Colors.red,
                                       onPressed: () => context
-                                          .read<ConditionProvider>()
-                                          .deleteCondition(condition.id!),
+                                          .read<ArticleProvider>()
+                                          .deleteArticle(
+                                              widget.conditionSelect.id!,
+                                              article.id!),
                                       icon: const Icon(Icons.delete_outline),
                                     )
                                   ],
@@ -115,10 +117,17 @@ class _ConditionListState extends State<ConditionList> {
                   },
                 ).toList(),
               ),
+
+              /// update article
+              seeShutterUpdateArticle
+                  ? ArticleUpdate(
+                      openCloseUpdateArticle: () => openCloseUpdateArticle(),
+                      conditionSelect: widget.conditionSelect)
+                  : Container(),
             ],
           ),
         );
-      },
+      }),
     );
   }
 }

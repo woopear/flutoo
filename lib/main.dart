@@ -2,7 +2,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutoo/config/routes/routes.dart';
 import 'package:flutoo/config/themes/themes.dart';
+import 'package:flutoo/models/article/article_provider.dart';
 import 'package:flutoo/models/condition/condition_provider.dart';
+import 'package:flutoo/models/content_article/content_article_provider.dart';
 import 'package:flutoo/models/todo/todo_provider.dart';
 import 'package:flutoo/models/user/user_provider.dart';
 import 'package:flutoo/utils/services/firebase/firebase_options.dart';
@@ -21,7 +23,10 @@ void main() async {
         ChangeNotifierProvider(create: (context) => WooThemeProvider()),
         ChangeNotifierProvider(create: (context) => TodoProvider()),
         ChangeNotifierProvider(create: (context) => ConditionProvider()),
+        ChangeNotifierProvider(create: (context) => ArticleProvider()),
+        ChangeNotifierProvider(create: (context) => ContentArticleProvider()),
         ChangeNotifierProvider(create: (context) => UserProvider()),
+
       ],
       child: const App(),
     ),
