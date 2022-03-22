@@ -35,6 +35,16 @@ class ArticleProvider extends ChangeNotifier {
     );
   }
 
+  /// update title article
+  Future<void> updateTitleArticle(
+      String idCondition, String idArticle, String value) async {
+    final updateArticle = ArticleSchema(title: value);
+    await _firestoreService.update(
+      path: FirestorePath.articleOfContidion(idCondition, idArticle),
+      data: updateArticle.toMap(),
+    );
+  }
+
   /// suppression article
   /// TODO: ATTENTION supprimer les collections enfants ou
   /// TODO: impossible de supprimer si il y a des collections enfants

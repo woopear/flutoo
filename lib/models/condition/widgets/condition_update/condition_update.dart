@@ -78,14 +78,26 @@ class _ConditionUpdateState extends State<ConditionUpdate> {
                 conditionSelect: conditionSelect,
               ),
 
+              /// title de la partie de la list des articles
+              Container(
+                margin: const EdgeInsets.only(top: 50.0),
+                child: Text(
+                  ConditionConstant.titleListArticles,
+                  style: const TextStyle(fontSize: 28.0),
+                ),
+              ),
+
               /// btn affiche/cache Article create
-              Align(
-                alignment: Alignment.centerLeft,
-                child: TextButtonIcon(
-                  seeAddCondition: seeArticleCreate,
-                  onPressed: () => openCloseArticleCreate(),
-                  textbtn1: ConditionConstant.btnOpenCreateArticle,
-                  textbtn2: ConditionConstant.btnCloseCreateArticle,
+              Container(
+                margin: const EdgeInsets.only(top: 30.0, bottom: 20.0),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: TextButtonIcon(
+                    seeAddCondition: seeArticleCreate,
+                    onPressed: () => openCloseArticleCreate(),
+                    textbtn1: ConditionConstant.btnOpenCreateArticle,
+                    textbtn2: ConditionConstant.btnCloseCreateArticle,
+                  ),
                 ),
               ),
 
@@ -96,15 +108,6 @@ class _ConditionUpdateState extends State<ConditionUpdate> {
                       openCloseArticleCreate: () => openCloseArticleCreate(),
                     )
                   : Container(),
-
-              /// title de la partie de la list des articles
-              Container(
-                margin: const EdgeInsets.only(top: 50.0),
-                child: Text(
-                  ConditionConstant.titleListArticles,
-                  style: const TextStyle(fontSize: 28.0),
-                ),
-              ),
 
               /// list des articles
               ArticleList(

@@ -20,7 +20,7 @@ class _ArticleCreateState extends State<ArticleCreate> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 20.0),
+      padding: const EdgeInsets.only(bottom: 40.0, left: 20.0, right: 20.0),
       child: Column(
         children: [
           /// formulaire creation article

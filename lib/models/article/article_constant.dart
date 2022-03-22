@@ -9,4 +9,9 @@ class ArticleConstant {
   static String headText1 = "title";
   static String headText2 = "action";
 
+  /// update article
+  static String updateInputTitle = "Titre de l'article";
+  static String updateBtn = "Modifier le titre";
+  static String updateMessageSucces = "Article modifié";
+  static String updateMessageError = "Impossible de modifier l'article";
 }
