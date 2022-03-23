@@ -14,7 +14,7 @@ class UserProvider extends ChangeNotifier {
   late Stream<List<UserSchema>> users;
   UserSchema? user;
 
-  bool get uu => user == null;
+  bool get uu => user != null;
 
   Future<void> streamUsers(String uid) async {
     users = _firestoreService.streamCol(
@@ -50,10 +50,9 @@ class UserProvider extends ChangeNotifier {
 
   // fonction qui déconnecte le userCurrent
   Future<void> disconnectUserCurrent() async {
-    print(uu);
-
-    print('PROVIDER :::: $user');
     await FirebaseAuth.instance.signOut();
+    user = null;
+    notifyListeners();
   }
 
   // function create user
