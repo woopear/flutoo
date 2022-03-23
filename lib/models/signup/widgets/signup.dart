@@ -94,7 +94,7 @@ class _SingupState extends State<Singup> {
                       FirebaseAuth.instance.authStateChanges().listen(
                       (currentUser) {
                       if (currentUser != null) {
-                        userProvider.streamUsers(currentUser.uid);
+                        //userProvider.streamUsers(currentUser.uid);
                         Navigator.pushNamed(context, Routes().todo);
                       }
                     },

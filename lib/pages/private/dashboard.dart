@@ -1,4 +1,3 @@
-
 import 'package:flutoo/models/condition/widgets/condition_widget.dart';
 import 'package:flutoo/models/todo/widgets/todo_widget.dart';
 import 'package:flutoo/widget_shared/app_bar_flutoo/app_bar_flutoo.dart';
@@ -30,9 +29,7 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: const AppBarFlutoo(
-          
-        ),
+        appBar: const AppBarFlutoo(),
         body: SingleChildScrollView(
           child: widgetOptions.elementAt(indexSelection),
         ),
@@ -46,12 +43,14 @@ class _DashboardState extends State<Dashboard> {
               tooltip: 'todo',
               label: '',
             ),
+
             ///profil
             BottomNavigationBarItem(
               icon: Icon(Icons.person),
               tooltip: 'profil',
               label: '',
             ),
+
             /// TODO : faire condition pour l'affichage seulement pour user admin
             BottomNavigationBarItem(
               icon: Icon(Icons.account_balance),

@@ -12,7 +12,7 @@ class UserSchema {
     this.id,
     required this.uid,
     required this.email,
-    required this.password,
+    this.password,
     this.firstName,
     this.lastName,
     this.pseudo,
@@ -21,7 +21,6 @@ class UserSchema {
 
   factory UserSchema.formMap(Map<String, dynamic> data, documentId) {
     String email = data['email'];
-    String password = data['password'];
     String uid = data['uid'];
     String firstName = data['firstName'];
     String lastName = data['lastName'];
@@ -31,7 +30,6 @@ class UserSchema {
     return UserSchema(
       id: documentId,
       email: email,
-      password: password,
       uid: uid,
       firstName: firstName,
       lastName: lastName,

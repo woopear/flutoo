@@ -17,7 +17,7 @@ class _TodoWidgetState extends State<TodoWidget> {
       child: SizedBox(
         width: widthTodo > 700 ? 700.0 : double.infinity,
         child: Column(
-          children: const [
+          children:  const [
             /// input creation todo
             TodoCreate(),
             // affiche la liste des todos

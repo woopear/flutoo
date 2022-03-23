@@ -15,28 +15,30 @@ class AppBarFlutoo extends StatefulWidget with PreferredSizeWidget {
 }
 
 class _AppBarFlutooState extends State<AppBarFlutoo> {
-  UserProvider userProvider = UserProvider();
-
   @override
   Widget build(BuildContext context) {
+    print(context.watch<UserProvider>().user);
     return AppBar(
       automaticallyImplyLeading: false,
       title: const Text('Flutoo'),
       actions: [
         Container(
-            padding: const EdgeInsets.only(right: 20.0),
-            child: Row(
-              children: [
-                IconButton(
-                  onPressed: () {
-                    context.read<UserProvider>().disconnectUserCurrent();
-                    Navigator.pushNamed(context, Routes().home);
-                  },
-                  icon: const Icon(Icons.logout),
-                ),
-                const SwitchModeDark(),
-              ],
-            ))
+          padding: const EdgeInsets.only(right: 20.0),
+          child: Row(
+            children: [
+              context.watch<UserProvider>().uu
+                  ? IconButton(
+                      onPressed: () {
+                        context.read<UserProvider>().disconnectUserCurrent();
+                        Navigator.pushNamed(context, Routes().home);
+                      },
+                      icon: const Icon(Icons.logout),
+                    )
+                  : Container(),
+              const SwitchModeDark(),
+            ],
+          ),
+        ),
       ],
     );
   }

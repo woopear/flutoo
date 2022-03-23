@@ -4,6 +4,7 @@ import 'package:flutoo/models/user/user_shema.dart';
 import 'package:flutoo/utils/services/firestore/firestore_path.dart';
 import 'package:flutoo/utils/services/firestore/firestore_service.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 class UserProvider extends ChangeNotifier {
   // inisalisation de l'insatnace FirebaseAuth
@@ -11,40 +12,47 @@ class UserProvider extends ChangeNotifier {
   final _firestoreService = FirestoreService.instance;
   CollectionReference userApi = FirebaseFirestore.instance.collection('users');
   late Stream<List<UserSchema>> users;
+  UserSchema? user;
 
-  // fonction auth
-  Future<UserSchema> auth(UserSchema userSchema) async {
-    UserCredential userCredential;
-    try {
-      userCredential = await _auth.signInWithEmailAndPassword(
-          email: userSchema.email!, password: userSchema.password!);
+  bool get uu => user == null;
 
-      userSchema.uid = userCredential.user?.uid;
-
-      User? currentUser = _auth.currentUser;
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        print('ce n est pas le bonne email.');
-      } else if (e.code == 'wrong-password') {
-        print('le mot de passe est mauvais.');
-      }
-    }
-    notifyListeners();
-
-    return userSchema;
-  }
-
-  // fonction qui écoute le user
   Future<void> streamUsers(String uid) async {
     users = _firestoreService.streamCol(
       path: FirestorePath.usersCollection(),
       builder: (data, documentId) => UserSchema.formMap(data, documentId),
       queryBuilder: (query) => query.where('uid', isEqualTo: uid),
     );
+
+    users.listen((event) {
+      user = event[0];
+      notifyListeners();
+    });
+  }
+
+  // fonction auth
+  Future<void> auth(UserSchema userSchema) async {
+    try {
+      final userConnect = await _auth.signInWithEmailAndPassword(
+          email: userSchema.email!, password: userSchema.password!);
+
+      streamUsers(userConnect.user!.uid);
+
+      notifyListeners();
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('ce n est pas le bonne email.');
+      } else if (e.code == 'wrong-password') {
+        print('le mot de passe est mauvais.');
+      }
+      print('error auth');
+    }
   }
 
   // fonction qui déconnecte le userCurrent
   Future<void> disconnectUserCurrent() async {
+    print(uu);
+
+    print('PROVIDER :::: $user');
     await FirebaseAuth.instance.signOut();
   }
 
