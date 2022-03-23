@@ -54,6 +54,7 @@ class _ContentArticleListState extends State<ContentArticleList> {
         /// recupere les contents de l'article selected
         final contents = snapshot.data;
 
+        textList.clear();
         return Container(
           margin: const EdgeInsets.only(top: 20.0),
           child: Form(
@@ -80,6 +81,7 @@ class _ContentArticleListState extends State<ContentArticleList> {
                                     .read<ContentArticleProvider>()
                                     .deleteContent(widget.conditionSelect.id!,
                                         widget.articleSelect.id!, e.id!);
+                                textList.clear();
                               },
                               icon: const Icon(Icons.close),
                             ),

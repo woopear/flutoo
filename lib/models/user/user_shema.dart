@@ -43,6 +43,12 @@ class UserSchema {
   Map<String, dynamic> toMap() {
     return {
       'email': email,
+      'password': password,
+      'uid': uid,
+      'firstName': firstName ?? '',
+      'lastName': lastName ?? '',
+      'pseudo': pseudo ?? '',
+      'termes': termes ?? '',
     };
   }
 }
