@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutoo/config/routes/routes.dart';
 import 'package:flutoo/models/auth/auth_constant.dart';
 import 'package:flutoo/models/auth/auth_provider.dart';
+import 'package:flutoo/models/user/user_provider.dart';
 import 'package:flutoo/utils/services/validator/validator.dart';
 import 'package:flutoo/widget_shared/notif_message/notif_message.dart';
 import 'package:flutter/material.dart';
@@ -30,12 +31,24 @@ class _SigninState extends State<Signin> {
   Future<void> connexionUser(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
       try {
-      /// connexion auth firebase
+        /// connexion auth firebase
         await context
             .read<AuthProvider>()
             .connexionAuth(email.text.trim(), password.text.trim());
-            /// go to page dashboard
-             Navigator.pushNamed(context, Routes().todo);
+
+        print('EMAIL ::::::::: AVANT');
+
+        final uid = context.read<AuthProvider>().authenticate!.uid;
+
+        print('UID ::::::::: $uid');
+
+        /// on recupere le user
+        await context
+            .read<UserProvider>()
+            .streamUsers(uid);
+
+        /// go to page dashboard
+        Navigator.pushNamed(context, Routes().todo);
       } on FirebaseAuthException catch (e) {
         /// email errorné
         if (e.code == 'user-not-found') {
@@ -91,15 +104,18 @@ class _SigninState extends State<Signin> {
                   child: Column(
                     children: [
                       /// title de la page
-                      Text(AuthConstant.titlePageConnexion, style: const TextStyle(fontSize: 36.0),),
+                      Text(
+                        AuthConstant.titlePageConnexion,
+                        style: const TextStyle(fontSize: 36.0),
+                      ),
 
                       /// input email
                       Container(
                         margin: const EdgeInsets.only(top: 30.0),
                         child: TextFormField(
                           controller: email,
-                          decoration: const InputDecoration()
-                              .copyWith(labelText: AuthConstant.labelInputEmail),
+                          decoration: const InputDecoration().copyWith(
+                              labelText: AuthConstant.labelInputEmail),
                           validator: (value) => Validator.validateEmail(
                             textError: Validator.inputConnexionEmail,
                             value: value,
@@ -112,8 +128,8 @@ class _SigninState extends State<Signin> {
                         margin: const EdgeInsets.only(top: 20.0, bottom: 30.0),
                         child: TextFormField(
                           controller: password,
-                          decoration: const InputDecoration()
-                              .copyWith(labelText: AuthConstant.labelInputPassword),
+                          decoration: const InputDecoration().copyWith(
+                              labelText: AuthConstant.labelInputPassword),
                           validator: (value) => Validator.validatePassword(
                             textError: Validator.inputConnexionPassword,
                             value: value,

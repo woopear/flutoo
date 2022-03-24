@@ -1,7 +1,9 @@
 import 'package:flutoo/models/condition/widgets/condition_widget.dart';
 import 'package:flutoo/models/todo/widgets/todo_widget.dart';
+import 'package:flutoo/models/user/user_provider.dart';
 import 'package:flutoo/widget_shared/app_bar_flutoo/app_bar_flutoo.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -27,6 +29,9 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
+    /// on recupere le user de la table user
+    final user = context.watch<UserProvider>().user;
+
     return SafeArea(
       child: Scaffold(
         appBar: const AppBarFlutoo(),
@@ -52,7 +57,7 @@ class _DashboardState extends State<Dashboard> {
             ),
 
             /// TODO : faire condition pour l'affichage seulement pour user admin
-            
+
             BottomNavigationBarItem(
               icon: Icon(Icons.account_balance),
               tooltip: 'Conditions générales',

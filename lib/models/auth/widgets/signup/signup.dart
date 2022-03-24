@@ -18,7 +18,6 @@ class Singup extends StatefulWidget {
 
 class _SingupState extends State<Singup> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  UserProvider userProvider = UserProvider();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController pseudo = TextEditingController();
@@ -33,13 +32,31 @@ class _SingupState extends State<Singup> {
   }
 
   /// inscription user
-  Future<void> inscritionAuth(BuildContext context) async {
+  Future<void> inscritionAuth(BuildContext context, String uid) async {
     if (_formKey.currentState!.validate()) {
       // inscription user firebase
       try {
+        /// creation auth
         await context
             .read<AuthProvider>()
             .createAuth(email.text.trim(), password.text.trim());
+
+        /// variable userShema
+        UserSchema userSchema = UserSchema(
+          uid: uid,
+          email: email.text.trim(),
+          pseudo: pseudo.text,
+          firstName: firstName.text,
+          lastName: lastName.text,
+        );
+
+        /// ajouter un user bdd
+        await context.read<UserProvider>().addUser(userSchema);
+
+        /// ecouteur user bdd
+        context.read<UserProvider>().streamUsers(uid);
+
+        /// navigé vers la todo
         Navigator.pushNamed(context, Routes().todo);
       } on FirebaseAuthException catch (e) {
         if (e.code == 'weak-password') {
@@ -82,10 +99,6 @@ class _SingupState extends State<Singup> {
   Widget build(BuildContext context) {
     // récuperation du current user
     final auth = context.watch<AuthProvider>().authenticate;
-    UserSchema userSchema = UserSchema(
-      uid: auth!.uid,
-      email: email.text.trim(),
-    );
 
     return Container(
       child: Center(
@@ -150,7 +163,7 @@ class _SingupState extends State<Singup> {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    await inscritionAuth(context);
+                    await inscritionAuth(context, auth!.uid);
                   },
                   child: const Text("S'inscrire"),
                 ),
