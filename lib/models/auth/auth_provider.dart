@@ -20,6 +20,17 @@ class AuthProvider extends ChangeNotifier {
       email: email,
       password: password,
     );
+    notifyListeners();
+  }
+
+  // fonction création user
+  Future<void> createAuth(String email, String password) async {
+    // création du user de firebase
+    await _auth.createUserWithEmailAndPassword(
+              email: email, 
+              password: password,
+          );
+    notifyListeners();
   }
 
   // fonction qui déconnecte le userCurrent

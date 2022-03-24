@@ -30,64 +30,9 @@ class UserProvider extends ChangeNotifier {
     });
   }
 
-  // fonction auth
-  Future<void> auth(UserSchema userSchema) async {
-    try {
-      final userConnect = await _auth.signInWithEmailAndPassword(
-          email: userSchema.email!.trim(), password: userSchema.password!.trim());
-
-      streamUsers(userConnect.user!.uid);
-
-      notifyListeners();
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        print('ce n est pas le bonne email.');
-      } else if (e.code == 'wrong-password') {
-        print('le mot de passe est mauvais.');
-      }
-      print('error auth');
-    }
-  }
-
-  // function create user
-  Future<void> createUser(UserSchema userSchema) async {
-    UserCredential userCredential;
-
-    try {
-      // création du user de firebase
-      userCredential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
-              email: userSchema.email!, password: userSchema.password!);
-
-      userSchema.uid = userCredential.user?.uid;
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
-      }
-    } catch (e) {
-      print(e);
-    }
-
-    addUser(userSchema);
-    notifyListeners();
-  }
-
-  Map<String, dynamic> createMapUser(UserSchema userSchema) {
-    return {
-      'email': userSchema.email,
-      'uid': userSchema.uid,
-      'firstName': userSchema.firstName,
-      'lastName': userSchema.lastName,
-      'pseudo': userSchema.pseudo,
-      'termes': false,
-    };
-  }
-
   // création du user de la base de donnée
   Future<void> addUser(UserSchema userSchema) async {
-    await userApi.add(createMapUser(userSchema));
+    await userApi.add(userSchema.toMap());
     notifyListeners();
   }
 }
