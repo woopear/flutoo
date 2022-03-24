@@ -16,6 +16,7 @@ class UserProvider extends ChangeNotifier {
 
   bool get uu => user != null;
 
+  /// ecouteur user + ecouteur userCurrent
   Future<void> streamUsers(String uid) async {
     users = _firestoreService.streamCol(
       path: FirestorePath.usersCollection(),
@@ -33,7 +34,7 @@ class UserProvider extends ChangeNotifier {
   Future<void> auth(UserSchema userSchema) async {
     try {
       final userConnect = await _auth.signInWithEmailAndPassword(
-          email: userSchema.email!, password: userSchema.password!);
+          email: userSchema.email!.trim(), password: userSchema.password!.trim());
 
       streamUsers(userConnect.user!.uid);
 
@@ -46,13 +47,6 @@ class UserProvider extends ChangeNotifier {
       }
       print('error auth');
     }
-  }
-
-  // fonction qui déconnecte le userCurrent
-  Future<void> disconnectUserCurrent() async {
-    await FirebaseAuth.instance.signOut();
-    user = null;
-    notifyListeners();
   }
 
   // function create user
@@ -96,7 +90,4 @@ class UserProvider extends ChangeNotifier {
     await userApi.add(createMapUser(userSchema));
     notifyListeners();
   }
-
-  // fonction pour lire un user par son uid
-
 }

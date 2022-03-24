@@ -1,5 +1,5 @@
 import 'package:flutoo/config/routes/routes.dart';
-import 'package:flutoo/models/user/user_provider.dart';
+import 'package:flutoo/models/auth/auth_provider.dart';
 import 'package:flutoo/widget_shared/app_bar_flutoo/switch_mode_dark.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +17,9 @@ class AppBarFlutoo extends StatefulWidget with PreferredSizeWidget {
 class _AppBarFlutooState extends State<AppBarFlutoo> {
   @override
   Widget build(BuildContext context) {
-    print(context.watch<UserProvider>().user);
+    /// ecouteur de auth connecter
+    final auth = context.watch<AuthProvider>().authenticate;
+    
     return AppBar(
       automaticallyImplyLeading: false,
       title: const Text('Flutoo'),
@@ -26,15 +28,19 @@ class _AppBarFlutooState extends State<AppBarFlutoo> {
           padding: const EdgeInsets.only(right: 20.0),
           child: Row(
             children: [
-              context.watch<UserProvider>().uu
+              /// si user connecter on affiche 
+              /// déconnexion sinon on affiche rien
+              auth != null
                   ? IconButton(
                       onPressed: () {
-                        context.read<UserProvider>().disconnectUserCurrent();
+                        context.read<AuthProvider>().disconnectUserCurrent();
                         Navigator.pushNamed(context, Routes().home);
                       },
                       icon: const Icon(Icons.logout),
                     )
                   : Container(),
+
+              /// btn switch mode dark
               const SwitchModeDark(),
             ],
           ),

@@ -52,6 +52,7 @@ class _DashboardState extends State<Dashboard> {
             ),
 
             /// TODO : faire condition pour l'affichage seulement pour user admin
+            
             BottomNavigationBarItem(
               icon: Icon(Icons.account_balance),
               tooltip: 'Conditions générales',

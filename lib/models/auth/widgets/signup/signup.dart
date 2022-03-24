@@ -101,7 +101,7 @@ class _SingupState extends State<Singup> {
                   );
                     }
                   },
-                  child: const Text('Valider'),
+                  child: const Text("S'inscrire"),
                 ),
               ],
             ),

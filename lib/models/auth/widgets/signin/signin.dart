@@ -29,8 +29,7 @@ class _SigninState extends State<Signin> {
               InputConnexion(
                 emaillabelText: "Email",
                 pwslabelText: "Mot de passe",
-                emailmargin: const EdgeInsets.all(20),
-                pwsmargin: const EdgeInsets.all(20),
+                pwsmargin: const EdgeInsets.symmetric(vertical: 20.0),
                 resultForm: (value) async {
                   userSchema.email = value['email'];
                   userSchema.password = value['password'];

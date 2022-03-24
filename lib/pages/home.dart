@@ -1,6 +1,9 @@
-import 'package:flutoo/models/signup/widgets/signup.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutoo/models/auth/auth_provider.dart';
+import 'package:flutoo/models/auth/widgets/auth_widget.dart';
+import 'package:flutoo/pages/private/dashboard.dart';
+import 'package:provider/provider.dart';
 
-import '../models/signin/widgets/signin.dart';
 import '../widget_shared/app_bar_flutoo/app_bar_flutoo.dart';
 import 'package:flutter/material.dart';
 
@@ -12,37 +15,24 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  bool singinSingup = true;
-
   @override
   Widget build(BuildContext context) {
+    /// ecouteur pour le changement d'etat du auth
+    context.read<AuthProvider>().connexionStateChange();
     return SafeArea(
       child: Scaffold(
         appBar: const AppBarFlutoo(),
-        body: Container(
-          child: Column(
-            children: [
-              (singinSingup == true) ? const Signin() : const Singup(),
-              Expanded(
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: ElevatedButton(
-                    onPressed: () => {
-                      setState(() {
-                        singinSingup = !singinSingup;
-                      })
-                    },
-                    child: (singinSingup == true)
-                        ? const Text("Page d'inscription")
-                        : const Text("Page de connexion"),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-            ],
-          ),
+        body: StreamBuilder<User?>(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              /// connexion obligatoire
+              return const Dashboard();
+            } else {
+              /// page de connexion / inscription
+              return const AuthWidget();
+            }
+          },
         ),
       ),
     );
