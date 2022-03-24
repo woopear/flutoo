@@ -9,11 +9,33 @@ final themeClair = WooTheme.modeClair(
   secondary: const Color(0xFF0066FF),
   tertiary: const Color(0xFFDCDCDC),
 
+  /// icon theme
+  iconTheme: const IconThemeData(
+    color: Color(0xFF8000FF),
+  ),
+
+  /// text
+  tbodyPrincipal: GoogleFonts.indieFlower(),
+  tbodySecondaire: GoogleFonts.indieFlower(),
+  tPrincipalBoxDialogue: GoogleFonts.indieFlower(),
+  tButton: GoogleFonts.indieFlower(),
+  tBoxDialogue: GoogleFonts.indieFlower(),
+  t1: GoogleFonts.indieFlower(),
+  t2: GoogleFonts.indieFlower(),
+  t3: GoogleFonts.indieFlower(),
+  t4: GoogleFonts.indieFlower(),
+  textButtonStyle: ButtonStyle(
+    textStyle: MaterialStateProperty.all<TextStyle?>(
+      GoogleFonts.indieFlower(),
+    ),
+  ),
+
   /// checklist
   checkboxTheme: CheckboxThemeData(
     checkColor: MaterialStateProperty.all<Color?>(Colors.green),
-    fillColor: MaterialStateProperty.all<Color?>(const Color.fromARGB(255, 236, 236, 236)),
-    side: const BorderSide(color: Color.fromARGB(255, 0, 0, 0)),
+    fillColor: MaterialStateProperty.all<Color?>(
+        const Color.fromARGB(255, 236, 236, 236)),
+    side: const BorderSide(color: Color.fromARGB(255, 43, 43, 43)),
   ),
 
   /// elveted button
@@ -85,10 +107,32 @@ final themeDark = WooTheme.modeDark(
   secondary: const Color(0xFF6B93FF),
   tertiary: const Color(0xFF292929),
 
+  /// icon theme
+  iconTheme: const IconThemeData(
+    color: Color(0xFFBA4DFF),
+  ),
+
+  /// text
+  tbodyPrincipal: GoogleFonts.indieFlower(),
+  tbodySecondaire: GoogleFonts.indieFlower(),
+  tPrincipalBoxDialogue: GoogleFonts.indieFlower(),
+  tButton: GoogleFonts.indieFlower(),
+  tBoxDialogue: GoogleFonts.indieFlower(),
+  t1: GoogleFonts.indieFlower(),
+  t2: GoogleFonts.indieFlower(),
+  t3: GoogleFonts.indieFlower(),
+  t4: GoogleFonts.indieFlower(),
+  textButtonStyle: ButtonStyle(
+    textStyle: MaterialStateProperty.all<TextStyle?>(
+      GoogleFonts.indieFlower(),
+    ),
+  ),
+
   /// checklist
   checkboxTheme: CheckboxThemeData(
     checkColor: MaterialStateProperty.all<Color?>(Colors.green),
-    fillColor: MaterialStateProperty.all<Color?>(const Color.fromARGB(255, 0, 0, 0)),
+    fillColor:
+        MaterialStateProperty.all<Color?>(const Color.fromARGB(255, 0, 0, 0)),
     side: const BorderSide(color: Color.fromARGB(255, 235, 235, 235)),
   ),
 
