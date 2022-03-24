@@ -29,6 +29,13 @@ class _SigninState extends State<Signin> {
   /// connexion utilisateur simple
   Future<void> connexionUser(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
+      /// petit load à la connexion
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const Center(child: CircularProgressIndicator(),),
+      );
+
       try {
         /// connexion auth firebase
         await context

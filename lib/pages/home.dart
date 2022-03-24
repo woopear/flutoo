@@ -6,12 +6,6 @@ import 'package:flutoo/pages/private/dashboard.dart';
 import 'package:provider/provider.dart';
 import '../widget_shared/app_bar_flutoo/app_bar_flutoo.dart';
 import 'package:flutter/material.dart';
-import 'package:flutoo/config/routes/routes.dart';
-import '../widget_shared/app_bar_flutoo/app_bar_flutoo.dart';
-import 'package:flutoo/models/User.dart';
-import 'package:flutoo/services/user_service.dart';
-import 'package:flutter/material.dart';
-import 'package:woo_widget_connexion/woo_widget_connexion.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -21,8 +15,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  UserService userService = UserService();
-  User_model userModel = User_model();
 
   @override
   Widget build(BuildContext context) {

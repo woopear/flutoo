@@ -20,6 +20,7 @@ class UserProvider extends ChangeNotifier {
       user = event[0];
       notifyListeners();
     });
+      
   }
 
   // création du user de la base de donnée

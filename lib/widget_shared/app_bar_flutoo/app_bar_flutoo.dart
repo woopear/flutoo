@@ -19,7 +19,7 @@ class _AppBarFlutooState extends State<AppBarFlutoo> {
   Widget build(BuildContext context) {
     /// ecouteur de auth connecter
     final auth = context.watch<AuthProvider>().authenticate;
-    
+
     return AppBar(
       automaticallyImplyLeading: false,
       title: const Text('Flutoo'),
@@ -28,12 +28,20 @@ class _AppBarFlutooState extends State<AppBarFlutoo> {
           padding: const EdgeInsets.only(right: 20.0),
           child: Row(
             children: [
-              /// si user connecter on affiche 
+              /// si user connecter on affiche
               /// déconnexion sinon on affiche rien
               auth != null
                   ? IconButton(
-                      onPressed: () {
-                        context.read<AuthProvider>().disconnectUserCurrent();
+                      onPressed: () async {
+                        /// petit load à la connexion
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (context) => const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+                        await context.read<AuthProvider>().disconnectUserCurrent();
                         Navigator.pushNamed(context, Routes().home);
                       },
                       icon: const Icon(Icons.logout),

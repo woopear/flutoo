@@ -45,16 +45,19 @@ class _DashboardState extends State<Dashboard> {
           child: StreamBuilder<User?>(
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: ((context, snapshot) {
-              /// en chargement
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const WaitingData();
-              }
-
               /// si on les données
               if (snapshot.hasData) {
                 /// recupere le user connecter
-                context.read<UserProvider>().streamUsers(snapshot.data!.uid);
                 return widgetOptions.elementAt(indexSelection);
+              }
+
+              if(snapshot.connectionState == ConnectionState.done){
+                  context.read<UserProvider>().streamUsers(snapshot.data!.uid);
+              }
+
+              /// en chargement
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const WaitingData();
               }
 
               /// si pas de data et chargement terminé
