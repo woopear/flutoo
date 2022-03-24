@@ -11,12 +11,10 @@ class UserProvider extends ChangeNotifier {
 
   /// ecouteur user + ecouteur userCurrent
   Future<void> streamUsers(String uid) async {
-    print(uid);
     users = _firestoreService.streamCol(
-      path: FirestorePath.usersCollection(),
-      builder: (data, documentId) => UserSchema.formMap(data, documentId),
-      queryBuilder: (query) => query.where('uid', isEqualTo: uid),
-    );
+        path: FirestorePath.usersCollection(),
+        builder: (data, documentId) => UserSchema.formMap(data, documentId),
+        queryBuilder: (query) => query.where('uid', isEqualTo: uid));
 
     users.listen((event) {
       user = event[0];

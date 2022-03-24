@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutoo/config/routes/routes.dart';
 import 'package:flutoo/models/auth/auth_constant.dart';
 import 'package:flutoo/models/auth/auth_provider.dart';
-import 'package:flutoo/models/user/user_provider.dart';
 import 'package:flutoo/utils/services/validator/validator.dart';
 import 'package:flutoo/widget_shared/notif_message/notif_message.dart';
 import 'package:flutter/material.dart';
@@ -35,17 +34,6 @@ class _SigninState extends State<Signin> {
         await context
             .read<AuthProvider>()
             .connexionAuth(email.text.trim(), password.text.trim());
-
-        print('EMAIL ::::::::: AVANT');
-
-        final uid = context.read<AuthProvider>().authenticate!.uid;
-
-        print('UID ::::::::: $uid');
-
-        /// on recupere le user
-        await context
-            .read<UserProvider>()
-            .streamUsers(uid);
 
         /// go to page dashboard
         Navigator.pushNamed(context, Routes().todo);
@@ -140,8 +128,8 @@ class _SigninState extends State<Signin> {
                       /// btn connexion
                       ElevatedButton(
                         onPressed: () async {
+                          /// on connect le user
                           await connexionUser(context);
-                          print(auth);
                         },
                         child: Text(AuthConstant.btnConnexion),
                       ),

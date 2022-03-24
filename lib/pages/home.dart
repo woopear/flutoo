@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutoo/models/auth/auth_provider.dart';
 import 'package:flutoo/models/auth/widgets/auth_widget.dart';
+import 'package:flutoo/models/user/user_provider.dart';
 import 'package:flutoo/pages/private/dashboard.dart';
 import 'package:provider/provider.dart';
 
@@ -19,14 +20,16 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     /// ecouteur pour le changement d'etat du auth
     context.read<AuthProvider>().connexionStateChange();
-    
+
     return SafeArea(
       child: Scaffold(
         appBar: const AppBarFlutoo(),
         body: StreamBuilder<User?>(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
+            /// si on a les données
             if (snapshot.hasData) {
+            context.read<UserProvider>().streamUsers(snapshot.data!.uid);
               /// connexion obligatoire
               return const Dashboard();
             } else {

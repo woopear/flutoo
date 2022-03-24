@@ -15,7 +15,7 @@ class _TodoWidgetState extends State<TodoWidget> {
   @override
   Widget build(BuildContext context) {
     final user = context.watch<UserProvider>().user;
-    final firstname = user!.firstName;
+    String? firstname = context.watch<UserProvider>().user?.firstName;
 
     /// recupere la largeur de l'ecran
     double widthTodo = MediaQuery.of(context).size.width;
@@ -25,9 +25,15 @@ class _TodoWidgetState extends State<TodoWidget> {
         child: Column(
           children: [
             /// titre de la page
-            firstname != null ?
-            Text('Bienvenue $firstname')
-            : const CircularProgressIndicator(),
+            firstname != null
+                ? Container(
+                  margin: const EdgeInsets.only(top: 40.0, bottom: 20.0),
+                    child: Text(
+                      'Bienvenue $firstname',
+                      style: const TextStyle(fontSize: 28.0),
+                    ),
+                  )
+                : const CircularProgressIndicator(),
 
             /// input creation todo
             const TodoCreate(),

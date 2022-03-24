@@ -53,9 +53,6 @@ class _SingupState extends State<Singup> {
         /// ajouter un user bdd
         await context.read<UserProvider>().addUser(userSchema);
 
-        /// ecouteur user bdd
-        context.read<UserProvider>().streamUsers(uid);
-
         /// navigé vers la todo
         Navigator.pushNamed(context, Routes().todo);
       } on FirebaseAuthException catch (e) {
