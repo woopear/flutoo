@@ -17,6 +17,7 @@ class Validator {
   }
 
   /// validator le contenue du input email
+  /// test si null ou si isEmpty et la regex
   static validateEmail({String? textError, String? value}) {
     if (value == null || value.isEmpty || !_emailRegex.hasMatch(value)) {
       return textError;
@@ -25,6 +26,7 @@ class Validator {
   }
 
   /// validator le contenue du input password
+  /// test si value est superieur à 6 caractere
   static validatePassword({String? textError, String? value}) {
     return value!.length < 6 ? textError : null;
   }
