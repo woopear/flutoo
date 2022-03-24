@@ -34,6 +34,7 @@ class _SigninState extends State<Signin> {
         await context
             .read<AuthProvider>()
             .connexionAuth(email.text.trim(), password.text.trim());
+            /// go to page dashboard
              Navigator.pushNamed(context, Routes().todo);
       } on FirebaseAuthException catch (e) {
         /// email errorné
@@ -41,14 +42,14 @@ class _SigninState extends State<Signin> {
           NotifMessage(
             text: AuthConstant.connexionUserEmailMessageError,
             error: true,
-          );
+          ).notification(context);
           throw Exception(AuthConstant.connexionUserEmailMessageError);
         } else if (e.code == 'wrong-password') {
           /// mot de passe érroné
           NotifMessage(
             text: AuthConstant.connexionUserPasswordError,
             error: true,
-          );
+          ).notification(context);
           throw Exception(AuthConstant.connexionUserPasswordError);
         }
       }
@@ -90,7 +91,7 @@ class _SigninState extends State<Signin> {
                   child: Column(
                     children: [
                       /// title de la page
-                      const Text("Connexion", style: TextStyle(fontSize: 36.0),),
+                      Text(AuthConstant.titlePageConnexion, style: const TextStyle(fontSize: 36.0),),
 
                       /// input email
                       Container(
@@ -98,7 +99,7 @@ class _SigninState extends State<Signin> {
                         child: TextFormField(
                           controller: email,
                           decoration: const InputDecoration()
-                              .copyWith(labelText: "Votre Email"),
+                              .copyWith(labelText: AuthConstant.labelInputEmail),
                           validator: (value) => Validator.validateEmail(
                             textError: Validator.inputConnexionEmail,
                             value: value,
@@ -112,7 +113,7 @@ class _SigninState extends State<Signin> {
                         child: TextFormField(
                           controller: password,
                           decoration: const InputDecoration()
-                              .copyWith(labelText: "Votre Mot de passe"),
+                              .copyWith(labelText: AuthConstant.labelInputPassword),
                           validator: (value) => Validator.validatePassword(
                             textError: Validator.inputConnexionPassword,
                             value: value,
@@ -126,7 +127,7 @@ class _SigninState extends State<Signin> {
                           await connexionUser(context);
                           print(auth);
                         },
-                        child: const Text('Se connecter'),
+                        child: Text(AuthConstant.btnConnexion),
                       ),
                     ],
                   ),

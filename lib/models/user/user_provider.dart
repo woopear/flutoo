@@ -30,25 +30,6 @@ class UserProvider extends ChangeNotifier {
     });
   }
 
-  // fonction auth
-  Future<void> auth(UserSchema userSchema) async {
-    try {
-      final userConnect = await _auth.signInWithEmailAndPassword(
-          email: userSchema.email!.trim(), password: userSchema.password!.trim());
-
-      streamUsers(userConnect.user!.uid);
-
-      notifyListeners();
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        print('ce n est pas le bonne email.');
-      } else if (e.code == 'wrong-password') {
-        print('le mot de passe est mauvais.');
-      }
-      print('error auth');
-    }
-  }
-
   // function create user
   Future<void> createUser(UserSchema userSchema) async {
     UserCredential userCredential;
