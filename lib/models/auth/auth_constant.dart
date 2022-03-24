@@ -5,7 +5,9 @@ class AuthConstant {
   static String connexionUserPasswordError = "le mot de passe n'est pas bon";
   static String connexionSucces = "Connexion réussis";
   static String connexionError = "Erreur de connexion";
-
+  static String labelInputEmail = "Votre identifiant";
+  static String labelInputPassword = "Votre mot de passe";
+  static String btnConnexion = "Se connecter";
 
   /// inscription user
   static String inscriptionUserMessageSucces = 'Inscription reussi';
@@ -14,8 +16,5 @@ class AuthConstant {
       'Le mot de passe fourni est trop faible';
   static String inscriptionError = "Erreur de connexion";
 
-  static String labelInputEmail = "Votre identifiant";
-  static String labelInputPassword = "Votre mot de passe";
-  static String btnConnexion = "Se connecter";
   
 }
