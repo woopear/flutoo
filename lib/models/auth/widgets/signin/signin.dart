@@ -29,13 +29,14 @@ class _SigninState extends State<Signin> {
   /// connexion utilisateur simple
   Future<void> connexionUser(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
-      /// connexion auth firebase
       try {
+      /// connexion auth firebase
         await context
             .read<AuthProvider>()
             .connexionAuth(email.text.trim(), password.text.trim());
              Navigator.pushNamed(context, Routes().todo);
       } on FirebaseAuthException catch (e) {
+        /// email errorné
         if (e.code == 'user-not-found') {
           NotifMessage(
             text: AuthConstant.connexionUserEmailMessageError,
@@ -43,6 +44,7 @@ class _SigninState extends State<Signin> {
           );
           throw Exception(AuthConstant.connexionUserEmailMessageError);
         } else if (e.code == 'wrong-password') {
+          /// mot de passe érroné
           NotifMessage(
             text: AuthConstant.connexionUserPasswordError,
             error: true,
@@ -81,15 +83,16 @@ class _SigninState extends State<Signin> {
           width: 400,
           child: Column(
             children: [
-              const SizedBox(
-                height: 100,
-              ),
+              /// formulaire de connexion
               Form(
                 key: _formKey,
                 child: Container(
                   child: Column(
                     children: [
+                      /// title de la page
                       const Text("Connexion", style: TextStyle(fontSize: 36.0),),
+
+                      /// input email
                       Container(
                         margin: const EdgeInsets.only(top: 30.0),
                         child: TextFormField(
@@ -102,6 +105,8 @@ class _SigninState extends State<Signin> {
                           ),
                         ),
                       ),
+
+                      /// input password
                       Container(
                         margin: const EdgeInsets.only(top: 20.0, bottom: 30.0),
                         child: TextFormField(
@@ -114,6 +119,8 @@ class _SigninState extends State<Signin> {
                           ),
                         ),
                       ),
+
+                      /// btn connexion
                       ElevatedButton(
                         onPressed: () async {
                           await connexionUser(context);
