@@ -7,7 +7,6 @@ import 'package:flutoo/widget_shared/waiting_data/wating_data.dart';
 import 'package:flutoo/widget_shared/waiting_error/waiting_error.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flutoo/config/routes/routes.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -19,12 +18,14 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   int indexSelection = 0;
 
+  /// list des widget relier à la bottomnavbar
   static const List<Widget> widgetOptions = [
     TodoWidget(),
     Text('coucou'),
     ConditionWidget(),
   ];
 
+  /// selection de l'index pour le bottomnavbar
   void onItemTapped(int index) {
     setState(() {
       indexSelection = index;
@@ -33,6 +34,10 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
+    /// on recupere les users pour tester
+    /// le role afin d'affiche ou pas la partie condition gen
+    final user = context.watch<UserProvider>().user;
+
     return SafeArea(
       child: Scaffold(
         appBar: const AppBarFlutoo(),
@@ -45,19 +50,16 @@ class _DashboardState extends State<Dashboard> {
                 return const WaitingData();
               }
 
-              /// si error
-              if (snapshot.hasError) {
-                return const WaitingError();
+              /// si on les données
+              if (snapshot.hasData) {
+                /// recupere le user connecter
+                context.read<UserProvider>().streamUsers(snapshot.data!.uid);
+                return widgetOptions.elementAt(indexSelection);
               }
 
-              /// si uid n'existe pas
-              if (snapshot.data?.uid == null) {
-                Navigator.pushNamed(context, Routes().home);
-              }
-
-              /// recupere le user connecter
-              context.read<UserProvider>().streamUsers(snapshot.data!.uid);
-              return widgetOptions.elementAt(indexSelection);
+              /// si pas de data et chargement terminé
+              /// on affiche une erreur
+              return const WaitingError();
             }),
           ),
         ),
@@ -65,7 +67,7 @@ class _DashboardState extends State<Dashboard> {
           currentIndex: indexSelection,
           onTap: onItemTapped,
           items: const [
-            /// todo
+            /// list des todos
             BottomNavigationBarItem(
               icon: Icon(Icons.list),
               tooltip: 'todo',
@@ -80,7 +82,6 @@ class _DashboardState extends State<Dashboard> {
             ),
 
             /// TODO : faire condition pour l'affichage seulement pour user admin
-
             BottomNavigationBarItem(
               icon: Icon(Icons.account_balance),
               tooltip: 'Conditions générales',

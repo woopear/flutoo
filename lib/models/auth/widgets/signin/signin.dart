@@ -89,6 +89,7 @@ class _SigninState extends State<Signin> {
               Form(
                 key: _formKey,
                 child: Container(
+                  margin: const EdgeInsets.only(top: 70.0),
                   child: Column(
                     children: [
                       /// title de la page
@@ -113,7 +114,7 @@ class _SigninState extends State<Signin> {
 
                       /// input password
                       Container(
-                        margin: const EdgeInsets.only(top: 20.0, bottom: 30.0),
+                        margin: const EdgeInsets.only(top: 20.0),
                         child: TextFormField(
                           controller: password,
                           decoration: const InputDecoration().copyWith(
@@ -123,6 +124,21 @@ class _SigninState extends State<Signin> {
                             value: value,
                           ),
                         ),
+                      ),
+
+                      /// btn mot de passe oublié
+                      Container(
+                        margin: const EdgeInsets.only(bottom: 30.0, top: 10.0),
+                        child: Align(
+                            alignment: Alignment.centerRight,
+                            child: TextButton(
+                                onPressed: () {},
+                                child: Text(
+                                  'Mot de passe oublié ?',
+                                  style: const TextStyle().copyWith(
+                                    color: Colors.blue,
+                                  ),
+                                ))),
                       ),
 
                       /// btn connexion
