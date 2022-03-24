@@ -7,15 +7,20 @@ class AuthProvider extends ChangeNotifier {
 
   /// ecouteur de la connexion user
   Future<void> connexionStateChange() async {
-    _auth.authStateChanges().listen((User? event) {
+    _auth.authStateChanges().listen((User? snapshot) {
       /// on met le currentUser dans authenticate
-      authenticate = event;
+      authenticate = snapshot;
       notifyListeners();
     });
   }
 
   // fonction de connexion user
-  
+  Future<void> connexionAuth(String email, String password) async {
+    await _auth.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+  }
 
   // fonction qui déconnecte le userCurrent
   Future<void> disconnectUserCurrent() async {

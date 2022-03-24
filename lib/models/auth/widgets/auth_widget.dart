@@ -1,5 +1,5 @@
 import 'package:flutoo/models/auth/widgets/signin/signin.dart';
-import 'package:flutoo/models/signup/signup.dart';
+import 'package:flutoo/models/auth/widgets/signup/signup.dart';
 import 'package:flutter/material.dart';
 
 class AuthWidget extends StatefulWidget {

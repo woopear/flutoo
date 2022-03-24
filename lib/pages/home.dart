@@ -19,6 +19,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     /// ecouteur pour le changement d'etat du auth
     context.read<AuthProvider>().connexionStateChange();
+    
     return SafeArea(
       child: Scaffold(
         appBar: const AppBarFlutoo(),
