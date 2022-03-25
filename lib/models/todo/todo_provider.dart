@@ -14,7 +14,6 @@ class TodoProvider extends ChangeNotifier {
       builder: (data, documentId) => TodoSchema.fromMap(data, documentId),
       queryBuilder: (query) => query.where('uid', isEqualTo: uid),
     );
-    notifyListeners();
   }
 
   /// ajoute une todo

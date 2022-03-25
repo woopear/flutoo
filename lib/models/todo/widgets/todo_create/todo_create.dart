@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutoo/models/todo/todo_constant.dart';
 import 'package:flutoo/models/todo/todo_provider.dart';
 import 'package:flutoo/models/todo/todo_schema.dart';
@@ -23,7 +24,7 @@ class _TodoCreateState extends State<TodoCreate> {
   Future<void> createTodo(BuildContext context, String? uid) async {
     if (_formKey.currentState!.validate()) {
       /// creation de la todo
-      final newTodo = TodoSchema(libelle: inputLibelle, uid: uid);
+      final newTodo = TodoSchema(libelle: inputLibelle, uid: uid, date: Timestamp.now());
       await context.read<TodoProvider>().addTodo(newTodo);
 
       /// reset variable pour input
@@ -85,7 +86,8 @@ class _TodoCreateState extends State<TodoCreate> {
                         await createTodo(context, user.uid);
                       } else {
                         NotifMessage(
-                          text: "L'utilisateur n'est pas connecter pour creer une tache !",
+                          text:
+                              "L'utilisateur n'est pas connecter pour creer une tache !",
                           error: true,
                         );
                       }

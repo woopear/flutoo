@@ -33,7 +33,9 @@ class _SigninState extends State<Signin> {
       showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (context) => const Center(child: CircularProgressIndicator(),),
+        builder: (context) => const Center(
+          child: CircularProgressIndicator(),
+        ),
       );
 
       try {
@@ -43,6 +45,7 @@ class _SigninState extends State<Signin> {
             .connexionAuth(email.text.trim(), password.text.trim());
 
         /// go to page dashboard
+        Navigator.of(context, rootNavigator: true).pop();
         Navigator.pushNamed(context, Routes().todo);
       } on FirebaseAuthException catch (e) {
         /// email errorné

@@ -36,15 +36,16 @@ class _TodoListState extends State<TodoList> {
           return const WaitingData();
         }
 
-        /// recuperation de la liste de todo
-        final todos = snapshot.data;
+        /// trie du tableau affichant le derner créer en premier
+        final todos = snapshot.data!..sort((b, a) => a.date!.compareTo(b.date!));
+
 
         /// widget todo card
         return Container(
           constraints: const BoxConstraints(minHeight: 200.0),
           margin: const EdgeInsets.only(top: 30.0, bottom: 50.0),
           child: Column(
-            children: todos!.map(
+            children: todos.map(
               (todo) {
                 return TodoCard(
                   uid: todo.uid,
