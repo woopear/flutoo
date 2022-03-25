@@ -26,6 +26,8 @@ class _TodoListState extends State<TodoList> {
       stream: context.watch<TodoProvider>().todos,
       builder:
           (BuildContext context, AsyncSnapshot<List<TodoSchema>> snapshot) {
+        final List todos;
+
         /// error
         if (snapshot.hasError) {
           return const WaitingError();
@@ -36,9 +38,12 @@ class _TodoListState extends State<TodoList> {
           return const WaitingData();
         }
 
-        /// trie du tableau affichant le derner créer en premier
-        final todos = snapshot.data!..sort((b, a) => a.date!.compareTo(b.date!));
-
+        if (snapshot.data!.isEmpty) {
+          todos = [];
+        } else {
+          /// trie du tableau affichant le derner créer en premier
+          todos = snapshot.data!..sort((b, a) => a.date!.compareTo(b.date!));
+        }
 
         /// widget todo card
         return Container(

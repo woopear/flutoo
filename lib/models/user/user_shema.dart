@@ -1,3 +1,5 @@
+import 'package:flutoo/models/role/role_shema.dart';
+
 class UserSchema {
   String? id;
   String? email;
@@ -7,6 +9,7 @@ class UserSchema {
   String? lastName;
   String? pseudo;
   bool? termes;
+  Map<String, dynamic>? role;
 
   UserSchema({
     this.id,
@@ -17,6 +20,7 @@ class UserSchema {
     this.lastName,
     this.pseudo,
     this.termes = false,
+    required this.role,
   });
 
   factory UserSchema.formMap(Map<String, dynamic> data, documentId) {
@@ -26,6 +30,10 @@ class UserSchema {
     String lastName = data['lastName'];
     String pseudo = data['pseudo'];
     bool termes = data['termes'];
+    Map<String, dynamic> role = RoleSchema(
+      libelle: data['role']['libelle'],
+      description: data['role']['description'],
+    ).toMap();
 
     return UserSchema(
       id: documentId,
@@ -35,18 +43,19 @@ class UserSchema {
       lastName: lastName,
       pseudo: pseudo,
       termes: termes,
+      role: role,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
       'email': email,
-      'password': password,
       'uid': uid,
       'firstName': firstName ?? '',
       'lastName': lastName ?? '',
       'pseudo': pseudo ?? '',
       'termes': termes ?? '',
+      'role': role,
     };
   }
 }

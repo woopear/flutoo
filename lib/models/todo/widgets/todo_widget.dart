@@ -1,3 +1,4 @@
+import 'package:flutoo/models/auth/auth_provider.dart';
 import 'package:flutoo/models/todo/todo_provider.dart';
 import 'package:flutoo/models/todo/todo_schema.dart';
 import 'package:flutoo/models/todo/widgets/todo_create/todo_create.dart';
@@ -17,12 +18,12 @@ class TodoWidget extends StatefulWidget {
 class _TodoWidgetState extends State<TodoWidget> {
   @override
   Widget build(BuildContext context) {
-
     /// on recupere le profil
+    final auth = context.watch<AuthProvider>().authenticate;
     final user = context.watch<UserProvider>().user;
 
     /// active l'écouteur sur todos
-    context.read<TodoProvider>().streamTodos(user!.uid!);
+    context.read<TodoProvider>().streamTodos(auth!.uid);
 
     /// recupere la largeur de l'ecran
     double widthTodo = MediaQuery.of(context).size.width;
@@ -33,18 +34,19 @@ class _TodoWidgetState extends State<TodoWidget> {
         child: StreamBuilder<List<TodoSchema>>(
           stream: context.watch<TodoProvider>().todos,
           builder: (context, snapshot) {
-            final List? todos;
+            final List<TodoSchema>? todos;
+
             /// en chargement
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const WaitingData();
             }
 
-            /// data recuperer sinon todos sera tableau vide
             if (snapshot.hasData) {
               todos = snapshot.data;
             } else {
-              todos = [];
+              return const WaitingData();
             }
+            
             return Column(
               children: [
                 /// titre de la page
@@ -52,19 +54,28 @@ class _TodoWidgetState extends State<TodoWidget> {
                     ? Container(
                         margin: const EdgeInsets.only(top: 40.0, bottom: 20.0),
                         child: todos!.isNotEmpty
-                        /// si il y a des taches
                             ? Text(
-                                (user.firstName!.substring(0, 1).toUpperCase() +
-                                        user.firstName!.substring(1)) +
-                                    ', nombre de tâche : ' +
-                                    todos.length.toString(),
+                                user.firstName! == "" || user.firstName == null
+                                    ? 'nombre de tâche : ' +
+                                        todos.length.toString()
+                                    : (user.firstName!
+                                                .substring(0, 1)
+                                                .toUpperCase() +
+                                            user.firstName!.substring(1)) +
+                                        ', nombre de tâche : ' +
+                                        todos.length.toString(),
                                 style: const TextStyle(fontSize: 28.0),
                               )
-                              /// si il y a pas de tache
+
+                            /// si il y a pas de tache
                             : Text(
-                                (user.firstName!.substring(0, 1).toUpperCase() +
-                                        user.firstName!.substring(1)) +
-                                    ", vous n'avez aucune tâche",
+                                user.firstName! == "" || user.firstName == null
+                                    ? 'Aucune tâche'
+                                    : (user.firstName!
+                                                .substring(0, 1)
+                                                .toUpperCase() +
+                                            user.firstName!.substring(1)) +
+                                        ', aucune tâche',
                                 style: const TextStyle(fontSize: 28.0),
                               ),
                       )

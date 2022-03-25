@@ -20,7 +20,6 @@ class UserProvider extends ChangeNotifier {
       user = event[0];
       notifyListeners();
     });
-      
   }
 
   // création du user de la base de donnée
@@ -29,6 +28,12 @@ class UserProvider extends ChangeNotifier {
       path: FirestorePath.usersCollection(),
       data: userSchema.toMap(),
     );
+    notifyListeners();
+  }
+
+  /// reset user
+  void resetUser() {
+    user = null;
     notifyListeners();
   }
 }

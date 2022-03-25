@@ -1,5 +1,6 @@
 import 'package:flutoo/config/routes/routes.dart';
 import 'package:flutoo/models/auth/auth_provider.dart';
+import 'package:flutoo/models/user/user_provider.dart';
 import 'package:flutoo/widget_shared/app_bar_flutoo/switch_mode_dark.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -41,7 +42,10 @@ class _AppBarFlutooState extends State<AppBarFlutoo> {
                             child: CircularProgressIndicator(),
                           ),
                         );
-                        await context.read<AuthProvider>().disconnectUserCurrent();
+                        await context
+                            .read<AuthProvider>()
+                            .disconnectUserCurrent();
+                        context.read<UserProvider>().resetUser();
                         Navigator.pushNamed(context, Routes().home);
                       },
                       icon: const Icon(Icons.logout),
