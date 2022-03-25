@@ -16,6 +16,7 @@ class TodoList extends StatefulWidget {
 class _TodoListState extends State<TodoList> {
   @override
   Widget build(BuildContext context) {
+    
     /// active l'écouteur sur todos
     context.read<TodoProvider>().streamTodos();
 

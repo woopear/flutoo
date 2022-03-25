@@ -13,6 +13,7 @@ class TodoProvider extends ChangeNotifier {
       path: FirestorePath.todos(),
       builder: (data, documentId) => TodoSchema.fromMap(data, documentId),
     );
+    notifyListeners();
   }
 
   /// ajoute une todo
