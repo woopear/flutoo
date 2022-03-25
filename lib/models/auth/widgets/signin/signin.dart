@@ -18,12 +18,20 @@ class _SigninState extends State<Signin> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  bool obscureText = true;
 
   @override
   void dispose() {
     email.dispose();
     password.dispose();
     super.dispose();
+  }
+
+  /// afficher / cacher mot de passe dans input
+  void seePassword() {
+    setState(() {
+      obscureText = !obscureText;
+    });
   }
 
   /// connexion utilisateur simple
@@ -126,8 +134,17 @@ class _SigninState extends State<Signin> {
                       Container(
                         margin: const EdgeInsets.only(top: 20.0),
                         child: TextFormField(
+                          obscureText: obscureText,
                           controller: password,
                           decoration: const InputDecoration().copyWith(
+                              suffixIcon: InkWell(
+                                onTap: seePassword,
+                                child: Icon(
+                                  obscureText
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                ),
+                              ),
                               labelText: AuthConstant.labelInputPassword),
                           validator: (value) => Validator.validatePassword(
                             textError: Validator.inputConnexionPassword,
