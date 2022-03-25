@@ -7,6 +7,7 @@ class UserSchema {
   String? lastName;
   String? pseudo;
   bool? termes;
+  String? avatar;
 
   UserSchema({
     this.id,
@@ -17,6 +18,7 @@ class UserSchema {
     this.lastName,
     this.pseudo,
     this.termes = false,
+    this.avatar,
   });
 
   factory UserSchema.formMap(Map<String, dynamic> data, documentId) {
@@ -26,6 +28,7 @@ class UserSchema {
     String lastName = data['lastName'];
     String pseudo = data['pseudo'];
     bool termes = data['termes'];
+    String avatar = data['avatar'];
 
     return UserSchema(
       id: documentId,
@@ -35,6 +38,7 @@ class UserSchema {
       lastName: lastName,
       pseudo: pseudo,
       termes: termes,
+      avatar: avatar,
     );
   }
 
@@ -47,6 +51,7 @@ class UserSchema {
       'lastName': lastName ?? '',
       'pseudo': pseudo ?? '',
       'termes': termes ?? '',
+      'avatar': avatar ?? '',
     };
   }
 }
