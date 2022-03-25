@@ -7,11 +7,12 @@ class TodoProvider extends ChangeNotifier {
   final _firestoreService = FirestoreService.instance;
   late Stream<List<TodoSchema>> todos;
 
-  /// ecouteur de la collection todo
-  Future<void> streamTodos() async {
+  /// ecouteur de la collection todos sur la proprieter uid
+  Future<void> streamTodos(String uid) async {
     todos = _firestoreService.streamCol(
       path: FirestorePath.todos(),
       builder: (data, documentId) => TodoSchema.fromMap(data, documentId),
+      queryBuilder: (query) => query.where('uid', isEqualTo: uid),
     );
     notifyListeners();
   }

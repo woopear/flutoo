@@ -17,11 +17,12 @@ class TodoWidget extends StatefulWidget {
 class _TodoWidgetState extends State<TodoWidget> {
   @override
   Widget build(BuildContext context) {
-    /// active l'écouteur sur todos
-    context.read<TodoProvider>().streamTodos();
 
     /// on recupere le profil
     final user = context.watch<UserProvider>().user;
+
+    /// active l'écouteur sur todos
+    context.read<TodoProvider>().streamTodos(user!.uid!);
 
     /// recupere la largeur de l'ecran
     double widthTodo = MediaQuery.of(context).size.width;
@@ -72,7 +73,7 @@ class _TodoWidgetState extends State<TodoWidget> {
                 /// input creation todo
                 const TodoCreate(),
                 // affiche la liste des todos
-                const TodoList(),
+                TodoList(user: user),
               ],
             );
           },
