@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutoo/models/todo/todo_constant.dart';
 import 'package:flutoo/models/todo/todo_provider.dart';
 import 'package:flutoo/models/todo/todo_schema.dart';
+import 'package:flutoo/models/user/user_provider.dart';
 import 'package:flutoo/utils/services/validator/validator.dart';
 import 'package:flutoo/widget_shared/notif_message/notif_message.dart';
 import 'package:flutter/material.dart';
@@ -19,11 +21,11 @@ class _TodoCreateState extends State<TodoCreate> {
   String? inputLibelle;
 
   /// clique btn creation todo
-  void createTodo(BuildContext context) {
+  Future<void> createTodo(BuildContext context, String? uid) async {
     if (_formKey.currentState!.validate()) {
       /// creation de la todo
-      final newTodo = TodoSchema(libelle: inputLibelle, uid: 'leuid');
-      context.read<TodoProvider>().addTodo(newTodo);
+      final newTodo = TodoSchema(libelle: inputLibelle, uid: uid, date: Timestamp.now());
+      await context.read<TodoProvider>().addTodo(newTodo);
 
       /// reset variable pour input
       setState(() => {
@@ -49,6 +51,9 @@ class _TodoCreateState extends State<TodoCreate> {
 
   @override
   Widget build(BuildContext context) {
+    /// on recupere le user connecté
+    final user = context.watch<UserProvider>().user;
+
     return Container(
       margin: const EdgeInsets.only(top: 50.0),
       padding: const EdgeInsets.only(left: 20.0, right: 20.0),
@@ -76,8 +81,16 @@ class _TodoCreateState extends State<TodoCreate> {
                 Container(
                   margin: const EdgeInsets.only(left: 30.0),
                   child: ElevatedButton(
-                    onPressed: () {
-                      createTodo(context);
+                    onPressed: () async {
+                      if (user != null) {
+                        await createTodo(context, user.uid);
+                      } else {
+                        NotifMessage(
+                          text:
+                              "L'utilisateur n'est pas connecter pour creer une tache !",
+                          error: true,
+                        );
+                      }
                     },
                     child: const Text('Valider'),
                   ),

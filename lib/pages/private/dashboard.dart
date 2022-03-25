@@ -40,6 +40,7 @@ class _DashboardState extends State<Dashboard> {
 
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: true,
         appBar: const AppBarFlutoo(),
         body: SingleChildScrollView(
           child: StreamBuilder<User?>(

@@ -23,6 +23,7 @@ class _HomeState extends State<Home> {
 
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: const AppBarFlutoo(),
         body: StreamBuilder<User?>(
           stream: FirebaseAuth.instance.authStateChanges(),
