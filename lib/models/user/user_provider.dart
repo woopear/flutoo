@@ -20,10 +20,9 @@ class UserProvider extends ChangeNotifier {
       user = event[0];
       notifyListeners();
     });
-      
   }
 
-  // création du user de la base de donnée
+  /// création du user de la base de donnée
   Future<void> addUser(UserSchema userSchema) async {
     await _firestoreService.add(
       path: FirestorePath.usersCollection(),
@@ -31,4 +30,13 @@ class UserProvider extends ChangeNotifier {
     );
     notifyListeners();
   }
+
+  /// mofification d'un user
+  Future<void> updateUser(String idUser, UserSchema data) async =>
+      await _firestoreService.update(
+        path: FirestorePath.userCollection(idUser),
+        data: data.toMap(),
+      );
+
+  
 }
