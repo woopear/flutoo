@@ -38,5 +38,10 @@ class UserProvider extends ChangeNotifier {
         data: data.toMap(),
       );
 
-  
+  /// delete un user
+  Future<void> delete(String idUser) async => 
+        await _firestoreService.delete(
+          path: FirestorePath.userCollection(
+            idUser,
+          ));
 }
