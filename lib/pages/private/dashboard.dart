@@ -1,4 +1,5 @@
 import 'package:flutoo/models/condition/widgets/condition_widget.dart';
+import 'package:flutoo/models/profil/widgets/profil_user.dart';
 import 'package:flutoo/models/todo/widgets/todo_widget.dart';
 import 'package:flutoo/widget_shared/app_bar_flutoo/app_bar_flutoo.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,7 @@ class _DashboardState extends State<Dashboard> {
   /// list des widget relier à la bottomnavbar
   static const List<Widget> widgetOptions = [
     TodoWidget(),
-    Text('coucou'),
+    ProfilUser(),
     ConditionWidget(),
   ];
 
