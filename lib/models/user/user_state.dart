@@ -41,6 +41,20 @@ class UserState extends ChangeNotifier {
     _user = null;
     notifyListeners();
   }
+
+  /// mofification d'un user
+  Future<void> updateUser(String idUser, UserSchema data) async =>
+      await _firestoreService.update(
+        path: FirestorePath.userCollection(idUser),
+        data: data.toMap(),
+      );
+
+  /// delete un user
+  Future<void> delete(String idUser) async => 
+        await _firestoreService.delete(
+          path: FirestorePath.userCollection(
+            idUser,
+          ));
 }
 
 /// state de la class UserState
@@ -62,3 +76,5 @@ final userCurrent = Provider<UserSchema?>((ref) {
   });
   return ref.watch(userState).user;
 });
+
+

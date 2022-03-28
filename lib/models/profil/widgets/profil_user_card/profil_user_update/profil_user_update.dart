@@ -1,16 +1,20 @@
+import 'package:flutoo/models/user/user_state.dart';
 import 'package:flutter/material.dart';
 import 'package:woo_widget_input/woo_widget_input.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ProfilUserUpdate extends StatefulWidget {
+class ProfilUserUpdate extends ConsumerStatefulWidget {
   const ProfilUserUpdate({Key? key}) : super(key: key);
 
   @override
-  State<ProfilUserUpdate> createState() => _ProfilUserUpdateState();
+  _ProfilUserUpdateState createState() => _ProfilUserUpdateState();
 }
 
-class _ProfilUserUpdateState extends State<ProfilUserUpdate> {
+class _ProfilUserUpdateState extends ConsumerState<ProfilUserUpdate> {
   @override
   Widget build(BuildContext context) {
+    final user = ref.watch(userCurrent);
+
     return SizedBox(
       width: 500,
       child: Column(
@@ -20,6 +24,7 @@ class _ProfilUserUpdateState extends State<ProfilUserUpdate> {
             padding:
                 const EdgeInsets.symmetric(vertical: 15.0, horizontal: 5.0),
             child: InputCustom(
+              initialValue: user!.firstName!,
               label: const Text(
                 'Nom : ',
                 style: TextStyle(
@@ -31,6 +36,7 @@ class _ProfilUserUpdateState extends State<ProfilUserUpdate> {
           Container(
             margin: const EdgeInsets.only(top: 30),
             child: InputCustom(
+              initialValue: user.lastName!,
               padding:
                   const EdgeInsets.symmetric(vertical: 15.0, horizontal: 5.0),
               label: const Text(
@@ -44,6 +50,7 @@ class _ProfilUserUpdateState extends State<ProfilUserUpdate> {
           Container(
             margin: const EdgeInsets.only(top: 30),
             child: InputCustom(
+              initialValue: user.pseudo!,
               padding:
                   const EdgeInsets.symmetric(vertical: 15.0, horizontal: 5.0),
               label: const Text(
@@ -57,10 +64,11 @@ class _ProfilUserUpdateState extends State<ProfilUserUpdate> {
           Container(
             margin: const EdgeInsets.only(top: 30),
             child: InputCustom(
+              initialValue: user.email!,
               padding:
                   const EdgeInsets.symmetric(vertical: 15.0, horizontal: 5.0),
               label: const Text(
-                'Email : ',
+                'Email : ' ,
                 style: TextStyle(
                   fontSize: 22,
                 ),
