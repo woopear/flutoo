@@ -59,6 +59,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
             ),
 
             /// condition
+            /// si pas user root pas de menu
             if (user?.role!['libelle'] == 'root')
               const BottomNavigationBarItem(
                 icon: Icon(Icons.account_balance),
