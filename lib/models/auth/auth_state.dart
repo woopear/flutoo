@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutoo/models/user/user_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AuthState extends ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final UserState user = UserState();
 
   // fonction de connexion user
   Future<void> connexionAuth(
@@ -30,7 +32,7 @@ class AuthState extends ChangeNotifier {
   Future<void> disconnectAuth() async {
     await _auth.signOut();
 
-    /// TODO : Vider user
+    user.resetUser();
     notifyListeners();
   }
 }

@@ -84,8 +84,12 @@ class ConditionState extends ChangeNotifier {
 /// state de la class conditionState
 final conditionState = ChangeNotifierProvider((ref) => ConditionState());
 
-/// state toute les conditions 
+/// state toute les conditions
 final conditions = StreamProvider((ref) {
   ref.watch(conditionState).streamConditions();
   return ref.watch(conditionState).conditions;
 });
+
+/// state conditionSelected
+final conditionSelect =
+    StreamProvider((ref) => ref.watch(conditionState).conditionSelected);

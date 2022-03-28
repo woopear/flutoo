@@ -20,7 +20,8 @@ class AppBarFlutoo extends ConsumerStatefulWidget with PreferredSizeWidget {
 class _AppBarFlutooState extends ConsumerState<AppBarFlutoo> {
   @override
   Widget build(BuildContext context) {
-    final authUser = ref.watch(auth);
+    final authUser = ref.watch(auth).asData;
+
     return AppBar(
       automaticallyImplyLeading: false,
       title: const Text('Flutoo'),
@@ -29,6 +30,7 @@ class _AppBarFlutooState extends ConsumerState<AppBarFlutoo> {
           padding: const EdgeInsets.only(right: 20.0),
           child: Row(
             children: [
+              authUser!.value != null ?
               authUser.when(
                 data: (data) {
                   return IconButton(
@@ -49,7 +51,7 @@ class _AppBarFlutooState extends ConsumerState<AppBarFlutoo> {
                 },
                 error: (error, stack) => const WaitingError(),
                 loading: () => const WaitingData(),
-              ),
+              ) : Container(),
 
               /// btn switch mode dark
               const SwitchModeDark(),
