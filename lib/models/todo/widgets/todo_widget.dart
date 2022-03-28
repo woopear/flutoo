@@ -1,46 +1,75 @@
+import 'package:flutoo/models/todo/todo_state.dart';
 import 'package:flutoo/models/todo/widgets/todo_create/todo_create.dart';
 import 'package:flutoo/models/todo/widgets/todo_list/todo_list.dart';
-import 'package:flutoo/models/user/user_provider.dart';
+import 'package:flutoo/models/user/user_state.dart';
+import 'package:flutoo/widget_shared/waiting_data/wating_data.dart';
+import 'package:flutoo/widget_shared/waiting_error/waiting_error.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class TodoWidget extends StatefulWidget {
+class TodoWidget extends ConsumerStatefulWidget {
   const TodoWidget({Key? key}) : super(key: key);
 
   @override
-  State<TodoWidget> createState() => _TodoWidgetState();
+  _TodoWidgetState createState() => _TodoWidgetState();
 }
 
-class _TodoWidgetState extends State<TodoWidget> {
+class _TodoWidgetState extends ConsumerState<TodoWidget> {
   @override
   Widget build(BuildContext context) {
-    final user = context.watch<UserProvider>().user;
-    String? firstname = context.watch<UserProvider>().user?.firstName;
+    /// recupere le user current
+    final user = ref.watch(userCurrent);
 
     /// recupere la largeur de l'ecran
     double widthTodo = MediaQuery.of(context).size.width;
+
     return Center(
       child: SizedBox(
         width: widthTodo > 700 ? 700.0 : double.infinity,
-        child: Column(
-          children: [
-            /// titre de la page
-            firstname != null
-                ? Container(
-                  margin: const EdgeInsets.only(top: 40.0, bottom: 20.0),
-                    child: Text(
-                      'Bienvenue $firstname',
-                      style: const TextStyle(fontSize: 28.0),
-                    ),
-                  )
-                : const CircularProgressIndicator(),
+        child: ref.watch(todosUser).when(
+              data: (todos) {
+                return Column(
+                  children: [
+                    /// titre de la page
+                    Container(
+                      margin: const EdgeInsets.only(top: 40.0, bottom: 20.0),
+                      child: todos!.isNotEmpty
+                          ? Text(
+                              user!.firstName! == "" || user.firstName == null
+                                  ? 'nombre de tâche : ' +
+                                      todos.length.toString()
+                                  : (user.firstName!
+                                              .substring(0, 1)
+                                              .toUpperCase() +
+                                          user.firstName!.substring(1)) +
+                                      ', nombre de tâche : ' +
+                                      todos.length.toString(),
+                              style: const TextStyle(fontSize: 28.0),
+                            )
 
-            /// input creation todo
-            const TodoCreate(),
-            // affiche la liste des todos
-            const TodoList(),
-          ],
-        ),
+                          /// si il y a pas de tache
+                          : Text(
+                              user!.firstName! == "" || user.firstName == null
+                                  ? 'Aucune tâche'
+                                  : (user.firstName!
+                                              .substring(0, 1)
+                                              .toUpperCase() +
+                                          user.firstName!.substring(1)) +
+                                      ', aucune tâche',
+                              style: const TextStyle(fontSize: 28.0),
+                            ),
+                    ),
+
+                    /// input creation todo
+                    const TodoCreate(),
+                    // affiche la liste des todos
+                    const TodoList(),
+                  ],
+                );
+              },
+              error: (error, stack) => const WaitingError(),
+              loading: () => const WaitingData(),
+            ),
       ),
     );
   }

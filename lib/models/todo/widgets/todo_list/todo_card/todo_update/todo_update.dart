@@ -1,13 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutoo/models/todo/todo_constant.dart';
-import 'package:flutoo/models/todo/todo_provider.dart';
 import 'package:flutoo/models/todo/todo_schema.dart';
+import 'package:flutoo/models/todo/todo_state.dart';
 import 'package:flutoo/utils/services/validator/validator.dart';
 import 'package:flutoo/widget_shared/notif_message/notif_message.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:woo_widget_input/woo_widget_input.dart';
 
-class TodoUpdate extends StatefulWidget {
+class TodoUpdate extends ConsumerStatefulWidget {
   String? inputLibelle;
   bool? check;
   String? id;
@@ -24,10 +25,10 @@ class TodoUpdate extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<TodoUpdate> createState() => _TodoUpdateState();
+  _TodoUpdateState createState() => _TodoUpdateState();
 }
 
-class _TodoUpdateState extends State<TodoUpdate> {
+class _TodoUpdateState extends ConsumerState<TodoUpdate> {
   final _formKey = GlobalKey<FormState>();
 
   /// modifie la todo, son libelle
@@ -37,9 +38,10 @@ class _TodoUpdateState extends State<TodoUpdate> {
       final libelle = TodoSchema(
         libelle: widget.inputLibelle,
         check: widget.check,
+        date: Timestamp.now(),
         uid: widget.uid,
       );
-      context.read<TodoProvider>().updateTodo(widget.id!, libelle);
+      ref.watch(todoState).updateTodo(widget.id!, libelle);
 
       /// ferme le volet update todo
       widget.closedUpdated!();

@@ -22,6 +22,7 @@ class _AuthWidgetState extends State<AuthWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.all(20.0),
       child: Column(
         children: [
           /// formulaire de connexion ou de creation
