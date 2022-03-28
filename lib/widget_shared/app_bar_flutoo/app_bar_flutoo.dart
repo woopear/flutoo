@@ -30,8 +30,8 @@ class _AppBarFlutooState extends ConsumerState<AppBarFlutoo> {
           padding: const EdgeInsets.only(right: 20.0),
           child: Row(
             children: [
-              authUser!.value != null ?
-              authUser.when(
+              authUser?.value != null ?
+              authUser!.when(
                 data: (data) {
                   return IconButton(
                     onPressed: () async {
