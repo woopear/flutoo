@@ -112,9 +112,7 @@ class _ProfilUserState extends State<ProfilUser> {
               ),
             ],
           ),
-          seeUpdate 
-          ? const ProfilUserUpdate()
-          : const ProfilUserCard(),
+          seeUpdate ? const ProfilUserUpdate() : const ProfilUserCard(),
         ],
       ),
     );
