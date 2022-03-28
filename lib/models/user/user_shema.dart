@@ -9,6 +9,7 @@ class UserSchema {
   String? lastName;
   String? pseudo;
   bool? termes;
+  String? avatar;
   Map<String, dynamic>? role;
 
   UserSchema({
@@ -20,6 +21,7 @@ class UserSchema {
     this.lastName,
     this.pseudo,
     this.termes = false,
+    this.avatar,
     required this.role,
   });
 
@@ -30,6 +32,7 @@ class UserSchema {
     String lastName = data['lastName'];
     String pseudo = data['pseudo'];
     bool termes = data['termes'];
+    String avatar = data['avatar'];
     Map<String, dynamic> role = RoleSchema(
       libelle: data['role']['libelle'],
       description: data['role']['description'],
@@ -43,6 +46,7 @@ class UserSchema {
       lastName: lastName,
       pseudo: pseudo,
       termes: termes,
+      avatar: avatar,
       role: role,
     );
   }
@@ -55,6 +59,7 @@ class UserSchema {
       'lastName': lastName ?? '',
       'pseudo': pseudo ?? '',
       'termes': termes ?? '',
+      'avatar': avatar ?? '',
       'role': role,
     };
   }
