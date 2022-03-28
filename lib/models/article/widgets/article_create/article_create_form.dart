@@ -1,13 +1,13 @@
 import 'package:flutoo/models/article/article_constant.dart';
-import 'package:flutoo/models/article/article_provider.dart';
+import 'package:flutoo/models/article/article_state.dart';
 import 'package:flutoo/models/condition/condition_schema.dart';
 import 'package:flutoo/utils/services/validator/validator.dart';
 import 'package:flutoo/widget_shared/notif_message/notif_message.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:woo_widget_input/woo_widget_input.dart';
 
-class ArticleCreateForm extends StatefulWidget {
+class ArticleCreateForm extends ConsumerStatefulWidget {
   Function() openCloseArticleCreate;
   ConditionSchema conditionSelect;
 
@@ -18,10 +18,10 @@ class ArticleCreateForm extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<ArticleCreateForm> createState() => _ArticleCreateFormState();
+  _ArticleCreateFormState createState() => _ArticleCreateFormState();
 }
 
-class _ArticleCreateFormState extends State<ArticleCreateForm> {
+class _ArticleCreateFormState extends ConsumerState<ArticleCreateForm> {
   final _formKey = GlobalKey<FormState>();
   String? inputTitle;
 
@@ -29,8 +29,8 @@ class _ArticleCreateFormState extends State<ArticleCreateForm> {
   void createArticle(BuildContext context) {
     if (_formKey.currentState!.validate()) {
       /// creation article
-      context
-          .read<ArticleProvider>()
+      ref
+          .watch(articleState)
           .addArticle(inputTitle!, widget.conditionSelect.id!);
 
       /// reset variable pour input

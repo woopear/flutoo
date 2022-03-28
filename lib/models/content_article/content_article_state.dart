@@ -1,16 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutoo/models/article/article_state.dart';
+import 'package:flutoo/models/condition/condition_state.dart';
 import 'package:flutoo/models/content_article/content_article_schema.dart';
 import 'package:flutoo/utils/services/firestore/firestore_path.dart';
 import 'package:flutoo/utils/services/firestore/firestore_service.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ContentArticleProvider extends ChangeNotifier {
+class ContentArticleState extends ChangeNotifier {
   final _firestoreService = FirestoreService.instance;
-  late Stream<List<ContentArticleSchema>> contents;
+
+  late Stream<List<ContentArticleSchema>> _contents;
+
+  Stream<List<ContentArticleSchema>> get contents => _contents;
 
   /// ecoute content de l'article selected
   Future<void> streamContents(String idCondition, String idArticle) async {
-    contents = _firestoreService.streamCol(
+    _contents = _firestoreService.streamCol(
       path: FirestorePath.contentsOfArticle(idCondition, idArticle),
       builder: (data, documentId) =>
           ContentArticleSchema.fromMap(data, documentId),
@@ -65,7 +71,7 @@ class ContentArticleProvider extends ChangeNotifier {
     await _firestoreService.delete(
       path: FirestorePath.contentOfArticle(idCondition, idArticle, idContent),
     );
-      notifyListeners();
+    notifyListeners();
   }
 
   /// delete tous les content d'un article
@@ -88,3 +94,17 @@ class ContentArticleProvider extends ChangeNotifier {
     });
   }
 }
+
+/// state de la class ContentArticleState
+final contentArticleState =
+    ChangeNotifierProvider<ContentArticleState>((ref) => ContentArticleState());
+
+/// state des contents de l'article selectionné
+final contentsOfArticleStream = StreamProvider((ref) {
+  ref.watch(conditionSelect).whenData((condition) {
+    ref.watch(articleSelectStream).whenData((article) {
+      ref.watch(contentArticleState).streamContents(condition.id!, article.id!);
+    });
+  });
+  return ref.watch(contentArticleState).contents;
+});

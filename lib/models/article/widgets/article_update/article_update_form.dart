@@ -1,14 +1,14 @@
 import 'package:flutoo/models/article/article_constant.dart';
-import 'package:flutoo/models/article/article_provider.dart';
 import 'package:flutoo/models/article/article_schema.dart';
+import 'package:flutoo/models/article/article_state.dart';
 import 'package:flutoo/models/condition/condition_schema.dart';
 import 'package:flutoo/utils/services/validator/validator.dart';
 import 'package:flutoo/widget_shared/notif_message/notif_message.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:woo_widget_input/woo_widget_input.dart';
 
-class ArticleUpdateForm extends StatefulWidget {
+class ArticleUpdateForm extends ConsumerStatefulWidget {
   ArticleSchema articleSelect;
   ConditionSchema conditionSelect;
 
@@ -19,19 +19,18 @@ class ArticleUpdateForm extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<ArticleUpdateForm> createState() => _ArticleUpdateFormState();
+  _ArticleUpdateFormState createState() => _ArticleUpdateFormState();
 }
 
-class _ArticleUpdateFormState extends State<ArticleUpdateForm> {
+class _ArticleUpdateFormState extends ConsumerState<ArticleUpdateForm> {
   final _formKey = GlobalKey<FormState>();
   String? inputTitle;
 
   void updateArticle(BuildContext context) {
     if (_formKey.currentState!.validate()) {
       /// modification titre article
-      context
-          .read<ArticleProvider>()
-          .updateTitleArticle(widget.conditionSelect.id!, widget.articleSelect.id!, inputTitle!);
+      ref.watch(articleState).updateTitleArticle(
+          widget.conditionSelect.id!, widget.articleSelect.id!, inputTitle!);
 
       /// message de confirmation
       NotifMessage(

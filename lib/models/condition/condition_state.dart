@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutoo/models/article/article_provider.dart';
+import 'package:flutoo/models/article/article_state.dart';
 import 'package:flutoo/models/condition/condition_schema.dart';
 import 'package:flutoo/utils/services/firestore/firestore_path.dart';
 import 'package:flutoo/utils/services/firestore/firestore_service.dart';
@@ -68,7 +68,7 @@ class ConditionState extends ChangeNotifier {
 
   /// supprime une condition
   Future<void> deleteCondition(String idCondition) async {
-    final articleProvider = ArticleProvider();
+    final articleProvider = ArticleState();
 
     /// supprime tous les articles
     await articleProvider.deleteAllArticle(idCondition);
