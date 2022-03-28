@@ -1,8 +1,6 @@
 import 'package:flutoo/models/profil/widgets/profil_user_card/profil_user_card.dart';
 import 'package:flutoo/models/profil/widgets/profil_user_card/profil_user_update/profil_user_update.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:flutoo/models/user/user_provider.dart';
 
 class ProfilUser extends StatefulWidget {
   const ProfilUser({Key? key}) : super(key: key);
@@ -31,9 +29,7 @@ class _ProfilUserState extends State<ProfilUser> {
 
   @override
   Widget build(BuildContext context) {
-    final user = context.watch<UserProvider>().user;
-    String? avatar = context.watch<UserProvider>().user?.avatar;
-
+    String avatar = '';
     return Center(
       child: Column(
         children: [
@@ -118,9 +114,7 @@ class _ProfilUserState extends State<ProfilUser> {
               ),
             ],
           ),
-          seeUpdate 
-          ? const ProfilUserUpdate()
-          : const ProfilUserCard(),
+          seeUpdate ? const ProfilUserUpdate() : const ProfilUserCard(),
         ],
       ),
     );
