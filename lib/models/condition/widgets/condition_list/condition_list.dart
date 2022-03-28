@@ -24,6 +24,8 @@ class _ConditionListState extends State<ConditionList> {
     // ecouteur condition
     context.read<ConditionProvider>().streamConditions();
 
+    
+
     return StreamBuilder(
       stream: context.watch<ConditionProvider>().conditions,
       builder: (BuildContext context,
