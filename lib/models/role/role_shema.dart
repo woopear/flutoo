@@ -11,3 +11,10 @@ class RoleSchema {
     };
   }
 }
+
+Map<String, dynamic> roleUser(String value) {
+  return {
+    'root': 'root',
+    'public': 'public',
+  };
+}
