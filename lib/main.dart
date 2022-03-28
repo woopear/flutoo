@@ -1,17 +1,11 @@
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutoo/config/routes/routes.dart';
+import 'package:flutoo/config/themes/theme_state.dart';
 import 'package:flutoo/config/themes/themes.dart';
-import 'package:flutoo/models/article/article_provider.dart';
-import 'package:flutoo/models/auth/auth_provider.dart';
-import 'package:flutoo/models/condition/condition_provider.dart';
-import 'package:flutoo/models/content_article/content_article_provider.dart';
-import 'package:flutoo/models/todo/todo_provider.dart';
-import 'package:flutoo/models/user/user_provider.dart';
 import 'package:flutoo/utils/services/firebase/firebase_options.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:woo_theme_mode/woo_theme_mode.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +13,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(
-    MultiProvider(
+    /*MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => WooThemeProvider()),
         ChangeNotifierProvider(create: (context) => TodoProvider()),
@@ -30,18 +24,19 @@ void main() async {
         ChangeNotifierProvider(create: (context) => AuthProvider()),
       ],
       child: const App(),
-    ),
+    ),*/
+    const ProviderScope(child: App())
   );
 }
 
-class App extends StatefulWidget {
+class App extends ConsumerStatefulWidget  {
   const App({Key? key}) : super(key: key);
 
   @override
-  State<App> createState() => _AppState();
+  _AppState createState() => _AppState();
 }
 
-class _AppState extends State<App> {
+class _AppState extends ConsumerState<App> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -50,7 +45,7 @@ class _AppState extends State<App> {
       // utilisation du context pour recuperer
       // le themeMode qui ce charge de modifier votre theme
       // via votre bouton switch ou du theme du systeme 
-      themeMode: context.watch<WooThemeProvider>().themeMode,
+      themeMode: ref.watch(themeState).themeMode,
       // nom de votre variable dans le fichier themes.dart
       theme: themeClair,
       // nom de votre variable dans le fichier themes.dart

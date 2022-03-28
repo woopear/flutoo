@@ -1,14 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutoo/config/routes/routes.dart';
 import 'package:flutoo/models/auth/auth_constant.dart';
-import 'package:flutoo/models/auth/auth_provider.dart';
-import 'package:flutoo/models/role/role_shema.dart';
-import 'package:flutoo/models/user/user_provider.dart';
-import 'package:flutoo/models/user/user_shema.dart';
 import 'package:flutoo/utils/services/validator/validator.dart';
 import 'package:flutoo/widget_shared/notif_message/notif_message.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class Singup extends StatefulWidget {
   const Singup({Key? key}) : super(key: key);
@@ -46,13 +41,13 @@ class _SingupState extends State<Singup> {
       
       // inscription user firebase
       try {
-        /// creation auth
+        /* creation auth
         final user = await context
             .read<AuthProvider>()
-            .createAuth(email.text.trim(), password.text.trim());
+            .createAuth(email.text.trim(), password.text.trim());*/
 
         /// variable userShema
-        UserSchema userSchema = UserSchema(
+        /*UserSchema userSchema = UserSchema(
           uid: user.user!.uid,
           email: email.text.trim(),
           pseudo: pseudo.text,
@@ -60,10 +55,10 @@ class _SingupState extends State<Singup> {
           lastName: lastName.text,
           role: RoleSchema(libelle: 'public', description: 'utilisateur simple')
               .toMap(),
-        );
+        );*/
 
         /// ajouter un user bdd
-        await context.read<UserProvider>().addUser(userSchema);
+        ///await context.read<UserProvider>().addUser(userSchema);
 
         /// navigé vers la todo
         Navigator.of(context, rootNavigator: true).pop();
@@ -108,7 +103,7 @@ class _SingupState extends State<Singup> {
   @override
   Widget build(BuildContext context) {
     // récuperation du current user
-    final auth = context.watch<AuthProvider>().authenticate;
+    ///final auth = context.watch<AuthProvider>().authenticate;
 
     return Container(
       child: Center(

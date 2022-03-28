@@ -1,42 +1,23 @@
+import 'package:flutoo/config/themes/theme_state.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:woo_theme_mode/woo_theme_mode.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SwitchModeDark extends StatefulWidget {
+class SwitchModeDark extends ConsumerStatefulWidget {
   const SwitchModeDark({Key? key}) : super(key: key);
 
   @override
-  State<SwitchModeDark> createState() => _SwitchModeDarkState();
+  _SwitchModeDarkState createState() => _SwitchModeDarkState();
 }
 
-class _SwitchModeDarkState extends State<SwitchModeDark> {
-  /// init icon
-  Widget imgMode = WooThemeProvider().isDarkMode
-      ? const Icon(Icons.brightness_3)
-      : const Icon(Icons.brightness_7);
-
-  /// si true on passe à false et on active le mode claire
-  /// sinon on active le mode dark
-  void changeModeTheme(BuildContext context) {
-    bool value = context.read<WooThemeProvider>().isDarkMode;
-    if (value) {
-      context.read<WooThemeProvider>().changeTheme(false);
-      setState(() {
-        imgMode = const Icon(Icons.brightness_3);
-      });
-    } else {
-      context.read<WooThemeProvider>().changeTheme(true);
-      setState(() {
-        imgMode = const Icon(Icons.brightness_7);
-      });
-    }
-  }
-
+class _SwitchModeDarkState extends ConsumerState<SwitchModeDark> {
   @override
   Widget build(BuildContext context) {
+    final trueDark = ref.watch(themeState).isDark;
     return IconButton(
-      onPressed: () => changeModeTheme(context),
-      icon: imgMode,
+      onPressed: () => ref.read(themeState).changeDark(!trueDark),
+      icon: trueDark
+          ? const Icon(Icons.brightness_3)
+          : const Icon(Icons.brightness_7),
     );
   }
 }
