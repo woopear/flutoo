@@ -27,8 +27,6 @@ class UserState extends ChangeNotifier {
     _user = user;
   }
 
-  
-
   // création du user de la base de donnée
   Future<void> addUser(UserSchema userSchema) async {
     await _firestoreService.add(
