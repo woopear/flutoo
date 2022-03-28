@@ -4,15 +4,19 @@ import 'package:flutoo/models/condition/condition_schema.dart';
 import 'package:flutoo/utils/services/firestore/firestore_path.dart';
 import 'package:flutoo/utils/services/firestore/firestore_service.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ConditionProvider extends ChangeNotifier {
+class ConditionState extends ChangeNotifier {
   final _firestoreService = FirestoreService.instance;
-  late Stream<List<ConditionSchema>> conditions;
-  late Stream<ConditionSchema> conditionSelected;
+  late Stream<List<ConditionSchema>> _conditions;
+  late Stream<ConditionSchema> _conditionSelected;
+
+  Stream<List<ConditionSchema>> get conditions => _conditions;
+  Stream<ConditionSchema> get conditionSelected => _conditionSelected;
 
   /// ecouteur conditions
   Future<void> streamConditions() async {
-    conditions = _firestoreService.streamCol<ConditionSchema>(
+    _conditions = _firestoreService.streamCol<ConditionSchema>(
       path: FirestorePath.conditions(),
       builder: (data, documentId) => ConditionSchema.formMap(data, documentId),
     );
@@ -20,7 +24,7 @@ class ConditionProvider extends ChangeNotifier {
 
   /// ecouteur condition selected
   Future<void> streamConditionSelected(String idCondition) async {
-    conditionSelected = _firestoreService.streamDoc(
+    _conditionSelected = _firestoreService.streamDoc(
       path: FirestorePath.condition(idCondition),
       builder: (data, documentId) => ConditionSchema.formMap(data, documentId),
     );
@@ -76,3 +80,12 @@ class ConditionProvider extends ChangeNotifier {
     notifyListeners();
   }
 }
+
+/// state de la class conditionState
+final conditionState = ChangeNotifierProvider((ref) => ConditionState());
+
+/// state toute les conditions 
+final conditions = StreamProvider((ref) {
+  ref.watch(conditionState).streamConditions();
+  return ref.watch(conditionState).conditions;
+});
