@@ -12,7 +12,7 @@ class RoleSchema {
   }
 }
 
-Map<String, dynamic> roleUser(String value) {
+Map<String, dynamic> roleUser() {
   return {
     'root': 'root',
     'public': 'public',

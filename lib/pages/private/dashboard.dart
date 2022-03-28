@@ -1,24 +1,26 @@
-import 'package:flutoo/models/condition/widgets/condition_widget.dart';
 import 'package:flutoo/models/profil/widgets/profil_user.dart';
 import 'package:flutoo/models/todo/widgets/todo_widget.dart';
+import 'package:flutoo/models/user/user_state.dart';
 import 'package:flutoo/widget_shared/app_bar_flutoo/app_bar_flutoo.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class Dashboard extends StatefulWidget {
+class Dashboard extends ConsumerStatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
 
   @override
-  State<Dashboard> createState() => _DashboardState();
+  _DashboardState createState() => _DashboardState();
 }
 
-class _DashboardState extends State<Dashboard> {
+class _DashboardState extends ConsumerState<Dashboard> {
   int indexSelection = 0;
+  bool test = false;
 
   /// list des widget relier à la bottomnavbar
   static const List<Widget> widgetOptions = [
     TodoWidget(),
     ProfilUser(),
-    ConditionWidget(),
+    //ConditionWidget(),
   ];
 
   /// selection de l'index pour le bottomnavbar
@@ -30,37 +32,39 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
+    final user = ref.watch(userCurrent);
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         appBar: const AppBarFlutoo(),
         body: SingleChildScrollView(
-          child:  widgetOptions.elementAt(indexSelection),
+          child: widgetOptions.elementAt(indexSelection),
         ),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: indexSelection,
           onTap: onItemTapped,
-          items: const [
+          items: [
             /// list des todos
-            BottomNavigationBarItem(
+            const BottomNavigationBarItem(
               icon: Icon(Icons.list),
               tooltip: 'todo',
               label: '',
             ),
 
             ///profil
-            BottomNavigationBarItem(
+            const BottomNavigationBarItem(
               icon: Icon(Icons.person),
               tooltip: 'profil',
               label: '',
             ),
 
-            /// TODO : faire condition pour l'affichage seulement pour user admin
-            BottomNavigationBarItem(
-              icon: Icon(Icons.account_balance),
-              tooltip: 'Conditions générales',
-              label: '',
-            ),
+            /// condition
+            if (user?.role!['libelle'] == 'root')
+              const BottomNavigationBarItem(
+                icon: Icon(Icons.account_balance),
+                tooltip: 'Conditions générales',
+                label: '',
+              ),
           ],
         ),
       ),
