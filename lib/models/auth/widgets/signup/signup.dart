@@ -24,7 +24,9 @@ class _SingupState extends ConsumerState<Singup> {
   TextEditingController pseudo = TextEditingController();
   TextEditingController firstName = TextEditingController();
   TextEditingController lastName = TextEditingController();
-  bool therme = false;
+  bool termes = false;
+  String testemail = '';
+  String testpassword = '';
 
   @override
   void dispose() {
@@ -58,6 +60,7 @@ class _SingupState extends ConsumerState<Singup> {
           pseudo: pseudo.text,
           firstName: firstName.text,
           lastName: lastName.text,
+          termes: termes,
           avatar: '',
           role: RoleSchema(libelle: 'public', description: 'utilisateur simple')
               .toMap(),
@@ -129,6 +132,11 @@ class _SingupState extends ConsumerState<Singup> {
                     margin: const EdgeInsets.only(top: 20),
                     child: TextFormField(
                       controller: email,
+                      onChanged: (value) {
+                        setState(() {
+                          testemail = value;
+                        });
+                      },
                       decoration: InputDecoration(
                         labelText: AuthConstant.labelCreateInputEmail,
                       ),
@@ -144,6 +152,11 @@ class _SingupState extends ConsumerState<Singup> {
                     margin: const EdgeInsets.only(top: 20),
                     child: TextFormField(
                       controller: password,
+                      onChanged: (value) {
+                        setState(() {
+                          testpassword = value;
+                        });
+                      },
                       decoration: InputDecoration(
                         labelText: AuthConstant.labelCreateInputPassword,
                       ),
@@ -188,29 +201,35 @@ class _SingupState extends ConsumerState<Singup> {
                   ),
 
                   Container(
-                    margin: const EdgeInsets.only(bottom: 20.0),
+                    margin: const EdgeInsets.only(top: 10.0, bottom: 20.0),
                     child: CheckboxListTile(
-                    title: const Text(
-                      "Accepter les conditions générales",
-                      style: TextStyle(fontSize: 14.0),
+                      title: TextButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, Routes().conditions);
+                        },
+                        child: const Text(
+                          'Accepter les conditions générales',
+                          style: TextStyle(fontSize: 18.0),
+                        ),
+                      ),
+                      value: termes,
+                      onChanged: (newValue) {
+                        setState(() {
+                          termes = newValue!;
+                        });
+                      },
+                      controlAffinity: ListTileControlAffinity
+                          .leading, //  <-- leading Checkbox
                     ),
-                    value: therme,
-                    onChanged: (newValue) {
-                      setState(() {
-                        therme = newValue!;
-                      });
-                    },
-                    controlAffinity: ListTileControlAffinity
-                        .leading, //  <-- leading Checkbox
                   ),
-                  ),
-                  
 
                   /// btn create user
                   ElevatedButton(
-                    onPressed: () async {
-                      await inscritionAuth(context);
-                    },
+                    onPressed: termes && testemail != '' && testpassword != ''
+                        ? () async {
+                            await inscritionAuth(context);
+                          }
+                        : null,
                     child: Text(AuthConstant.btnCreateUser!),
                   ),
 
