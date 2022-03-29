@@ -60,11 +60,13 @@ class _TodoWidgetState extends ConsumerState<TodoWidget> {
                               style: const TextStyle(fontSize: 28.0),
                             ),
                     ),
-
+                    
                     /// input creation todo
                     const TodoCreate(),
+                    
                     // affiche la liste des todos
                     const TodoList(),
+                    
                   ],
                 );
               },

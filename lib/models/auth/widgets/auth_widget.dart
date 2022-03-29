@@ -24,11 +24,10 @@ class _AuthWidgetState extends State<AuthWidget> {
     return Container(
       padding: const EdgeInsets.all(20.0),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
         children: [
           /// formulaire de connexion ou de creation
           singinSingup == true ? const Signin() : const Singup(),
-
+                
           /// btn connexion ou inscription
           Flex(
             direction: Axis.vertical,

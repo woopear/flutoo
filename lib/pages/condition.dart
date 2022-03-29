@@ -1,3 +1,4 @@
+import 'package:flutoo/models/condition_actived/widgets/condition_actived_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -11,6 +12,9 @@ class Condition extends ConsumerStatefulWidget {
 class _ConditionState extends ConsumerState<Condition> {
   @override
   Widget build(BuildContext context) {
+    /// recupere la largeur de l'ecran
+    double widthTodo = MediaQuery.of(context).size.width;
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -18,11 +22,14 @@ class _ConditionState extends ConsumerState<Condition> {
           title: const Text('Conditions générales'),
         ),
         body: SingleChildScrollView(
-          child: Container(
-            child: Column(
-              children: const [
-                Text('coucou')
-              ],
+          child: Center(
+            child: SizedBox(
+              width: widthTodo > 700 ? 700.0 : double.infinity,
+              child: Column(
+                children: const [
+                  ConditionActivedList(),
+                ],
+              ),
             ),
           ),
         ),

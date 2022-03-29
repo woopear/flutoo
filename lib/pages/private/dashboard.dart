@@ -34,6 +34,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userCurrent);
+    
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: true,

@@ -19,16 +19,14 @@ class _HomeState extends ConsumerState<Home> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        resizeToAvoidBottomInset: true,
+        resizeToAvoidBottomInset: false,
         appBar: const AppBarFlutoo(),
-        body: SingleChildScrollView(
-          child: ref.watch(auth).when(
+        body: ref.watch(auth).when(
                 loading: () => const WaitingData(),
                 data: (data) =>
                     data != null ? const Dashboard() : const AuthWidget(),
                 error: (error, stack) => const WaitingError(),
               ),
-        ),
       ),
     );
   }

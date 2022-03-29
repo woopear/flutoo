@@ -136,8 +136,8 @@ class _SigninState extends ConsumerState<Signin> {
                                 onTap: seePassword,
                                 child: Icon(
                                   obscureText
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
+                                      ? Icons.visibility_off
+                                      : Icons.visibility,
                                 ),
                               ),
                               labelText: AuthConstant.labelInputPassword),
