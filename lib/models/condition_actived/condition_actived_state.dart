@@ -5,6 +5,7 @@ import 'package:flutoo/utils/services/firestore/firestore_path.dart';
 import 'package:flutoo/utils/services/firestore/firestore_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tuple/tuple.dart';
 
 class ConditionActivedState extends ChangeNotifier {
   final _firestoreService = FirestoreService.instance;
@@ -42,6 +43,15 @@ class ConditionActivedState extends ChangeNotifier {
           ContentArticleSchema.fromMap(data, documentId),
     );
   }
+
+  Future<List<ContentArticleSchema>> futureContents(
+      String idCondition, String idArticle) async {
+    return await _firestoreService.getCol(
+      path: FirestorePath.contentsOfArticle(idCondition, idArticle),
+      builder: (data, documentId) =>
+          ContentArticleSchema.fromMap(data, documentId),
+    );
+  }
 }
 
 /// state de la class condition activate state
@@ -55,11 +65,14 @@ final conditionActivateStream = StreamProvider((ref) {
 });
 
 /// state des articles de la condition activate
-final articlesOfConditionStream = StreamProvider((ref) {
-  return ref.watch(conditionActivedState).articles;
+final articlesOfConditionStream = StreamProvider.autoDispose((ref) {
+  return ref.read(conditionActivedState).articles;
 });
 
-/// state des contents de l'article en cours
-final contentsOfArticleStream = StreamProvider((ref) {
-  return ref.watch(conditionActivedState).contents;
+/// future qui recupere les contens en fonction 
+/// de l'idCondition et de l'idArticle
+final contentsFuture = FutureProvider.family((ref, Tuple2 t) async {
+  final f =
+      await ref.watch(conditionActivedState).futureContents(t.item1, t.item2);
+  return f;
 });

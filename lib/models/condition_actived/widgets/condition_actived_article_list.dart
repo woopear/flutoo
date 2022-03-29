@@ -19,6 +19,9 @@ class _ConditionActivedArticleListState
     extends ConsumerState<ConditionActivedArticleList> {
   @override
   Widget build(BuildContext context) {
+    /// on appelle les articles
+    ref.watch(conditionActivedState).streamArticles(widget.idCondition!);
+
     return Container(
       padding: const EdgeInsets.all(20.0),
       margin: const EdgeInsets.only(top: 40.0),
@@ -28,13 +31,12 @@ class _ConditionActivedArticleListState
                 error: (error, stack) => const WaitingError(),
                 loading: () => const WaitingData(),
                 data: (articles) {
+                  final a = articles.reversed;
                   return Container(
                     child: Column(
-                      children: articles.map((article) {
-                        ref
-                            .watch(conditionActivedState)
-                            .streamContents(widget.idCondition!, article.id!);
+                      children: a.map((article) {
                         return Container(
+                          margin: const EdgeInsets.only(bottom: 50.0),
                           child: Column(
                             children: [
                               /// titre article
@@ -53,7 +55,10 @@ class _ConditionActivedArticleListState
                               ),
 
                               /// liste des content
-                              const ConditionActivedcontentList(),
+                              ConditionActivedcontentList(
+                                idArticle: article.id!,
+                                idCondition: widget.idCondition,
+                              ),
                             ],
                           ),
                         );

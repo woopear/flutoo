@@ -27,10 +27,6 @@ class _ConditionActivedListState extends ConsumerState<ConditionActivedList> {
                     child: Container(
                       child: Column(
                         children: conditions.map((condition) {
-                          /// on appelle les articles
-                          ref
-                              .watch(conditionActivedState)
-                              .streamArticles(condition.id!);
                           return Container(
                             margin: const EdgeInsets.only(top: 20.0),
                             child: Column(
