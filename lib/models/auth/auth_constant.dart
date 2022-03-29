@@ -14,7 +14,14 @@ class AuthConstant {
   static String inscriptionUserEmailError = "L'email existe déjà";
   static String inscriptionUserPasswordError =
       'Le mot de passe fourni est trop faible';
-  static String inscriptionError = "Erreur de connexion";
-
+  static String? inscriptionError = "Erreur de connexion";
+  static String? labelCreateInputEmail = "Votre adresse email *";
+  static String? labelCreateInputPassword = "Votre mot de passe *";
+  static String? labelInputPseudo = "Votre pseudo";
+  static String? labelInputLastName = "Votre nom";
+  static String? labelInputFirstName = "Votre prénom";
+  static String? btnCreateUser = "S'inscrire";
+  static String? titlePageCreate = "Créer mon compte";
+  static String? infoFormCreate = "* Ce champs est obligatoire";
   
 }

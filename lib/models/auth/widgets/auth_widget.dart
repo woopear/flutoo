@@ -24,22 +24,28 @@ class _AuthWidgetState extends State<AuthWidget> {
     return Container(
       padding: const EdgeInsets.all(20.0),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           /// formulaire de connexion ou de creation
-          (singinSingup == true) ? const Signin() : const Singup(),
+          singinSingup == true ? const Signin() : const Singup(),
 
           /// btn connexion ou inscription
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: 20.0),
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: ElevatedButton(
-                onPressed: changePage,
-                child: (singinSingup == true)
-                    ? const Text("Céer mon compte")
-                    : const Text("Retour"),
+          Flex(
+            direction: Axis.vertical,
+            children: [
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: 20.0),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: ElevatedButton(
+                    onPressed: changePage,
+                    child: (singinSingup == true)
+                        ? const Text("Céer mon compte")
+                        : const Text("Retour"),
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
         ],
       ),

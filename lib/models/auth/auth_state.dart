@@ -18,11 +18,12 @@ class AuthState extends ChangeNotifier {
   }
 
   // fonction création user
-  Future<UserCredential> createAuth(String email, String password) async {
+  Future<UserCredential> createAuth(
+      TextEditingController email, TextEditingController password) async {
     // création du user de firebase
     final user = _auth.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
+      email: email.text.trim(),
+      password: password.text.trim(),
     );
     notifyListeners();
     return user;

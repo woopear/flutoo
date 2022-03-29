@@ -15,17 +15,19 @@ class Home extends ConsumerStatefulWidget {
 }
 
 class _HomeState extends ConsumerState<Home> {
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: true,
         appBar: const AppBarFlutoo(),
-        body: ref.watch(auth).when(
-          loading: () => const WaitingData(),
-          data: (data) => data != null ? const Dashboard() : const AuthWidget(),
-          error: (error, stack) => const WaitingError(),
+        body: SingleChildScrollView(
+          child: ref.watch(auth).when(
+                loading: () => const WaitingData(),
+                data: (data) =>
+                    data != null ? const Dashboard() : const AuthWidget(),
+                error: (error, stack) => const WaitingError(),
+              ),
         ),
       ),
     );

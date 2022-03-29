@@ -1,24 +1,30 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutoo/config/routes/routes.dart';
 import 'package:flutoo/models/auth/auth_constant.dart';
+import 'package:flutoo/models/auth/auth_state.dart';
+import 'package:flutoo/models/role/role_shema.dart';
+import 'package:flutoo/models/user/user_shema.dart';
+import 'package:flutoo/models/user/user_state.dart';
 import 'package:flutoo/utils/services/validator/validator.dart';
 import 'package:flutoo/widget_shared/notif_message/notif_message.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class Singup extends StatefulWidget {
+class Singup extends ConsumerStatefulWidget {
   const Singup({Key? key}) : super(key: key);
 
   @override
-  State<Singup> createState() => _SingupState();
+  _SingupState createState() => _SingupState();
 }
 
-class _SingupState extends State<Singup> {
+class _SingupState extends ConsumerState<Singup> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController pseudo = TextEditingController();
   TextEditingController firstName = TextEditingController();
   TextEditingController lastName = TextEditingController();
+  bool therme = false;
 
   @override
   void dispose() {
@@ -38,27 +44,27 @@ class _SingupState extends State<Singup> {
           child: CircularProgressIndicator(),
         ),
       );
-      
+
       // inscription user firebase
       try {
-        /* creation auth
-        final user = await context
-            .read<AuthProvider>()
-            .createAuth(email.text.trim(), password.text.trim());*/
+        /// creation auth
+        UserCredential user =
+            await ref.watch(authState).createAuth(email, password);
 
         /// variable userShema
-        /*UserSchema userSchema = UserSchema(
+        UserSchema userSchema = UserSchema(
           uid: user.user!.uid,
           email: email.text.trim(),
           pseudo: pseudo.text,
           firstName: firstName.text,
           lastName: lastName.text,
+          avatar: '',
           role: RoleSchema(libelle: 'public', description: 'utilisateur simple')
               .toMap(),
-        );*/
+        );
 
         /// ajouter un user bdd
-        ///await context.read<UserProvider>().addUser(userSchema);
+        await ref.watch(userState).addUser(userSchema);
 
         /// navigé vers la todo
         Navigator.of(context, rootNavigator: true).pop();
@@ -102,77 +108,125 @@ class _SingupState extends State<Singup> {
 
   @override
   Widget build(BuildContext context) {
-    // récuperation du current user
-    ///final auth = context.watch<AuthProvider>().authenticate;
+    return SingleChildScrollView(
+      child: Container(
+        margin: const EdgeInsets.only(top: 0.0),
+        child: Center(
+          child: SizedBox(
+            width: 400,
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  /// title de la page
+                  Text(
+                    AuthConstant.titlePageCreate!,
+                    style: const TextStyle(fontSize: 36.0),
+                  ),
 
-    return Container(
-      child: Center(
-        child: SizedBox(
-          width: 400,
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                Container(
-                  margin: const EdgeInsets.all(20),
-                  child: TextFormField(
-                    controller: email,
-                    decoration: const InputDecoration(
-                      labelText: 'Votre Email',
-                    ),
-                    validator: (value) => Validator.validateEmail(
-                      textError: Validator.inputConnexionEmail,
-                      value: value,
+                  /// input email
+                  Container(
+                    margin: const EdgeInsets.only(top: 20),
+                    child: TextFormField(
+                      controller: email,
+                      decoration: InputDecoration(
+                        labelText: AuthConstant.labelCreateInputEmail,
+                      ),
+                      validator: (value) => Validator.validateEmail(
+                        textError: Validator.inputConnexionEmail,
+                        value: value,
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  margin: const EdgeInsets.all(20),
-                  child: TextFormField(
-                    controller: password,
-                    decoration: const InputDecoration(
-                      labelText: 'Votre mot de passe',
-                    ),
-                    validator: (value) => Validator.validatePassword(
-                      textError: Validator.inputConnexionPassword,
-                      value: value,
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.all(20),
-                  child: TextFormField(
-                    controller: pseudo,
-                    decoration: const InputDecoration(
-                      labelText: 'Votre pseudo',
+
+                  /// input password
+                  Container(
+                    margin: const EdgeInsets.only(top: 20),
+                    child: TextFormField(
+                      controller: password,
+                      decoration: InputDecoration(
+                        labelText: AuthConstant.labelCreateInputPassword,
+                      ),
+                      validator: (value) => Validator.validatePassword(
+                        textError: Validator.inputConnexionPassword,
+                        value: value,
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  margin: const EdgeInsets.all(20),
-                  child: TextFormField(
-                    controller: lastName,
-                    decoration: const InputDecoration(
-                      labelText: 'Votre prénom',
+
+                  /// input pseudo
+                  Container(
+                    margin: const EdgeInsets.only(top: 20),
+                    child: TextFormField(
+                      controller: pseudo,
+                      decoration: InputDecoration(
+                        labelText: AuthConstant.labelInputPseudo,
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  margin: const EdgeInsets.all(20),
-                  child: TextFormField(
-                    controller: firstName,
-                    decoration: const InputDecoration(
-                      labelText: 'Votre Nom',
+
+                  /// input lastName
+                  Container(
+                    margin: const EdgeInsets.only(top: 20),
+                    child: TextFormField(
+                      controller: lastName,
+                      decoration: InputDecoration(
+                        labelText: AuthConstant.labelInputLastName,
+                      ),
                     ),
                   ),
-                ),
-                ElevatedButton(
-                  onPressed: () async {
-                    await inscritionAuth(context);
-                  },
-                  child: const Text("S'inscrire"),
-                ),
-              ],
+
+                  /// input firstName
+                  Container(
+                    margin: const EdgeInsets.only(top: 20, bottom: 10.0),
+                    child: TextFormField(
+                      controller: firstName,
+                      decoration: InputDecoration(
+                        labelText: AuthConstant.labelInputFirstName,
+                      ),
+                    ),
+                  ),
+
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 20.0),
+                    child: CheckboxListTile(
+                    title: const Text(
+                      "Accepter les conditions générales",
+                      style: TextStyle(fontSize: 14.0),
+                    ),
+                    value: therme,
+                    onChanged: (newValue) {
+                      setState(() {
+                        therme = newValue!;
+                      });
+                    },
+                    controlAffinity: ListTileControlAffinity
+                        .leading, //  <-- leading Checkbox
+                  ),
+                  ),
+                  
+
+                  /// btn create user
+                  ElevatedButton(
+                    onPressed: () async {
+                      await inscritionAuth(context);
+                    },
+                    child: Text(AuthConstant.btnCreateUser!),
+                  ),
+
+                  /// text info formulaire
+                  Container(
+                    margin: const EdgeInsets.only(top: 10.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        AuthConstant.infoFormCreate!,
+                        style: const TextStyle(fontSize: 11.0),
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),

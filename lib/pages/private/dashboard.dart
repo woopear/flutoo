@@ -1,3 +1,4 @@
+import 'package:flutoo/models/condition/widgets/condition_widget.dart';
 import 'package:flutoo/models/profil/widgets/profil_user.dart';
 import 'package:flutoo/models/todo/widgets/todo_widget.dart';
 import 'package:flutoo/models/user/user_state.dart';
@@ -20,7 +21,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
   static const List<Widget> widgetOptions = [
     TodoWidget(),
     ProfilUser(),
-    //ConditionWidget(),
+    ConditionWidget(),
   ];
 
   /// selection de l'index pour le bottomnavbar
