@@ -50,7 +50,7 @@ class _TodoCardState extends ConsumerState<TodoCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Container( 
       margin: const EdgeInsets.symmetric(vertical: 5.0),
       padding: const EdgeInsets.only(left: 20.0, right: 20.0),
       child: Card(
