@@ -13,6 +13,9 @@ class SendResetPassword extends ConsumerStatefulWidget {
 class _SendResetPasswordState extends ConsumerState<SendResetPassword> {
   @override
   Widget build(BuildContext context) {
+    /// recupere la largeur de l'ecran
+    double widthTodo = MediaQuery.of(context).size.width;
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -22,6 +25,7 @@ class _SendResetPasswordState extends ConsumerState<SendResetPassword> {
         body: SingleChildScrollView(
           child: Center(
             child: Container(
+              width: widthTodo > 700 ? 700.0 : double.infinity,
               padding: const EdgeInsets.all(20.0),
               child: const MailResetPassword(),
             ),
