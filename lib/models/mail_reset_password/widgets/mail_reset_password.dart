@@ -17,9 +17,11 @@ class _MailResetPasswordState extends ConsumerState<MailResetPassword> {
   TextEditingController email = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
+/// envoie de l'email de réinitialisation mot de passe
   Future<void> sendEmailChangePassword() async {
     if (_formKey.currentState!.validate()) {
       try {
+        /// envoie email
         await FirebaseAuth.instance.sendPasswordResetEmail(email: email.text);
       } on FirebaseAuthException catch (e) {
         if (e.code == 'auth/invalid-email') {
@@ -107,6 +109,7 @@ class _MailResetPasswordState extends ConsumerState<MailResetPassword> {
               ),
             ),
 
+            /// groupe de btn
             Row(
               children: [
                 Expanded(child: Container()),
@@ -134,8 +137,6 @@ class _MailResetPasswordState extends ConsumerState<MailResetPassword> {
                 ),
               ],
             ),
-
-            /// btn retour home
           ],
         ),
       ),

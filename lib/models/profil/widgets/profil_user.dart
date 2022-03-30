@@ -1,11 +1,10 @@
+import 'package:flutoo/config/routes/routes.dart';
 import 'package:flutoo/models/auth/auth_state.dart';
 import 'package:flutoo/models/profil/widgets/profil_user_card/profil_user_card.dart';
 import 'package:flutoo/models/profil/widgets/profil_user_card/profil_user_update/profil_user_update.dart';
 import 'package:flutoo/models/user/user_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../../config/routes/routes.dart';
 
 class ProfilUser extends ConsumerStatefulWidget {
   const ProfilUser({Key? key}) : super(key: key);
@@ -41,7 +40,9 @@ class _ProfilUserState extends ConsumerState<ProfilUser> {
 
   @override
   Widget build(BuildContext context) {
+    /// on recupere le user connecté
     final user = ref.watch(userCurrent);
+
     return Center(
       child: Column(
         children: [
@@ -93,7 +94,7 @@ class _ProfilUserState extends ConsumerState<ProfilUser> {
             ],
           ),
 
-          /// cadre info
+          /// cadre info + update info
           Container(
             width: 500,
             decoration: BoxDecoration(
@@ -107,10 +108,13 @@ class _ProfilUserState extends ConsumerState<ProfilUser> {
             ),
             child: Column(
               children: [
+                /// groupe btn update user + close update user
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     seeUpdate
+
+                        /// icon close
                         ? Container(
                             child: Align(
                               child: IconButton(
@@ -124,6 +128,8 @@ class _ProfilUserState extends ConsumerState<ProfilUser> {
                               ),
                             ),
                           )
+
+                        /// icon upate
                         : Container(
                             child: Align(
                               child: IconButton(
@@ -155,18 +161,15 @@ class _ProfilUserState extends ConsumerState<ProfilUser> {
                         ),
                       )
                     : Container(),
-                  !seeUpdate 
-                  ? Container(
+                !seeUpdate
+                    ? Container(
                         margin: const EdgeInsets.only(bottom: 40, top: 20),
-
-                    child: TextButton(
-                      child: const Text(
-                        'Changer le mot de passe'
+                        child: TextButton(
+                          child: const Text('Changer le mot de passe'),
+                          onPressed: () => {},
                         ),
-                      onPressed: () => {},
-                  ),)
-                  : Container(),
-
+                      )
+                    : Container(),
               ],
             ),
           ),
