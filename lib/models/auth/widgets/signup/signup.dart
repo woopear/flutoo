@@ -77,13 +77,22 @@ class _SingupState extends ConsumerState<Singup> {
             text: AuthConstant.inscriptionUserPasswordError,
             error: true,
           ).notification(context);
+          Navigator.of(context, rootNavigator: true).pop();
           throw Exception(AuthConstant.inscriptionUserPasswordError);
         } else if (e.code == 'email-already-in-use') {
           NotifMessage(
             text: AuthConstant.inscriptionUserEmailError,
             error: true,
           ).notification(context);
+          Navigator.of(context, rootNavigator: true).pop();
           throw Exception(AuthConstant.inscriptionUserEmailError);
+        }else{
+          NotifMessage(
+            text: "Erreur inconnu",
+            error: true,
+          ).notification(context);
+          Navigator.of(context, rootNavigator: true).pop();
+          throw Exception("Erreur inconnu");
         }
       }
 
@@ -152,6 +161,7 @@ class _SingupState extends ConsumerState<Singup> {
                   Container(
                     margin: const EdgeInsets.only(top: 20),
                     child: TextFormField(
+                      obscureText: obscureText,
                       controller: password,
                       onChanged: (value) {
                         setState(() {
