@@ -1,18 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutoo/models/article/article_schema.dart';
-import 'package:flutoo/models/content_article/content_article_provider.dart';
+import 'package:flutoo/models/condition/condition_state.dart';
+import 'package:flutoo/models/content_article/content_article_state.dart';
 import 'package:flutoo/utils/services/firestore/firestore_path.dart';
 import 'package:flutoo/utils/services/firestore/firestore_service.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ArticleProvider extends ChangeNotifier {
+class ArticleState extends ChangeNotifier {
   final _firestoreService = FirestoreService.instance;
-  late Stream<List<ArticleSchema>> articlesOfCondition;
-  late Stream<ArticleSchema> articleSelected;
+
+  late Stream<List<ArticleSchema>> _articlesOfCondition;
+  late Stream<ArticleSchema> _articleSelected;
+
+  Stream<List<ArticleSchema>> get articlesOfCondition => _articlesOfCondition;
+  Stream<ArticleSchema> get articleSelected => _articleSelected;
 
   /// ecouteur articles
   Future<void> streamArticles(String idCondition) async {
-    articlesOfCondition = _firestoreService.streamCol(
+    _articlesOfCondition = _firestoreService.streamCol(
       path: FirestorePath.articlesOfCondition(idCondition),
       builder: (data, documentId) => ArticleSchema.fromMap(data, documentId),
     );
@@ -21,7 +27,7 @@ class ArticleProvider extends ChangeNotifier {
   /// ecouteur article selected
   Future<void> streamArticleSelected(
       String idCondition, String idArticle) async {
-    articleSelected = _firestoreService.streamDoc(
+    _articleSelected = _firestoreService.streamDoc(
       path: FirestorePath.articleOfContidion(idCondition, idArticle),
       builder: (data, documentId) => ArticleSchema.fromMap(data, documentId),
     );
@@ -49,7 +55,7 @@ class ArticleProvider extends ChangeNotifier {
 
   /// suppression article
   Future<void> deleteArticle(String idCondition, String idArticle) async {
-    final contentArticleProvider = ContentArticleProvider();
+    final contentArticleProvider = ContentArticleState();
 
     /// suppression de tout les content de l'article
     await contentArticleProvider.deteleAllContent(idCondition, idArticle);
@@ -61,7 +67,7 @@ class ArticleProvider extends ChangeNotifier {
 
   /// delete tous les articles
   Future<void> deleteAllArticle(String idCondition) async {
-    final contentArticleProvider = ContentArticleProvider();
+    final contentArticleProvider = ContentArticleState();
 
     /// instance firestore
     WriteBatch batch = FirebaseFirestore.instance.batch();
@@ -83,3 +89,20 @@ class ArticleProvider extends ChangeNotifier {
     });
   }
 }
+
+/// state de la class ArticleState
+final articleState =
+    ChangeNotifierProvider<ArticleState>((ref) => ArticleState());
+
+/// state de tous les article de la condition selectionné
+final allArticleOfConditionStream = StreamProvider((ref) {
+  ref.watch(conditionSelect).whenData((value) {
+    ref.watch(articleState).streamArticles(value.id!);
+  });
+  return ref.watch(articleState).articlesOfCondition;
+});
+
+/// state de l'article selectionné
+final articleSelectStream = StreamProvider((ref) {
+  return ref.watch(articleState).articleSelected;
+});

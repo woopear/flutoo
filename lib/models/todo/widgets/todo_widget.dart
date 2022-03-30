@@ -28,14 +28,17 @@ class _TodoWidgetState extends ConsumerState<TodoWidget> {
         width: widthTodo > 700 ? 700.0 : double.infinity,
         child: ref.watch(todosUser).when(
               data: (todos) {
+                
                 return Column(
                   children: [
                     /// titre de la page
                     Container(
                       margin: const EdgeInsets.only(top: 40.0, bottom: 20.0),
-                      child: todos!.isNotEmpty
+                      child: 
+                      user != null ?
+                      todos!.isNotEmpty
                           ? Text(
-                              user!.firstName! == "" || user.firstName == null
+                              user.firstName == null || user.firstName! == "" 
                                   ? 'nombre de tâche : ' +
                                       todos.length.toString()
                                   : (user.firstName!
@@ -49,7 +52,7 @@ class _TodoWidgetState extends ConsumerState<TodoWidget> {
 
                           /// si il y a pas de tache
                           : Text(
-                              user!.firstName! == "" || user.firstName == null
+                              user.firstName == null || user.firstName! == "" 
                                   ? 'Aucune tâche'
                                   : (user.firstName!
                                               .substring(0, 1)
@@ -57,13 +60,15 @@ class _TodoWidgetState extends ConsumerState<TodoWidget> {
                                           user.firstName!.substring(1)) +
                                       ', aucune tâche',
                               style: const TextStyle(fontSize: 28.0),
-                            ),
+                            ) : Container(),
                     ),
-
+                    
                     /// input creation todo
                     const TodoCreate(),
+                    
                     // affiche la liste des todos
                     const TodoList(),
+                    
                   ],
                 );
               },

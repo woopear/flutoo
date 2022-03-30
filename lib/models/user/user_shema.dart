@@ -10,7 +10,7 @@ class UserSchema {
   String? pseudo;
   bool? termes;
   String? avatar;
-  Map<String, dynamic>? role;
+  Map<String, dynamic>? role = RoleSchema(description: 'public', libelle: 'public').toMap();
 
   UserSchema({
     this.id,
@@ -22,17 +22,17 @@ class UserSchema {
     this.pseudo,
     this.termes = false,
     this.avatar,
-    required this.role,
+    this.role,
   });
 
   factory UserSchema.formMap(Map<String, dynamic> data, documentId) {
     String email = data['email'];
     String uid = data['uid'];
-    String firstName = data['firstName'];
-    String lastName = data['lastName'];
-    String pseudo = data['pseudo'];
-    bool termes = data['termes'];
-    String avatar = data['avatar'];
+    String firstName = data['firstName'] ?? "";
+    String lastName = data['lastName'] ?? "";
+    String pseudo = data['pseudo'] ?? "";
+    bool termes = data['termes'] ?? false;
+    String avatar = data['avatar'] ?? "";
     Map<String, dynamic> role = RoleSchema(
       libelle: data['role']['libelle'],
       description: data['role']['description'],
@@ -58,7 +58,7 @@ class UserSchema {
       'firstName': firstName ?? '',
       'lastName': lastName ?? '',
       'pseudo': pseudo ?? '',
-      'termes': termes ?? '',
+      'termes': termes ?? false,
       'avatar': avatar ?? '',
       'role': role,
     };

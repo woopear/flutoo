@@ -60,6 +60,7 @@ class _SigninState extends ConsumerState<Signin> {
             text: AuthConstant.connexionUserEmailMessageError,
             error: true,
           ).notification(context);
+          Navigator.of(context, rootNavigator: true).pop();
           throw Exception(AuthConstant.connexionUserEmailMessageError);
         } else if (e.code == 'wrong-password') {
           /// mot de passe érroné
@@ -67,8 +68,10 @@ class _SigninState extends ConsumerState<Signin> {
             text: AuthConstant.connexionUserPasswordError,
             error: true,
           ).notification(context);
+          Navigator.of(context, rootNavigator: true).pop();
           throw Exception(AuthConstant.connexionUserPasswordError);
         }
+        Navigator.of(context, rootNavigator: true).pop();
       }
 
       /// reset form
@@ -136,8 +139,8 @@ class _SigninState extends ConsumerState<Signin> {
                                 onTap: seePassword,
                                 child: Icon(
                                   obscureText
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
+                                      ? Icons.visibility_off
+                                      : Icons.visibility,
                                 ),
                               ),
                               labelText: AuthConstant.labelInputPassword),
@@ -154,7 +157,10 @@ class _SigninState extends ConsumerState<Signin> {
                         child: Align(
                             alignment: Alignment.centerRight,
                             child: TextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                      context, Routes().sendResetPassword);
+                                },
                                 child: Text(
                                   'Mot de passe oublié ?',
                                   style: const TextStyle().copyWith(

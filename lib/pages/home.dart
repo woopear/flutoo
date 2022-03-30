@@ -15,7 +15,6 @@ class Home extends ConsumerStatefulWidget {
 }
 
 class _HomeState extends ConsumerState<Home> {
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -23,10 +22,11 @@ class _HomeState extends ConsumerState<Home> {
         resizeToAvoidBottomInset: false,
         appBar: const AppBarFlutoo(),
         body: ref.watch(auth).when(
-          loading: () => const WaitingData(),
-          data: (data) => data != null ? const Dashboard() : const AuthWidget(),
-          error: (error, stack) => const WaitingError(),
-        ),
+                loading: () => const WaitingData(),
+                data: (data) =>
+                    data != null ? const Dashboard() : const AuthWidget(),
+                error: (error, stack) => const WaitingError(),
+              ),
       ),
     );
   }

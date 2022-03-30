@@ -18,7 +18,7 @@ final fireAuthState =
     ChangeNotifierProvider<FireAuthSate>((ref) => FireAuthSate());
 
 /// state du currentUser
-final auth = StreamProvider((ref) {
+final auth = StreamProvider<User?>((ref) {
   ref.watch(fireAuthState).lisenChangeAuth();
   return ref.watch(fireAuthState).auth;
 });

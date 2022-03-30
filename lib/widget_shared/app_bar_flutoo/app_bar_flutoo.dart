@@ -20,7 +20,6 @@ class AppBarFlutoo extends ConsumerStatefulWidget with PreferredSizeWidget {
 class _AppBarFlutooState extends ConsumerState<AppBarFlutoo> {
   @override
   Widget build(BuildContext context) {
-    final authUser = ref.watch(auth);
     return AppBar(
       automaticallyImplyLeading: false,
       title: const Text('Flutoo'),
@@ -29,27 +28,29 @@ class _AppBarFlutooState extends ConsumerState<AppBarFlutoo> {
           padding: const EdgeInsets.only(right: 20.0),
           child: Row(
             children: [
-              authUser.when(
-                data: (data) {
-                  return IconButton(
-                    onPressed: () async {
-                      /// petit load à la deconnection
-                      showDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (context) => const Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      );
-                      await ref.watch(authState).disconnectAuth();
-                      Navigator.pushNamed(context, Routes().home);
+              ref.watch(auth).when(
+                    data: (data) {
+                      return data != null
+                          ? IconButton(
+                              onPressed: () async {
+                                /// petit load à la deconnection
+                                showDialog(
+                                  context: context,
+                                  barrierDismissible: false,
+                                  builder: (context) => const Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                );
+                                await ref.watch(authState).disconnectAuth();
+                                Navigator.pushNamed(context, Routes().home);
+                              },
+                              icon: const Icon(Icons.logout),
+                            )
+                          : Container();
                     },
-                    icon: const Icon(Icons.logout),
-                  );
-                },
-                error: (error, stack) => const WaitingError(),
-                loading: () => const WaitingData(),
-              ),
+                    error: (error, stack) => const WaitingError(),
+                    loading: () => const WaitingData(),
+                  ),
 
               /// btn switch mode dark
               const SwitchModeDark(),

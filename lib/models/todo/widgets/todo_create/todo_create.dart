@@ -52,9 +52,6 @@ class _TodoCreateState extends ConsumerState<TodoCreate> {
 
   @override
   Widget build(BuildContext context) {
-    /// on recupere le user connecté
-    ///final user = context.watch<UserProvider>().user;
-
     return Container(
       margin: const EdgeInsets.only(top: 50.0),
       padding: const EdgeInsets.only(left: 20.0, right: 20.0),
@@ -84,14 +81,6 @@ class _TodoCreateState extends ConsumerState<TodoCreate> {
                   child: ElevatedButton(
                     onPressed: () async {
                         await createTodo(context);
-                      /*if (user != null) {
-                      } else {
-                        NotifMessage(
-                          text:
-                              "L'utilisateur n'est pas connecter pour creer une tache !",
-                          error: true,
-                        );
-                      }*/
                     },
                     child: const Text('Valider'),
                   ),
