@@ -20,7 +20,7 @@ class ProfilUserUpdate extends ConsumerStatefulWidget {
 
 class _ProfilUserUpdateState extends ConsumerState<ProfilUserUpdate> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  String email = '';
+
   String firstName = '';
   String lastName = '';
   String pseudo = '';
@@ -33,9 +33,7 @@ class _ProfilUserUpdateState extends ConsumerState<ProfilUserUpdate> {
     UserSchema userUpdate = userUpdateFile;
     if (_formKey.currentState!.validate()) {
       /// on assigne tous les champ dans la variable userUpdate si elle sont vide on y laisse la valeur de départ
-      if (email != '') {
-        userUpdate.email = email;
-      }
+
       if (firstName != '') {
         userUpdate.firstName = firstName;
       }
@@ -130,25 +128,6 @@ class _ProfilUserUpdateState extends ConsumerState<ProfilUserUpdate> {
                   value: value,
                 ),
                 onChanged: (value) => pseudo = value,
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(top: 30),
-              padding:
-                  const EdgeInsets.symmetric(vertical: 15.0, horizontal: 5.0),
-              child: TextFormField(
-                decoration: const InputDecoration(
-                  labelText: 'Email : ',
-                ),
-                initialValue: user.email,
-                style: const TextStyle(
-                  fontSize: 22,
-                ),
-                validator: (value) => Validator.validateEmail(
-                  textError: Validator.inputConnexionEmail,
-                  value: value,
-                ),
-                onChanged: (value) => email = value,
               ),
             ),
             Container(
