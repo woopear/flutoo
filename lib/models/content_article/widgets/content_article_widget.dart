@@ -1,13 +1,13 @@
 import 'package:flutoo/models/article/article_schema.dart';
 import 'package:flutoo/models/condition/condition_schema.dart';
 import 'package:flutoo/models/content_article/content_article_constant.dart';
-import 'package:flutoo/models/content_article/content_article_provider.dart';
+import 'package:flutoo/models/content_article/content_article_state.dart';
 import 'package:flutoo/models/content_article/widgets/content_article_list/content_article_list.dart';
 import 'package:flutoo/widget_shared/notif_message/notif_message.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ContentArticleWidget extends StatefulWidget {
+class ContentArticleWidget extends ConsumerStatefulWidget {
   ArticleSchema articleSelect;
   ConditionSchema conditionSelect;
 
@@ -18,10 +18,10 @@ class ContentArticleWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<ContentArticleWidget> createState() => _ContentArticleWidgetState();
+  _ContentArticleWidgetState createState() => _ContentArticleWidgetState();
 }
 
-class _ContentArticleWidgetState extends State<ContentArticleWidget> {
+class _ContentArticleWidgetState extends ConsumerState<ContentArticleWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -44,7 +44,7 @@ class _ContentArticleWidgetState extends State<ContentArticleWidget> {
               alignment: Alignment.centerLeft,
               child: TextButton.icon(
                 onPressed: () {
-                  context.read<ContentArticleProvider>().addContentOfArticle(
+                  ref.watch(contentArticleState).addContentOfArticle(
                         widget.conditionSelect.id!,
                         widget.articleSelect.id!,
                         null,

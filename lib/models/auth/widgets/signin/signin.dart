@@ -1,29 +1,37 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutoo/config/routes/routes.dart';
 import 'package:flutoo/models/auth/auth_constant.dart';
-import 'package:flutoo/models/auth/auth_provider.dart';
+import 'package:flutoo/models/auth/auth_state.dart';
 import 'package:flutoo/utils/services/validator/validator.dart';
 import 'package:flutoo/widget_shared/notif_message/notif_message.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class Signin extends StatefulWidget {
+class Signin extends ConsumerStatefulWidget {
   const Signin({Key? key}) : super(key: key);
 
   @override
-  State<Signin> createState() => _SigninState();
+  _SigninState createState() => _SigninState();
 }
 
-class _SigninState extends State<Signin> {
+class _SigninState extends ConsumerState<Signin> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  bool obscureText = true;
 
   @override
   void dispose() {
     email.dispose();
     password.dispose();
     super.dispose();
+  }
+
+  /// afficher / cacher mot de passe dans input
+  void seePassword() {
+    setState(() {
+      obscureText = !obscureText;
+    });
   }
 
   /// connexion utilisateur simple
@@ -40,9 +48,7 @@ class _SigninState extends State<Signin> {
 
       try {
         /// connexion auth firebase
-        await context
-            .read<AuthProvider>()
-            .connexionAuth(email.text.trim(), password.text.trim());
+        await ref.watch(authState).connexionAuth(email, password);
 
         /// go to page dashboard
         Navigator.of(context, rootNavigator: true).pop();
@@ -86,9 +92,6 @@ class _SigninState extends State<Signin> {
 
   @override
   Widget build(BuildContext context) {
-    /// on recupere le current user
-    final auth = context.watch<AuthProvider>().authenticate;
-
     return Container(
       child: Center(
         child: SizedBox(
@@ -126,8 +129,17 @@ class _SigninState extends State<Signin> {
                       Container(
                         margin: const EdgeInsets.only(top: 20.0),
                         child: TextFormField(
+                          obscureText: obscureText,
                           controller: password,
                           decoration: const InputDecoration().copyWith(
+                              suffixIcon: InkWell(
+                                onTap: seePassword,
+                                child: Icon(
+                                  obscureText
+                                      ? Icons.visibility_off
+                                      : Icons.visibility,
+                                ),
+                              ),
                               labelText: AuthConstant.labelInputPassword),
                           validator: (value) => Validator.validatePassword(
                             textError: Validator.inputConnexionPassword,

@@ -1,27 +1,26 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutoo/models/condition/widgets/condition_widget.dart';
+import 'package:flutoo/models/profil/widgets/profil_user.dart';
 import 'package:flutoo/models/todo/widgets/todo_widget.dart';
-import 'package:flutoo/models/user/user_provider.dart';
+import 'package:flutoo/models/user/user_state.dart';
 import 'package:flutoo/widget_shared/app_bar_flutoo/app_bar_flutoo.dart';
-import 'package:flutoo/widget_shared/waiting_data/wating_data.dart';
-import 'package:flutoo/widget_shared/waiting_error/waiting_error.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class Dashboard extends StatefulWidget {
+class Dashboard extends ConsumerStatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
 
   @override
-  State<Dashboard> createState() => _DashboardState();
+  _DashboardState createState() => _DashboardState();
 }
 
-class _DashboardState extends State<Dashboard> {
+class _DashboardState extends ConsumerState<Dashboard> {
   int indexSelection = 0;
+  bool test = false;
 
   /// list des widget relier à la bottomnavbar
   static const List<Widget> widgetOptions = [
     TodoWidget(),
-    Text('coucou'),
+    ProfilUser(),
     ConditionWidget(),
   ];
 
@@ -34,63 +33,42 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
-    /// on recupere les users pour tester
-    /// le role afin d'affiche ou pas la partie condition gen
-    final user = context.watch<UserProvider>().user;
-
+    final user = ref.watch(userCurrent);
+    
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         appBar: const AppBarFlutoo(),
         body: SingleChildScrollView(
-          child: StreamBuilder<User?>(
-            stream: FirebaseAuth.instance.authStateChanges(),
-            builder: ((context, snapshot) {
-              /// si on les données
-              if (snapshot.hasData) {
-                /// recupere le user connecter
-                return widgetOptions.elementAt(indexSelection);
-              }
-
-              if(snapshot.connectionState == ConnectionState.done){
-                  context.read<UserProvider>().streamUsers(snapshot.data!.uid);
-              }
-
-              /// en chargement
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const WaitingData();
-              }
-
-              /// si pas de data et chargement terminé
-              /// on affiche une erreur
-              return const WaitingError();
-            }),
-          ),
+          child: widgetOptions.elementAt(indexSelection),
         ),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: indexSelection,
           onTap: onItemTapped,
-          items: const [
+          items: [
             /// list des todos
-            BottomNavigationBarItem(
+            const BottomNavigationBarItem(
               icon: Icon(Icons.list),
               tooltip: 'todo',
               label: '',
             ),
 
             ///profil
-            BottomNavigationBarItem(
+            const BottomNavigationBarItem(
               icon: Icon(Icons.person),
               tooltip: 'profil',
               label: '',
             ),
 
-            /// TODO : faire condition pour l'affichage seulement pour user admin
-            BottomNavigationBarItem(
-              icon: Icon(Icons.account_balance),
-              tooltip: 'Conditions générales',
-              label: '',
-            ),
+            /// condition
+            /// si pas user root pas de menu
+            if(user != null)
+            if (user.role!['libelle'] == 'root')
+              const BottomNavigationBarItem(
+                icon: Icon(Icons.account_balance),
+                tooltip: 'Conditions générales',
+                label: '',
+              ),
           ],
         ),
       ),

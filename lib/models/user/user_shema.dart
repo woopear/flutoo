@@ -1,3 +1,5 @@
+import 'package:flutoo/models/role/role_shema.dart';
+
 class UserSchema {
   String? id;
   String? email;
@@ -7,6 +9,8 @@ class UserSchema {
   String? lastName;
   String? pseudo;
   bool? termes;
+  String? avatar;
+  Map<String, dynamic>? role = RoleSchema(description: 'public', libelle: 'public').toMap();
 
   UserSchema({
     this.id,
@@ -17,15 +21,22 @@ class UserSchema {
     this.lastName,
     this.pseudo,
     this.termes = false,
+    this.avatar,
+    this.role,
   });
 
   factory UserSchema.formMap(Map<String, dynamic> data, documentId) {
     String email = data['email'];
     String uid = data['uid'];
-    String firstName = data['firstName'];
-    String lastName = data['lastName'];
-    String pseudo = data['pseudo'];
-    bool termes = data['termes'];
+    String firstName = data['firstName'] ?? "";
+    String lastName = data['lastName'] ?? "";
+    String pseudo = data['pseudo'] ?? "";
+    bool termes = data['termes'] ?? false;
+    String avatar = data['avatar'] ?? "";
+    Map<String, dynamic> role = RoleSchema(
+      libelle: data['role']['libelle'],
+      description: data['role']['description'],
+    ).toMap();
 
     return UserSchema(
       id: documentId,
@@ -35,18 +46,21 @@ class UserSchema {
       lastName: lastName,
       pseudo: pseudo,
       termes: termes,
+      avatar: avatar,
+      role: role,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
       'email': email,
-      'password': password,
       'uid': uid,
       'firstName': firstName ?? '',
       'lastName': lastName ?? '',
       'pseudo': pseudo ?? '',
-      'termes': termes ?? '',
+      'termes': termes ?? false,
+      'avatar': avatar ?? '',
+      'role': role,
     };
   }
 }
