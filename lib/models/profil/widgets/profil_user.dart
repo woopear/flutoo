@@ -1,15 +1,20 @@
+import 'package:flutoo/models/auth/auth_state.dart';
 import 'package:flutoo/models/profil/widgets/profil_user_card/profil_user_card.dart';
 import 'package:flutoo/models/profil/widgets/profil_user_card/profil_user_update/profil_user_update.dart';
+import 'package:flutoo/models/user/user_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ProfilUser extends StatefulWidget {
+import '../../../config/routes/routes.dart';
+
+class ProfilUser extends ConsumerStatefulWidget {
   const ProfilUser({Key? key}) : super(key: key);
 
   @override
-  State<ProfilUser> createState() => _ProfilUserState();
+  _ProfilUserState createState() => _ProfilUserState();
 }
 
-class _ProfilUserState extends State<ProfilUser> {
+class _ProfilUserState extends ConsumerState<ProfilUser> {
   bool seeUpdate = false;
   bool seeUpdateAvatar = false;
 
@@ -27,8 +32,16 @@ class _ProfilUserState extends State<ProfilUser> {
     });
   }
 
+  /// delete le user
+  void deleteUser(BuildContext context, String id) {
+    ref.watch(userState).delete(id);
+    ref.watch(authState).deleteAuth();
+    Navigator.pushNamed(context, Routes().home);
+  }
+
   @override
   Widget build(BuildContext context) {
+    final user = ref.watch(userCurrent);
     return Center(
       child: Column(
         children: [
@@ -130,9 +143,7 @@ class _ProfilUserState extends State<ProfilUser> {
                     ? Container(
                         margin: const EdgeInsets.only(bottom: 40, top: 20),
                         child: ElevatedButton(
-                          onPressed: () => {
-                            /// on met le changement de donnée dans une variable
-                          },
+                          onPressed: () => {deleteUser(context, user!.id!)},
                           child: const Text(
                             'Effacer le compte',
                           ),
