@@ -28,12 +28,13 @@ class UserState extends ChangeNotifier {
   }
 
   // création du user de la base de donnée
-  Future<void> addUser(UserSchema userSchema) async {
+  Future<bool> addUser(UserSchema userSchema) async {
     await _firestoreService.add(
       path: FirestorePath.usersCollection(),
       data: userSchema.toMap(),
     );
-    notifyListeners();
+
+    return true;
   }
 
   /// reset user

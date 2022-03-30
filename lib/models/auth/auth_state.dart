@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutoo/models/user/user_shema.dart';
 import 'package:flutoo/models/user/user_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,21 +19,23 @@ class AuthState extends ChangeNotifier {
   }
 
   // fonction création user
-  Future<UserCredential> createAuth(
-      TextEditingController email, TextEditingController password) async {
+  Future<void> createAuth(TextEditingController email,
+      TextEditingController password, UserSchema userSchema) async {
     // création du user de firebase
-    final user = _auth.createUserWithEmailAndPassword(
+    final usercurrent = await _auth.createUserWithEmailAndPassword(
       email: email.text.trim(),
       password: password.text.trim(),
     );
+
+    /// creation user data firestore
+    userSchema.uid = usercurrent.user!.uid;
+    user.addUser(userSchema);
     notifyListeners();
-    return user;
   }
 
   // fonction qui déconnecte le userCurrent
   Future<void> disconnectAuth() async {
     await _auth.signOut();
-
     user.resetUser();
     notifyListeners();
   }

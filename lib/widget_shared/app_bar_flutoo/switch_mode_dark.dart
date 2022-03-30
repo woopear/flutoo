@@ -14,7 +14,7 @@ class _SwitchModeDarkState extends ConsumerState<SwitchModeDark> {
   Widget build(BuildContext context) {
     final trueDark = ref.watch(themeState).isDark;
     return IconButton(
-      onPressed: () => ref.read(themeState).changeDark(!trueDark),
+      onPressed: () => ref.watch(themeState).changeDark(!trueDark),
       icon: trueDark
           ? const Icon(Icons.brightness_3)
           : const Icon(Icons.brightness_7),

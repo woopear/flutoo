@@ -4,7 +4,6 @@ import 'package:flutoo/models/auth/auth_constant.dart';
 import 'package:flutoo/models/auth/auth_state.dart';
 import 'package:flutoo/models/role/role_shema.dart';
 import 'package:flutoo/models/user/user_shema.dart';
-import 'package:flutoo/models/user/user_state.dart';
 import 'package:flutoo/utils/services/validator/validator.dart';
 import 'package:flutoo/widget_shared/notif_message/notif_message.dart';
 import 'package:flutter/material.dart';
@@ -27,12 +26,20 @@ class _SingupState extends ConsumerState<Singup> {
   bool termes = false;
   String testemail = '';
   String testpassword = '';
+  bool obscureText = true;
 
   @override
   void dispose() {
     email.dispose();
     password.dispose();
     super.dispose();
+  }
+
+  /// afficher / cacher mot de passe dans input
+  void seePassword() {
+    setState(() {
+      obscureText = !obscureText;
+    });
   }
 
   /// inscription user
@@ -49,13 +56,9 @@ class _SingupState extends ConsumerState<Singup> {
 
       // inscription user firebase
       try {
-        /// creation auth
-        UserCredential user =
-            await ref.watch(authState).createAuth(email, password);
-
         /// variable userShema
         UserSchema userSchema = UserSchema(
-          uid: user.user!.uid,
+          uid: '',
           email: email.text.trim(),
           pseudo: pseudo.text,
           firstName: firstName.text,
@@ -66,12 +69,8 @@ class _SingupState extends ConsumerState<Singup> {
               .toMap(),
         );
 
-        /// ajouter un user bdd
-        await ref.watch(userState).addUser(userSchema);
-
-        /// navigé vers la todo
-        Navigator.of(context, rootNavigator: true).pop();
-        Navigator.pushNamed(context, Routes().todo);
+        /// creation auth
+        await ref.watch(authState).createAuth(email, password, userSchema);
       } on FirebaseAuthException catch (e) {
         if (e.code == 'weak-password') {
           NotifMessage(
@@ -88,18 +87,20 @@ class _SingupState extends ConsumerState<Singup> {
         }
       }
 
-      // ajouter un User dans notre bdd
-
       // rest le form
       _formKey.currentState!.reset();
       email.clear();
       password.clear();
-
+      
       // norification succés
       NotifMessage(
         text: AuthConstant.inscriptionUserMessageSucces,
-        error: true,
+        error: false,
       ).notification(context);
+
+      /// go to page dashboard
+      Navigator.of(context, rootNavigator: true).pop();
+      Navigator.pushNamed(context, Routes().todo);
     } else {
       // norification d'erreur
       NotifMessage(
@@ -158,6 +159,14 @@ class _SingupState extends ConsumerState<Singup> {
                         });
                       },
                       decoration: InputDecoration(
+                        suffixIcon: InkWell(
+                                onTap: seePassword,
+                                child: Icon(
+                                  obscureText
+                                      ? Icons.visibility_off
+                                      : Icons.visibility,
+                                ),
+                              ),
                         labelText: AuthConstant.labelCreateInputPassword,
                       ),
                       validator: (value) => Validator.validatePassword(
