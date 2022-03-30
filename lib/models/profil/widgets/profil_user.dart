@@ -45,6 +45,7 @@ class _ProfilUserState extends ConsumerState<ProfilUser> {
     return Center(
       child: Column(
         children: [
+          /// title de la page
           Container(
             margin: const EdgeInsets.only(top: 40.0, bottom: 20.0),
             child: const Text(
@@ -52,6 +53,8 @@ class _ProfilUserState extends ConsumerState<ProfilUser> {
               style: TextStyle(fontSize: 28),
             ),
           ),
+
+          /// image / avatar
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -89,6 +92,8 @@ class _ProfilUserState extends ConsumerState<ProfilUser> {
                     )
             ],
           ),
+
+          /// cadre info
           Container(
             width: 500,
             decoration: BoxDecoration(
