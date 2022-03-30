@@ -29,7 +29,6 @@ class _ProfilUserState extends State<ProfilUser> {
 
   @override
   Widget build(BuildContext context) {
-
     return Center(
       child: Column(
         children: [
@@ -43,7 +42,7 @@ class _ProfilUserState extends State<ProfilUser> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-                  const Icon(Icons.person, size: 100),
+              const Icon(Icons.person, size: 100),
               seeUpdateAvatar
                   ? Container(
                       child: Align(
@@ -77,45 +76,72 @@ class _ProfilUserState extends State<ProfilUser> {
                     )
             ],
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              seeUpdate
-                  ? Container(
-                      child: Align(
-                        child: IconButton(
-                          onPressed: () {
-                            openCloseUpdated();
-                          },
-                          color: Colors.red,
-                          icon: const Icon(
-                            Icons.close,
-                          ),
-                        ),
-                      ),
-                    )
-                  : Container(
-                      child: Align(
-                        child: IconButton(
-                          onPressed: () {
-                            openCloseUpdated();
-                          },
-                          color: Theme.of(context).colorScheme.primary,
-                          icon: const Icon(
-                            Icons.edit,
-                          ),
-                        ),
-                      ),
-                    ),
-              const SizedBox(
-                width: 400,
+          Container(
+            width: 500,
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(
+                Radius.circular(20),
               ),
-            ],
+              border: Border.all(
+                width: 1,
+                color: Colors.black,
+              ),
+            ),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    seeUpdate
+                        ? Container(
+                            child: Align(
+                              child: IconButton(
+                                onPressed: () {
+                                  openCloseUpdated();
+                                },
+                                color: Colors.red,
+                                icon: const Icon(
+                                  Icons.close,
+                                ),
+                              ),
+                            ),
+                          )
+                        : Container(
+                            child: Align(
+                              child: IconButton(
+                                onPressed: () {
+                                  openCloseUpdated();
+                                },
+                                color: Theme.of(context).colorScheme.primary,
+                                icon: const Icon(
+                                  Icons.edit,
+                                ),
+                              ),
+                            ),
+                          ),
+                  ],
+                ),
+                seeUpdate
+                    ? ProfilUserUpdate(
+                        closedUpdated: () => openCloseUpdated(),
+                      )
+                    : const ProfilUserCard(),
+                !seeUpdate
+                    ? Container(
+                        margin: const EdgeInsets.only(bottom: 40, top: 20),
+                        child: ElevatedButton(
+                          onPressed: () => {
+                            /// on met le changement de donnée dans une variable
+                          },
+                          child: const Text(
+                            'Effacer le compte',
+                          ),
+                        ),
+                      )
+                    : Container(),
+              ],
+            ),
           ),
-          seeUpdate ? ProfilUserUpdate(
-            closedUpdated: () => openCloseUpdated(),
-          ) 
-          : const ProfilUserCard(),
         ],
       ),
     );

@@ -24,10 +24,10 @@ class _ProfilUserCardState extends ConsumerState<ProfilUserCard> {
     /// recupere le user current
     final user = ref.watch(userCurrent);
 
-    return Container(
+    return SizedBox(
+      
       child: Column(
         children: [
-          
           Container(
             padding:
                 const EdgeInsets.symmetric(vertical: 15.0, horizontal: 5.0),
@@ -66,7 +66,7 @@ class _ProfilUserCardState extends ConsumerState<ProfilUserCard> {
                 const EdgeInsets.symmetric(vertical: 15.0, horizontal: 5.0),
             margin: const EdgeInsets.only(top: 30),
             child: Text(
-              'Email : '+ user.email!,
+              'Email : ' + user.email!,
               style: const TextStyle(
                 fontSize: 22,
               ),
