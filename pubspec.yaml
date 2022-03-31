@@ -47,6 +47,7 @@ dependencies:
   tuple: ^2.0.0
   firebase_storage: ^10.2.9
   file_picker: ^4.5.1
+  universal_io: ^2.0.4
 
 dev_dependencies:
   flutter_test:
