@@ -139,9 +139,9 @@ class _ProfilUserState extends ConsumerState<ProfilUser> {
                         margin: EdgeInsets.zero,
                         padding: EdgeInsets.zero,
                         constraints: const BoxConstraints(),
-                        child: avatar != "" || avatar != null
+                        child: avatar != "" && avatar != null
                             ? Image.network(
-                                avatar!.toString(),
+                                avatar.toString(),
                                 width: 80.0,
                                 height: 80.0,
                               )
