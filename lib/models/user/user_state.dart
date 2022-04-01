@@ -76,7 +76,9 @@ class UserState extends ChangeNotifier {
   /// delete un user
   Future<void> delete(String idUser, String avatar, String uid) async {
     /// suppression image du user
-    _firebaseStorage.refFromURL(avatar).delete();
+    if (avatar != '') {
+      _firebaseStorage.refFromURL(avatar).delete();
+    }
 
     /// suppression des todos du user
     deleteTodoByUid(uid);
