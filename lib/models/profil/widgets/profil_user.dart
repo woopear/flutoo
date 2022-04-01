@@ -220,13 +220,15 @@ class _ProfilUserState extends ConsumerState<ProfilUser> {
           /// cadre info + update info
           Container(
             width: 500,
+            margin: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(10.0),
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(
                 Radius.circular(20),
               ),
               border: Border.all(
                 width: 1,
-                color: Colors.black,
+                color: Colors.grey,
               ),
             ),
             child: Column(
@@ -275,21 +277,25 @@ class _ProfilUserState extends ConsumerState<ProfilUser> {
                     : const ProfilUserCard(),
                 !seeUpdate
                     ? Container(
-                        margin: const EdgeInsets.only(bottom: 40, top: 20),
-                        child: ElevatedButton(
+                        margin: const EdgeInsets.only(top: 20),
+                        child: TextButton(
                           onPressed: () => {deleteUser(context, user.id!)},
                           child: const Text(
-                            'Effacer le compte',
+                            'Supprimer mon compte',
+                            style: TextStyle(color: Colors.red),
                           ),
                         ),
                       )
                     : Container(),
                 !seeUpdate
                     ? Container(
-                        margin: const EdgeInsets.only(bottom: 40, top: 20),
+                        margin: const EdgeInsets.only(bottom: 40),
                         child: TextButton(
-                          child: const Text('Changer le mot de passe'),
-                          onPressed: () => {},
+                          child: const Text('Modifier mon mot de passe'),
+                          onPressed: () {
+                            Navigator.pushNamed(
+                                context, Routes().sendResetPassword);
+                          },
                         ),
                       )
                     : Container(),
