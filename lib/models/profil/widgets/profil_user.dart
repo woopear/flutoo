@@ -108,201 +108,210 @@ class _ProfilUserState extends ConsumerState<ProfilUser> {
         file != null ? '1 fichier prêt à etre télécharger' : 'Aucun fichier';
 
     return Center(
-      child: Column(
-        children: [
-          /// title de la page
-          Container(
-            margin: const EdgeInsets.only(top: 40.0, bottom: 20.0),
-            child: const Text(
-              "Profil de l'utilisateur",
-              style: TextStyle(fontSize: 28),
-            ),
-          ),
-
-          /// cadre image user
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              !seeUpdateAvatar
-
-                  /// image
-                  ? Align(
-                      child: Container(
-                      margin: EdgeInsets.zero,
-                      padding: EdgeInsets.zero,
-                      constraints: const BoxConstraints(),
-                      child: avatar != "" || avatar != null
-                          ? Image.network(
-                              avatar!.toString(),
-                              width: 80.0,
-                              height: 80.0,
-                            )
-                          : const Icon(Icons.person, size: 100.0),
-                    ))
-
-                  /// btn selected image
-                  : Align(
-                      child: Column(
-                        children: [
-                          /// btn selected image
-                          ElevatedButton(
-                            onPressed: () async {
-                              await selectAvatar();
-                            },
-                            child: const Text(
-                              'Selectionner votre image',
-                              style: TextStyle(fontSize: 14.0),
-                            ),
-                          ),
-
-                          /// cadre text info upload / btn telecharger
-                          Container(
-                            margin: const EdgeInsets.symmetric(vertical: 20.0),
-                            child: Column(
-                              children: [
-                                /// text fichier selectionné
-                                Container(
-                                  margin: const EdgeInsets.only(bottom: 20.0),
-                                  child: Text(fileName),
-                                ),
-
-                                /// btn telecharger
-                                ElevatedButton(
-                                  onPressed: file != null
-                                      ? () async {
-                                          await uploadAvatar(user);
-                                        }
-                                      : null,
-                                  child: const Text(
-                                    'Télécharger',
-                                    style: TextStyle(fontSize: 14.0),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-
-              /// btn open close update image user
-              Container(
-                margin: seeUpdateAvatar
-                    ? const EdgeInsets.only(left: 20.0)
-                    : EdgeInsets.zero,
-                child: IconButton(
-                  padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(),
-                  hoverColor: Colors.transparent,
-                  alignment: Alignment.topLeft,
-                  onPressed: () {
-                    openCloseUpdatedAvatar();
-                    setState(() {
-                      file = null;
-                    });
-                  },
-                  color: seeUpdateAvatar
-                      ? Colors.red
-                      : Theme.of(context).colorScheme.primary,
-                  icon: seeUpdateAvatar
-                      ? const Icon(
-                          Icons.close,
-                        )
-                      : const Icon(
-                          Icons.edit,
-                        ),
-                ),
-              ),
-            ],
-          ),
-
-          /// cadre info + update info
-          Container(
-            width: 500,
-            margin: const EdgeInsets.all(20.0),
-            padding: const EdgeInsets.all(10.0),
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(
-                Radius.circular(20),
-              ),
-              border: Border.all(
-                width: 1,
-                color: Colors.grey,
+      child: Container(
+        padding: const EdgeInsets.only(
+          top: 20.0,
+          bottom: 50.0,
+          left: 20.0,
+          right: 20.0,
+        ),
+        child: Column(
+          children: [
+            /// title de la page
+            Container(
+              margin: const EdgeInsets.only(top: 40.0, bottom: 20.0),
+              child: const Text(
+                "Profil de l'utilisateur",
+                style: TextStyle(fontSize: 28),
               ),
             ),
-            child: Column(
+
+            /// cadre image user
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                /// groupe btn update user + close update user
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    seeUpdate
+                !seeUpdateAvatar
 
-                        /// icon close
-                        ? Container(
-                            child: Align(
-                              child: IconButton(
-                                onPressed: () {
-                                  openCloseUpdated();
-                                },
-                                color: Colors.red,
-                                icon: const Icon(
-                                  Icons.close,
-                                ),
+                    /// image
+                    ? Align(
+                        child: Container(
+                        margin: EdgeInsets.zero,
+                        padding: EdgeInsets.zero,
+                        constraints: const BoxConstraints(),
+                        child: avatar != "" || avatar != null
+                            ? Image.network(
+                                avatar!.toString(),
+                                width: 80.0,
+                                height: 80.0,
+                              )
+                            : const Icon(Icons.person, size: 100.0),
+                      ))
+
+                    /// btn selected image
+                    : Align(
+                        child: Column(
+                          children: [
+                            /// btn selected image
+                            ElevatedButton(
+                              onPressed: () async {
+                                await selectAvatar();
+                              },
+                              child: const Text(
+                                'Selectionner votre image',
+                                style: TextStyle(fontSize: 14.0),
                               ),
                             ),
+
+                            /// cadre text info upload / btn telecharger
+                            Container(
+                              margin:
+                                  const EdgeInsets.symmetric(vertical: 20.0),
+                              child: Column(
+                                children: [
+                                  /// text fichier selectionné
+                                  Container(
+                                    margin: const EdgeInsets.only(bottom: 20.0),
+                                    child: Text(fileName),
+                                  ),
+
+                                  /// btn telecharger
+                                  ElevatedButton(
+                                    onPressed: file != null
+                                        ? () async {
+                                            await uploadAvatar(user);
+                                          }
+                                        : null,
+                                    child: const Text(
+                                      'Télécharger',
+                                      style: TextStyle(fontSize: 14.0),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+
+                /// btn open close update image user
+                Container(
+                  margin: seeUpdateAvatar
+                      ? const EdgeInsets.only(left: 20.0)
+                      : EdgeInsets.zero,
+                  child: IconButton(
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                    hoverColor: Colors.transparent,
+                    alignment: Alignment.topLeft,
+                    onPressed: () {
+                      openCloseUpdatedAvatar();
+                      setState(() {
+                        file = null;
+                      });
+                    },
+                    color: seeUpdateAvatar
+                        ? Colors.red
+                        : Theme.of(context).colorScheme.primary,
+                    icon: seeUpdateAvatar
+                        ? const Icon(
+                            Icons.close,
                           )
-
-                        /// icon upate
-                        : Container(
-                            child: Align(
-                              child: IconButton(
-                                onPressed: () {
-                                  openCloseUpdated();
-                                },
-                                color: Theme.of(context).colorScheme.primary,
-                                icon: const Icon(
-                                  Icons.edit,
-                                ),
-                              ),
-                            ),
+                        : const Icon(
+                            Icons.edit,
                           ),
-                  ],
+                  ),
                 ),
-                seeUpdate
-                    ? ProfilUserUpdate(
-                        closedUpdated: () => openCloseUpdated(),
-                      )
-                    : const ProfilUserCard(),
-                !seeUpdate
-                    ? Container(
-                        margin: const EdgeInsets.only(top: 20),
-                        child: TextButton(
-                          onPressed: () => {deleteUser(context, user.id!)},
-                          child: const Text(
-                            'Supprimer mon compte',
-                            style: TextStyle(color: Colors.red),
-                          ),
-                        ),
-                      )
-                    : Container(),
-                !seeUpdate
-                    ? Container(
-                        margin: const EdgeInsets.only(bottom: 40),
-                        child: TextButton(
-                          child: const Text('Modifier mon mot de passe'),
-                          onPressed: () {
-                            Navigator.pushNamed(
-                                context, Routes().sendResetPassword);
-                          },
-                        ),
-                      )
-                    : Container(),
               ],
             ),
-          ),
-        ],
+
+            /// cadre info + update info
+            Container(
+              width: 500,
+              margin: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(10.0),
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(20),
+                ),
+                border: Border.all(
+                  width: 1,
+                  color: Colors.grey,
+                ),
+              ),
+              child: Column(
+                children: [
+                  /// groupe btn update user + close update user
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      seeUpdate
+
+                          /// icon close
+                          ? Container(
+                              child: Align(
+                                child: IconButton(
+                                  onPressed: () {
+                                    openCloseUpdated();
+                                  },
+                                  color: Colors.red,
+                                  icon: const Icon(
+                                    Icons.close,
+                                  ),
+                                ),
+                              ),
+                            )
+
+                          /// icon upate
+                          : Container(
+                              child: Align(
+                                child: IconButton(
+                                  onPressed: () {
+                                    openCloseUpdated();
+                                  },
+                                  color: Theme.of(context).colorScheme.primary,
+                                  icon: const Icon(
+                                    Icons.edit,
+                                  ),
+                                ),
+                              ),
+                            ),
+                    ],
+                  ),
+                  seeUpdate
+                      ? ProfilUserUpdate(
+                          closedUpdated: () => openCloseUpdated(),
+                        )
+                      : const ProfilUserCard(),
+                  !seeUpdate
+                      ? Container(
+                          margin: const EdgeInsets.only(top: 20),
+                          child: TextButton(
+                            onPressed: () => {deleteUser(context, user.id!)},
+                            child: const Text(
+                              'Supprimer mon compte',
+                              style: TextStyle(color: Colors.red),
+                            ),
+                          ),
+                        )
+                      : Container(),
+                  !seeUpdate
+                      ? Container(
+                          margin: const EdgeInsets.only(bottom: 20),
+                          child: TextButton(
+                            child: const Text('Modifier mon mot de passe'),
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                  context, Routes().sendResetPassword);
+                            },
+                          ),
+                        )
+                      : Container(),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
