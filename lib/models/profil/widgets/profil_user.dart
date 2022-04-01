@@ -297,7 +297,7 @@ class _ProfilUserState extends ConsumerState<ProfilUser> {
                       : Container(),
                   !seeUpdate
                       ? Container(
-                          margin: const EdgeInsets.only(bottom: 20),
+                          margin: const EdgeInsets.only(bottom: 20, top: 20.0),
                           child: TextButton(
                             child: const Text('Modifier mon mot de passe'),
                             onPressed: () {
