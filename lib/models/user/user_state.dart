@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutoo/models/user/user_shema.dart';
 import 'package:flutoo/utils/services/fireauth/fireauth_service.dart';
 import 'package:flutoo/utils/services/firestore/firestore_path.dart';
@@ -9,6 +11,7 @@ class UserState extends ChangeNotifier {
   final _firestoreService = FirestoreService.instance;
   late Stream<List<UserSchema>> _users;
   UserSchema? _user;
+  final _firebaseStorage = FirebaseStorage.instance;
 
   Stream<List<UserSchema>> get users => _users;
   UserSchema? get user => _user;
@@ -50,13 +53,35 @@ class UserState extends ChangeNotifier {
         data: data.toMap(),
       );
 
+  /// delete les todos du user par son uid
+  Future<void> deleteTodoByUid(String uid) async {
+    /// instance firestore
+    WriteBatch batch = FirebaseFirestore.instance.batch();
+
+    /// ref path
+    CollectionReference contents = FirebaseFirestore.instance.collection(
+      FirestorePath.todos(),
+    );
+
+    return contents.where('uid', isEqualTo: uid).get().then((querySnapshot) {
+      for (var document in querySnapshot.docs) {
+        batch.delete(document.reference);
+      }
+
+      notifyListeners();
+      return batch.commit();
+    });
+  }
+
   /// delete un user
-  Future<void> delete(String idUser) async {
-    /// TODO: suppression image du user
-    
-    /// TODO: suppression des todos du user
-    
-    /// suppresion du user  
+  Future<void> delete(String idUser, String avatar, String uid) async {
+    /// suppression image du user
+    _firebaseStorage.refFromURL(avatar).delete();
+
+    /// suppression des todos du user
+    deleteTodoByUid(uid);
+
+    /// suppresion du user
     await _firestoreService.delete(
       path: FirestorePath.userCollection(
         idUser,

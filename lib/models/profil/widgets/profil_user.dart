@@ -39,8 +39,8 @@ class _ProfilUserState extends ConsumerState<ProfilUser> {
   }
 
   /// delete le user
-  void deleteUser(BuildContext context, String id) {
-    ref.watch(userState).delete(id);
+  void deleteUser(BuildContext context, String id, String avatar, String uid) {
+    ref.watch(userState).delete(id, avatar, uid);
     ref.watch(authState).deleteAuth();
     Navigator.pushNamed(context, Routes().home);
   }
@@ -287,7 +287,7 @@ class _ProfilUserState extends ConsumerState<ProfilUser> {
                       ? Container(
                           margin: const EdgeInsets.only(top: 20),
                           child: TextButton(
-                            onPressed: () => {deleteUser(context, user.id!)},
+                            onPressed: () => {deleteUser(context, user.id!, user.avatar!, user.uid!)},
                             child: const Text(
                               'Supprimer mon compte',
                               style: TextStyle(color: Colors.red),
