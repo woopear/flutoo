@@ -37,6 +37,8 @@ class TodoState extends ChangeNotifier {
   Future<void> deleteTodo(String id) async => await _firestoreService.delete(
         path: FirestorePath.todo(id),
       );
+
+  
 }
 
 /// state de la class TodoState

@@ -1,13 +1,15 @@
+import 'package:flutoo/models/user/user_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ProfilUserCard extends StatefulWidget {
+class ProfilUserCard extends ConsumerStatefulWidget {
   const ProfilUserCard({Key? key}) : super(key: key);
 
   @override
-  State<ProfilUserCard> createState() => _ProfilUserCardState();
+  _ProfilUserCardState createState() => _ProfilUserCardState();
 }
 
-class _ProfilUserCardState extends State<ProfilUserCard> {
+class _ProfilUserCardState extends ConsumerState<ProfilUserCard> {
   bool seeUpdate = false;
 
   /// affiche/cache volet update user
@@ -19,18 +21,20 @@ class _ProfilUserCardState extends State<ProfilUserCard> {
 
   @override
   Widget build(BuildContext context) {
-    
-    return Container(
+    /// recupere le user current
+    final user = ref.watch(userCurrent);
+
+    return SizedBox(
+      
       child: Column(
         children: [
-          
           Container(
             padding:
                 const EdgeInsets.symmetric(vertical: 15.0, horizontal: 5.0),
             margin: const EdgeInsets.only(top: 30),
-            child: const Text(
-              'Nom : ',
-              style: TextStyle(
+            child: Text(
+              'Nom : ' + user!.firstName!,
+              style: const TextStyle(
                 fontSize: 22,
               ),
             ),
@@ -39,9 +43,9 @@ class _ProfilUserCardState extends State<ProfilUserCard> {
             padding:
                 const EdgeInsets.symmetric(vertical: 15.0, horizontal: 5.0),
             margin: const EdgeInsets.only(top: 30),
-            child: const Text(
-              'Prénom : ',
-              style: TextStyle(
+            child: Text(
+              'Prénom : ' + user.lastName!,
+              style: const TextStyle(
                 fontSize: 22,
               ),
             ),
@@ -50,9 +54,9 @@ class _ProfilUserCardState extends State<ProfilUserCard> {
             padding:
                 const EdgeInsets.symmetric(vertical: 15.0, horizontal: 5.0),
             margin: const EdgeInsets.only(top: 30),
-            child: const Text(
-              'Pseudo : ',
-              style: TextStyle(
+            child: Text(
+              'Pseudo : ' + user.pseudo!,
+              style: const TextStyle(
                 fontSize: 22,
               ),
             ),
@@ -61,9 +65,9 @@ class _ProfilUserCardState extends State<ProfilUserCard> {
             padding:
                 const EdgeInsets.symmetric(vertical: 15.0, horizontal: 5.0),
             margin: const EdgeInsets.only(top: 30),
-            child: const Text(
-              'Email : ',
-              style: TextStyle(
+            child: Text(
+              'Email : ' + user.email!,
+              style: const TextStyle(
                 fontSize: 22,
               ),
             ),

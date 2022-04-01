@@ -37,7 +37,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
     
     return SafeArea(
       child: Scaffold(
-        resizeToAvoidBottomInset: true,
+        resizeToAvoidBottomInset: false,
         appBar: const AppBarFlutoo(),
         body: SingleChildScrollView(
           child: widgetOptions.elementAt(indexSelection),

@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "962427164721",
+    "project_id": "flutoo",
+    "storage_bucket": "flutoo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:962427164721:android:f8aba1fd79f7fc6984dd10",
+        "android_client_info": {
+          "package_name": "com.example.auth"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "962427164721-d60lbgl5a32hcdm6j1evuck1cvjoesi8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.auth",
+            "certificate_hash": "a3f4a511d2d236e61e0c0a0c25475708e5e667df"
+          }
+        },
+        {
+          "client_id": "962427164721-omhgk4u80p23v6mjfgm3kiqs6j3jp295.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfaoMF5KhAAUbyETDNQ1a426QFZtFIReg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "962427164721-omhgk4u80p23v6mjfgm3kiqs6j3jp295.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "962427164721-ne8q59fk0nd7qrbinaeb6hhep89qrsuj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.flutoo.app"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:962427164721:android:d2bf3d046d263b1a84dd10",
+        "android_client_info": {
+          "package_name": "com.example.flutoo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "962427164721-omhgk4u80p23v6mjfgm3kiqs6j3jp295.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfaoMF5KhAAUbyETDNQ1a426QFZtFIReg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "962427164721-omhgk4u80p23v6mjfgm3kiqs6j3jp295.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "962427164721-ne8q59fk0nd7qrbinaeb6hhep89qrsuj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.flutoo.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

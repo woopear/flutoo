@@ -39,6 +39,18 @@ class AuthState extends ChangeNotifier {
     user.resetUser();
     notifyListeners();
   }
+
+  /// fonction pour effacer un user
+  Future<void> deleteAuth() async {
+    try {
+      await FirebaseAuth.instance.currentUser!.delete();
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'requires-recent-login') {
+        print(
+            'The user must reauthenticate before this operation can be executed.');
+      }
+    }
+  }
 }
 
 final authState = ChangeNotifierProvider<AuthState>((ref) => AuthState());
