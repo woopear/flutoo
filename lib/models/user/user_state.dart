@@ -51,11 +51,18 @@ class UserState extends ChangeNotifier {
       );
 
   /// delete un user
-  Future<void> delete(String idUser) async => 
-        await _firestoreService.delete(
-          path: FirestorePath.userCollection(
-            idUser,
-          ));
+  Future<void> delete(String idUser) async {
+    /// TODO: suppression image du user
+    
+    /// TODO: suppression des todos du user
+    
+    /// suppresion du user  
+    await _firestoreService.delete(
+      path: FirestorePath.userCollection(
+        idUser,
+      ),
+    );
+  }
 }
 
 /// state de la class UserState
@@ -77,5 +84,3 @@ final userCurrent = Provider<UserSchema?>((ref) {
   });
   return ref.watch(userState).user;
 });
-
-
