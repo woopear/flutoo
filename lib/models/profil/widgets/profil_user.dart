@@ -22,7 +22,7 @@ class _ProfilUserState extends ConsumerState<ProfilUser> {
   bool seeUpdate = false;
   bool seeUpdateAvatar = false;
   dynamic file;
-  String? extension;
+  String? extention;
 
   /// affiche/cache volet update user
   void openCloseUpdated() {
@@ -56,7 +56,7 @@ class _ProfilUserState extends ConsumerState<ProfilUser> {
       /// on recupere le path
       setState(() {
         file = picker.files.first.bytes;
-        extension = picker.files.first.extension;
+        extention = picker.files.first.extension;
       });
     } else {
       /// creation conteneur pour fichier
@@ -77,9 +77,13 @@ class _ProfilUserState extends ConsumerState<ProfilUser> {
     /// upload + recupere url
     if (file != null) {
       /// upload + recuperation de l'url
-      url = await ref
-          .watch(uploadFileChange)
-          .uploadAvatar(file, user.uid!, extension!);
+      if (kIsWeb) {
+        url = await ref
+            .watch(uploadFileChange)
+            .uploadAvatar(file, user.uid!, extension: extention!);
+      } else {
+        url = await ref.watch(uploadFileChange).uploadAvatar(file, user.uid!);
+      }
 
       /// on affecte l'url à avatar du user
       user.avatar = url;
